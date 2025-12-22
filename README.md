@@ -31,7 +31,7 @@
   <img src="https://img.shields.io/github/followers/danieldev23?style=for-the-badge&logo=github&logoColor=white&color=10B981&labelColor=1e293b" height="28"/>
   <img src="https://img.shields.io/github/stars/danieldev23?style=for-the-badge&logo=starship&logoColor=white&color=10B981&labelColor=1e293b" height="28"/>
 </div>
-### **Frontend & UI**
+
 <div align="center">
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
@@ -43,7 +43,6 @@
 
 </div>
 
-### **Backend & APIs**
 <div align="center">
 
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
@@ -55,7 +54,6 @@
 
 </div>
 
-### **Databases & Caching**
 <div align="center">
 
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
@@ -66,7 +64,6 @@
 
 </div>
 
-### **🔥 DevOps & Cloud (Learning & Implementing)**
 <div align="center">
 
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
