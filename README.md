@@ -1,4 +1,4 @@
-# <div align="center">DANG QUOC HUY</div>
+# <div align="center">ANH KHANH DEP TRAI</div>
 
 <div align="center">
   <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=800&size=80&duration=3000&pause=1000&color=10B981,6366F1&background=FFFFFF00&center=true&vCenter=true&width=1000&height=100&lines=FULLSTACK+%E2%80%A2+DEVOPS" alt="Title" />
@@ -20,8 +20,8 @@
 <div align="center">
   <a href="https://github.com/danieldev23"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white&labelColor=000000" height="28"/></a>
   <a href="https://www.linkedin.com/in/dangquochuy/"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" height="28"/></a>
-  <a href="https://www.dangquochuy.id.vn/"><img src="https://img.shields.io/badge/Portfolio-FF5722?style=for-the-badge&logo=google-chrome&logoColor=white" height="28"/></a>
-  <a href="mailto:dangquochuy.connect@gmail.com"><img src="https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white" height="28"/></a>
+  <a href="https://vnkiot.io.vn/"><img src="https://img.shields.io/badge/Portfolio-FF5722?style=for-the-badge&logo=google-chrome&logoColor=white" height="28"/></a>
+  <a href="mailto:https://vnkiot.io.vn/"><img src="https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white" height="28"/></a>
 </div>
 
 <br/>
@@ -39,7 +39,7 @@
 <img align="right" alt="Coding" width="400" src="https://raw.githubusercontent.com/devSouvik/devSouvik/master/gif3.gif">
 
 ```yaml
-name: Dang Quoc Huy
+name: ANH KHANH DEP TRAI
 located_in: Da Nang, Vietnam 🇻🇳
 current_role: Junior Fullstack Developer
 journey: Transitioning to DevOps Engineer
