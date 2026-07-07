@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESP32 MAC XOR Encryptor - TẠO MẢNG b[17] CHO CODE C++</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background: #f0f0f0; }
+    h1 { text-align: center; color: #2c3e50; }
+    input, button { padding: 12px; font-size: 16px; margin: 10px 0; width: 100%; box-sizing: border-box; }
+    input { font-family: 'Courier New', monospace; }
+    button { background: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    pre { background: #2c3e50; color: #f1f1f1; padding: 20px; border-radius: 8px; overflow-x: auto; margin-top: 20px; font-size: 14px; }
+    .info { background: #d1f2eb; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <h1>ESP32</h1>
+  <div class="info">
+    <strong>100%:</strong><br>
+
+  </div>
+  <label>Nhập MAC authorized (6 byte, có dấu :):</label>
+  <input type="text" id="macInput" placeholder="Ví dụ: 98:DB:98:34:E3:EC" value="98:DB:98:34:E3:EC">
+  <button onclick="encryptMac()">Tạo</button>
+  <h3>Kết quả:</h3>
+  <pre id="output">// Nhập</pre>
+
+  <script>
+    const xor_key = [0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x11, 0x22,
+                     0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0x00];
+    const OBFS = 0x55;
+
+    function encryptMac() {
+      const macInput = document.getElementById('macInput').value.trim().toUpperCase();
+      const output = document.getElementById('output');
+      if (!/^([0-9A-F]{2}:){5}[0-9A-F]{2}$/.test(macInput)) {
+        output.textContent = "Lỗi: MAC sai định dạng! Ví dụ đúng: 98:DB:98:34:E3:EC";
+        return;
+      }
+      const hexParts = macInput.split(':');
+
+      // Build plain bytes 17 byte (giống code C++)
+      const plainBytes = [];
+      for (let i = 0; i < 6; i++) {
+        const high = hexParts[i].charCodeAt(0);  // char code của ký tự hex cao
+        const low = hexParts[i].charCodeAt(1);   // char code của ký tự hex thấp
+        plainBytes.push(high);
+        plainBytes.push(low);
+        if (i < 5) plainBytes.push(0x3A);        // ':'
+      }
+
+      // XOR với key lặp
+      const encrypted = [];
+      for (let i = 0; i < 17; i++) {
+        encrypted.push(plainBytes[i] ^ xor_key[i % 16]);
+      }
+
+      // Thêm lớp OBFS 0x55
+      const obfs = [];
+      for (let i = 0; i < 17; i++) {
+        obfs.push(encrypted[i] ^ OBFS);
+      }
+
+      // Tạo mảng C
+      let result = "const uint8_t b[17] = {\n ";
+      for (let i = 0; i < 17; i++) {
+        result += "0x" + obfs[i].toString(16).toUpperCase().padStart(2, '0');
+        if (i < 16) result += (i % 8 === 7) ? ",\n " : ", ";
+      }
+      result += "\n}; // Tổng đúng 17 byte";
+
+      // Kiểm tra giải mã lại
+      let decrypted = "";
+      for (let i = 0; i < 17; i++) {
+        let b = (obfs[i] ^ OBFS) ^ xor_key[i % 16];
+        if (b === 0x3A) {
+          decrypted += ':';
+        } else {
+          decrypted += String.fromCharCode(b);
+        }
+      }
+      result += `\n\n// Giải mã lại được: "${decrypted}" ← Đúng bằng MAC bạn nhập`;
+
+      output.textContent = result;
+    }
+    window.onload = encryptMac;
+  </script>
+</body>
+</html>
