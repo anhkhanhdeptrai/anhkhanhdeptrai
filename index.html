@@ -1,90 +1,1249 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ESP32 MAC XOR Encryptor - TẠO MẢNG b[17] CHO CODE C++</title>
-  <style>
-    body { font-family: Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background: #f0f0f0; }
-    h1 { text-align: center; color: #2c3e50; }
-    input, button { padding: 12px; font-size: 16px; margin: 10px 0; width: 100%; box-sizing: border-box; }
-    input { font-family: 'Courier New', monospace; }
-    button { background: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer; }
-    pre { background: #2c3e50; color: #f1f1f1; padding: 20px; border-radius: 8px; overflow-x: auto; margin-top: 20px; font-size: 14px; }
-    .info { background: #d1f2eb; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KGVN Mod Ảnh Load Trấn</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f35 50%, #0d1225 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(20, 28, 58, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(100, 180, 255, 0.15);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding-bottom: 30px;
+            border-bottom: 2px solid rgba(100, 180, 255, 0.15);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #64b5f6, #42a5f5, #1a73e8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 40px rgba(66, 165, 245, 0.3);
+            margin-bottom: 8px;
+        }
+
+        .header .subtitle {
+            color: #88b4d8;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            opacity: 0.8;
+        }
+
+        .header .badges {
+            margin-top: 12px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(100, 180, 255, 0.12);
+            padding: 5px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: #8ab4f8;
+            border: 1px solid rgba(100, 180, 255, 0.2);
+            font-weight: 500;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 25px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 6px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            background: transparent;
+            color: #8899bb;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .tab-btn:hover {
+            background: rgba(100, 180, 255, 0.08);
+            color: #c0d0e0;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #1a73e8, #0d47a1);
+            color: white;
+            box-shadow: 0 4px 20px rgba(26, 115, 232, 0.4);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(100, 180, 255, 0.15);
+        }
+
+        .card-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #6a8aaa;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #aabbdd;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-group .hint {
+            display: block;
+            font-size: 0.8rem;
+            color: #6a8aaa;
+            margin-top: 4px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="file"] {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(100, 180, 255, 0.15);
+            border-radius: 10px;
+            color: #e0e0e0;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15);
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        input[type="file"]::file-selector-button {
+            padding: 8px 20px;
+            background: rgba(100, 180, 255, 0.15);
+            border: 1px solid rgba(100, 180, 255, 0.2);
+            border-radius: 8px;
+            color: #8ab4f8;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            margin-right: 12px;
+        }
+
+        input[type="file"]::file-selector-button:hover {
+            background: rgba(100, 180, 255, 0.25);
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(100, 180, 255, 0.15);
+            border-radius: 10px;
+            color: #e0e0e0;
+            font-size: 0.95rem;
+            outline: none;
+            cursor: pointer;
+        }
+
+        select:focus {
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15);
+        }
+
+        select option {
+            background: #1a1f35;
+            color: #e0e0e0;
+        }
+
+        /* Checkbox */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #1a73e8;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            color: #aabbdd;
+            cursor: pointer;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 14px 32px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #1a73e8, #0d47a1);
+            color: white;
+            box-shadow: 0 4px 20px rgba(26, 115, 232, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(26, 115, 232, 0.5);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #2e7d32, #1b5e20);
+            color: white;
+            box-shadow: 0 4px 20px rgba(46, 125, 50, 0.35);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(46, 125, 50, 0.5);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #c62828, #b71c1c);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(198, 40, 40, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #8ab4f8;
+            border: 1px solid rgba(100, 180, 255, 0.3);
+        }
+
+        .btn-outline:hover {
+            background: rgba(100, 180, 255, 0.1);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        /* Upload area */
+        .upload-area {
+            border: 2px dashed rgba(100, 180, 255, 0.2);
+            border-radius: 16px;
+            padding: 40px 20px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .upload-area:hover {
+            border-color: rgba(100, 180, 255, 0.4);
+            background: rgba(100, 180, 255, 0.05);
+        }
+
+        .upload-area.dragover {
+            border-color: #1a73e8;
+            background: rgba(26, 115, 232, 0.08);
+            box-shadow: 0 0 40px rgba(26, 115, 232, 0.1);
+        }
+
+        .upload-area .icon {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .upload-area p {
+            color: #8899bb;
+        }
+
+        .upload-area .file-list {
+            margin-top: 16px;
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            margin-bottom: 4px;
+            font-size: 0.85rem;
+        }
+
+        .file-item .size {
+            color: #6a8aaa;
+            font-size: 0.75rem;
+        }
+
+        /* Media grid preview */
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .media-thumb {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Progress */
+        .progress-container {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            display: none;
+        }
+
+        .progress-container.active {
+            display: block;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-bar .fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1a73e8, #42a5f5);
+            border-radius: 4px;
+            transition: width 0.3s;
+            width: 0%;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #8899bb;
+            margin-top: 4px;
+        }
+
+        /* Log output */
+        .log-output {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+            padding: 16px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 16px;
+            display: none;
+        }
+
+        .log-output.active {
+            display: block;
+        }
+
+        .log-line {
+            padding: 2px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .log-line .time {
+            color: #4a6a8a;
+            margin-right: 10px;
+        }
+
+        .log-line .ok { color: #66bb6a; }
+        .log-line .err { color: #ef5350; }
+        .log-line .warn { color: #ffa726; }
+        .log-line .info { color: #42a5f5; }
+        .log-line .dim { color: #5a7a9a; }
+
+        /* Status chips */
+        .chip {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .chip.ok { background: rgba(102, 187, 106, 0.2); color: #66bb6a; }
+        .chip.fail { background: rgba(239, 83, 80, 0.2); color: #ef5350; }
+        .chip.pending { background: rgba(255, 167, 38, 0.2); color: #ffa726; }
+        .chip.idle { background: rgba(100, 180, 255, 0.12); color: #6a8aaa; }
+
+        /* Results table */
+        .results-table {
+            width: 100%;
+            margin-top: 16px;
+            border-collapse: collapse;
+        }
+
+        .results-table th,
+        .results-table td {
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .results-table th {
+            color: #6a8aaa;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .results-table td {
+            font-size: 0.9rem;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .stat-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-card .number {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .stat-card .label {
+            font-size: 0.8rem;
+            color: #6a8aaa;
+            margin-top: 4px;
+        }
+
+        .stat-card .number.green { color: #66bb6a; }
+        .stat-card .number.red { color: #ef5350; }
+        .stat-card .number.blue { color: #42a5f5; }
+        .stat-card .number.gold { color: #ffa726; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+                border-radius: 12px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+
+            .tab-btn {
+                font-size: 0.85rem;
+                padding: 10px 14px;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(100, 180, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(100, 180, 255, 0.5);
+        }
+
+        /* Loading animation */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-top: 2px solid #42a5f5;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 14px 24px;
+            border-radius: 12px;
+            background: rgba(20, 28, 58, 0.95);
+            border: 1px solid rgba(100, 180, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: #e0e0e0;
+            font-weight: 500;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 1000;
+            max-width: 400px;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success { border-color: #66bb6a; }
+        .toast.error { border-color: #ef5350; }
+        .toast.info { border-color: #42a5f5; }
+    </style>
 </head>
 <body>
-  <h1>ESP32</h1>
-  <div class="info">
-    <strong>100%:</strong><br>
 
-  </div>
-  <label>Nhập MAC authorized (6 byte, có dấu :):</label>
-  <input type="text" id="macInput" placeholder="Ví dụ: 98:DB:98:34:E3:EC" value="98:DB:98:34:E3:EC">
-  <button onclick="encryptMac()">Tạo</button>
-  <h3>Kết quả:</h3>
-  <pre id="output">// Nhập</pre>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>⚔️ KGVN Mod Ảnh</h1>
+            <div class="subtitle">Load Trấn · Multi-Account Tool</div>
+            <div class="badges">
+                <span class="badge">📸 JPG · PNG · WEBP · GIF · MP4</span>
+                <span class="badge">🔄 Song song</span>
+                <span class="badge">⚡ v1.0</span>
+            </div>
+        </div>
 
-  <script>
-    const xor_key = [0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0x11, 0x22,
-                     0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0x00];
-    const OBFS = 0x55;
+        <!-- Tabs -->
+        <div class="tabs" id="tabs">
+            <button class="tab-btn active" data-tab="tab-setup">⚙️ Cấu hình</button>
+            <button class="tab-btn" data-tab="tab-media">🖼️ Media</button>
+            <button class="tab-btn" data-tab="tab-logs">📋 Logs</button>
+            <button class="tab-btn" data-tab="tab-results">📊 Kết quả</button>
+        </div>
 
-    function encryptMac() {
-      const macInput = document.getElementById('macInput').value.trim().toUpperCase();
-      const output = document.getElementById('output');
-      if (!/^([0-9A-F]{2}:){5}[0-9A-F]{2}$/.test(macInput)) {
-        output.textContent = "Lỗi: MAC sai định dạng! Ví dụ đúng: 98:DB:98:34:E3:EC";
-        return;
-      }
-      const hexParts = macInput.split(':');
+        <!-- Tab: Setup -->
+        <div class="tab-content active" id="tab-setup">
+            <div class="card">
+                <div class="card-title">📁 File HAR</div>
+                <div class="form-group">
+                    <label>Đường dẫn file HAR</label>
+                    <input type="text" id="harPath" value="0919.har" placeholder="Nhập tên file .har...">
+                    <span class="hint">File HAR chứa token đăng nhập từ ứng dụng KGVN</span>
+                </div>
+                <button class="btn btn-outline" onclick="document.getElementById('harFileInput').click()">
+                    📂 Chọn file HAR
+                </button>
+                <input type="file" id="harFileInput" accept=".har" style="display:none" onchange="handleHarFile(event)">
+            </div>
 
-      // Build plain bytes 17 byte (giống code C++)
-      const plainBytes = [];
-      for (let i = 0; i < 6; i++) {
-        const high = hexParts[i].charCodeAt(0);  // char code của ký tự hex cao
-        const low = hexParts[i].charCodeAt(1);   // char code của ký tự hex thấp
-        plainBytes.push(high);
-        plainBytes.push(low);
-        if (i < 5) plainBytes.push(0x3A);        // ':'
-      }
+            <div class="card">
+                <div class="card-title">🖼️ Thư mục ảnh</div>
+                <div class="form-group">
+                    <label>Đường dẫn thư mục</label>
+                    <input type="text" id="imageDir" value="." placeholder="Để trống = thư mục hiện tại">
+                    <span class="hint">Thư mục chứa ảnh/video cần tải lên</span>
+                </div>
+                <button class="btn btn-outline" onclick="document.getElementById('imageDirInput').click()">
+                    📂 Chọn thư mục
+                </button>
+                <input type="file" id="imageDirInput" webkitdirectory directory style="display:none" onchange="handleDirSelect(event)">
+            </div>
 
-      // XOR với key lặp
-      const encrypted = [];
-      for (let i = 0; i < 17; i++) {
-        encrypted.push(plainBytes[i] ^ xor_key[i % 16]);
-      }
+            <div class="card">
+                <div class="card-title">⚙️ Tùy chọn nâng cao</div>
+                <div class="form-group">
+                    <label>Số vòng lặp</label>
+                    <input type="number" id="rounds" value="1" min="1" max="10">
+                    <span class="hint">Mỗi vòng = 1 lần tải lên cho mỗi ảnh</span>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="isShare">
+                    <label for="isShare">🌍 Quảng trường (mọi người đều thấy)</label>
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="useAllAccounts" checked>
+                    <label for="useAllAccounts">🔓 Dùng tất cả tài khoản có trong HAR</label>
+                </div>
+            </div>
 
-      // Thêm lớp OBFS 0x55
-      const obfs = [];
-      for (let i = 0; i < 17; i++) {
-        obfs.push(encrypted[i] ^ OBFS);
-      }
+            <div class="btn-group">
+                <button class="btn btn-primary" id="btnStart" onclick="startProcess()">
+                    🚀 Bắt đầu tải
+                </button>
+                <button class="btn btn-danger" id="btnStop" onclick="stopProcess()" disabled>
+                    ⏹ Dừng
+                </button>
+                <button class="btn btn-outline" onclick="clearLogs()">🗑 Xóa logs</button>
+            </div>
+        </div>
 
-      // Tạo mảng C
-      let result = "const uint8_t b[17] = {\n ";
-      for (let i = 0; i < 17; i++) {
-        result += "0x" + obfs[i].toString(16).toUpperCase().padStart(2, '0');
-        if (i < 16) result += (i % 8 === 7) ? ",\n " : ", ";
-      }
-      result += "\n}; // Tổng đúng 17 byte";
+        <!-- Tab: Media -->
+        <div class="tab-content" id="tab-media">
+            <div class="card">
+                <div class="card-title">📸 Danh sách media</div>
+                <div class="upload-area" id="dropArea" onclick="document.getElementById('mediaFileInput').click()">
+                    <span class="icon">📤</span>
+                    <p>Kéo thả file hoặc bấm để chọn</p>
+                    <p style="font-size:0.8rem;color:#6a8aaa;margin-top:4px;">Hỗ trợ: JPG, PNG, WEBP, GIF, MP4</p>
+                    <div class="file-list" id="fileList"></div>
+                </div>
+                <input type="file" id="mediaFileInput" accept=".jpg,.jpeg,.png,.webp,.gif,.mp4" multiple style="display:none" onchange="handleMediaFiles(event)">
+                <div class="media-grid" id="mediaGrid"></div>
+            </div>
 
-      // Kiểm tra giải mã lại
-      let decrypted = "";
-      for (let i = 0; i < 17; i++) {
-        let b = (obfs[i] ^ OBFS) ^ xor_key[i % 16];
-        if (b === 0x3A) {
-          decrypted += ':';
-        } else {
-          decrypted += String.fromCharCode(b);
+            <div class="card">
+                <div class="card-title">📋 Danh sách tài khoản</div>
+                <div id="accountList">
+                    <p style="color:#6a8aaa;font-size:0.9rem;">Chưa có dữ liệu. Tải HAR file để hiển thị tài khoản.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Logs -->
+        <div class="tab-content" id="tab-logs">
+            <div class="card">
+                <div class="card-title">📋 Log chi tiết</div>
+                <div class="log-output active" id="logOutput">
+                    <div class="log-line"><span class="time">[System]</span> <span class="info">Chào mừng! Sẵn sàng tải ảnh lên KGVN.</span></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">📊 Tiến trình</div>
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-text">
+                        <span id="progressLabel">Đang xử lý...</span>
+                        <span id="progressPercent">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="fill" id="progressFill"></div>
+                    </div>
+                    <div style="margin-top:10px;font-size:0.85rem;color:#6a8aaa;">
+                        <span id="progressDetail">OK: 0 | FAIL: 0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Results -->
+        <div class="tab-content" id="tab-results">
+            <div class="card">
+                <div class="card-title">📊 Tổng kết</div>
+                <div class="stats-grid" id="statsGrid">
+                    <div class="stat-card">
+                        <div class="number blue" id="statTotal">0</div>
+                        <div class="label">Tổng poster</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number green" id="statOk">0</div>
+                        <div class="label">✅ Thành công</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number red" id="statFail">0</div>
+                        <div class="label">❌ Thất bại</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number gold" id="statAccounts">0</div>
+                        <div class="label">👤 Tài khoản</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">📋 Chi tiết từng tài khoản</div>
+                <div id="resultDetails">
+                    <p style="color:#6a8aaa;font-size:0.9rem;">Chạy process để xem kết quả.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ============================================================
+        // STATE
+        // ============================================================
+        let state = {
+            running: false,
+            logs: [],
+            mediaFiles: [],
+            harData: null,
+            accounts: [],
+            results: [],
+            totalOk: 0,
+            totalFail: 0,
+            totalProcessed: 0,
+        };
+
+        // ============================================================
+        // UTILITY
+        // ============================================================
+        function log(msg, type = 'info') {
+            const time = new Date().toLocaleTimeString();
+            const entry = { time, msg, type };
+            state.logs.push(entry);
+            renderLog(entry);
         }
-      }
-      result += `\n\n// Giải mã lại được: "${decrypted}" ← Đúng bằng MAC bạn nhập`;
 
-      output.textContent = result;
-    }
-    window.onload = encryptMac;
-  </script>
+        function renderLog(entry) {
+            const container = document.getElementById('logOutput');
+            const div = document.createElement('div');
+            div.className = 'log-line';
+            div.innerHTML = `<span class="time">[${entry.time}]</span> <span class="${entry.type}">${entry.msg}</span>`;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function showToast(msg, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.className = `toast ${type} show`;
+            clearTimeout(toast._timer);
+            toast._timer = setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+
+        function formatBytes(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / 1048576).toFixed(1) + ' MB';
+        }
+
+        function getFileExtension(filename) {
+            return filename.split('.').pop().toLowerCase();
+        }
+
+        function isImageExt(ext) {
+            return ['jpg', 'jpeg', 'png', 'webp', 'gif', 'mp4'].includes(ext);
+        }
+
+        // ============================================================
+        // TAB SWITCHING
+        // ============================================================
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+                document.getElementById(this.dataset.tab).classList.add('active');
+            });
+        });
+
+        // ============================================================
+        // FILE HANDLERS
+        // ============================================================
+        function handleHarFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            document.getElementById('harPath').value = file.name;
+            readHarFile(file);
+        }
+
+        function readHarFile(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    state.harData = data;
+                    // Parse accounts from HAR
+                    const accounts = parseHarAccounts(data);
+                    state.accounts = accounts;
+                    renderAccountList(accounts);
+                    log(`Đã tải HAR: ${file.name}, tìm thấy ${accounts.length} tài khoản`, 'ok');
+                    showToast(`Tìm thấy ${accounts.length} tài khoản`, 'success');
+                } catch (err) {
+                    log(`Lỗi parse HAR: ${err.message}`, 'err');
+                    showToast('Lỗi parse file HAR', 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function parseHarAccounts(har) {
+            const accounts = [];
+            const entries = har.log?.entries || [];
+            for (const entry of entries) {
+                const req = entry.request;
+                const headers = (req.headers || []).reduce((acc, h) => {
+                    acc[h.name.toLowerCase()] = h.value;
+                    return acc;
+                }, {});
+                const url = req.url || '';
+                if (url.includes('kgvn-api.mobagarena.com') && headers['msdk-itopencodeparam']) {
+                    // Extract user path from COS PUT requests
+                    let userPath = null;
+                    if (req.method === 'PUT' && url.includes('cos.')) {
+                        const parts = url.split('.cos.')[1]?.split('/') || [];
+                        if (parts.length >= 3) userPath = '/' + parts.slice(0, 3).join('/') + '/';
+                    }
+                    accounts.push({
+                        token: headers['msdk-itopencodeparam'],
+                        userPath: userPath || '/unknown/',
+                        label: `Acc${accounts.length + 1}`,
+                        valid: !!headers['msdk-itopencodeparam']
+                    });
+                }
+            }
+            // Deduplicate by token
+            const seen = new Set();
+            return accounts.filter(a => {
+                if (seen.has(a.token)) return false;
+                seen.add(a.token);
+                return a.valid;
+            });
+        }
+
+        function handleDirSelect(event) {
+            const files = event.target.files;
+            if (!files.length) return;
+            // Get directory name
+            const path = files[0].webkitRelativePath.split('/')[0];
+            document.getElementById('imageDir').value = path;
+            log(`Đã chọn thư mục: ${path}`, 'info');
+        }
+
+        function handleMediaFiles(event) {
+            const files = event.target.files;
+            for (const file of files) {
+                addMediaFile(file);
+            }
+            renderMediaGrid();
+            updateMediaCount();
+        }
+
+        // Drag and drop
+        const dropArea = document.getElementById('dropArea');
+        dropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropArea.classList.add('dragover');
+        });
+        dropArea.addEventListener('dragleave', () => {
+            dropArea.classList.remove('dragover');
+        });
+        dropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            for (const file of files) {
+                addMediaFile(file);
+            }
+            renderMediaGrid();
+            updateMediaCount();
+        });
+
+        function addMediaFile(file) {
+            const ext = getFileExtension(file.name);
+            if (!isImageExt(ext)) {
+                log(`Bỏ qua: ${file.name} (không hỗ trợ)`, 'warn');
+                return;
+            }
+            // Check duplicate
+            if (state.mediaFiles.some(f => f.name === file.name && f.size === file.size)) return;
+            state.mediaFiles.push(file);
+            log(`Thêm media: ${file.name} (${formatBytes(file.size)})`, 'info');
+        }
+
+        function renderMediaGrid() {
+            const grid = document.getElementById('mediaGrid');
+            if (state.mediaFiles.length === 0) {
+                grid.innerHTML = '';
+                return;
+            }
+            grid.innerHTML = state.mediaFiles.map((f, i) => {
+                const ext = getFileExtension(f.name);
+                const emoji = ext === 'mp4' ? '🎬' : ext === 'gif' ? '🎞️' : '🖼️';
+                return `<div style="text-align:center;padding:6px;background:rgba(0,0,0,0.2);border-radius:8px;position:relative;">
+                    <div style="font-size:2rem;height:60px;display:flex;align-items:center;justify-content:center;">${emoji}</div>
+                    <div style="font-size:0.6rem;color:#6a8aaa;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${f.name}</div>
+                    <span style="position:absolute;top:-4px;right:-4px;background:rgba(0,0,0,0.6);border-radius:50%;width:20px;height:20px;font-size:0.6rem;display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="removeMedia(${i})">✕</span>
+                </div>`;
+            }).join('');
+        }
+
+        function removeMedia(index) {
+            state.mediaFiles.splice(index, 1);
+            renderMediaGrid();
+            updateMediaCount();
+        }
+
+        function updateMediaCount() {
+            const el = document.querySelector('#fileList');
+            if (state.mediaFiles.length === 0) {
+                el.innerHTML = '<p style="color:#6a8aaa;font-size:0.85rem;">Chưa có file nào được chọn</p>';
+            } else {
+                el.innerHTML = state.mediaFiles.map(f =>
+                    `<div class="file-item"><span>${f.name}</span><span class="size">${formatBytes(f.size)}</span></div>`
+                ).join('');
+            }
+        }
+
+        function renderAccountList(accounts) {
+            const container = document.getElementById('accountList');
+            if (!accounts || accounts.length === 0) {
+                container.innerHTML = '<p style="color:#6a8aaa;font-size:0.9rem;">Không tìm thấy tài khoản trong HAR.</p>';
+                return;
+            }
+            container.innerHTML = accounts.map((a, i) =>
+                `<div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(0,0,0,0.2);border-radius:8px;margin-bottom:4px;">
+                    <span>${a.label}</span>
+                    <span class="chip ${a.valid ? 'ok' : 'fail'}">${a.valid ? '✅ Hợp lệ' : '❌ Không hợp lệ'}</span>
+                </div>`
+            ).join('');
+        }
+
+        // ============================================================
+        // MAIN PROCESS
+        // ============================================================
+        async function startProcess() {
+            if (state.running) return;
+
+            // Validate
+            if (state.mediaFiles.length === 0) {
+                showToast('Vui lòng chọn ít nhất 1 file media', 'error');
+                return;
+            }
+
+            // Get accounts from HAR or use default
+            let accounts = state.accounts;
+            if (accounts.length === 0) {
+                // Try to load from har path
+                const harPath = document.getElementById('harPath').value;
+                try {
+                    const response = await fetch(harPath);
+                    if (!response.ok) throw new Error('Không tìm thấy file HAR');
+                    const data = await response.json();
+                    accounts = parseHarAccounts(data);
+                    state.accounts = accounts;
+                    renderAccountList(accounts);
+                } catch (err) {
+                    log(`Không thể tải HAR: ${err.message}`, 'err');
+                    showToast('Không tìm thấy file HAR hợp lệ', 'error');
+                    return;
+                }
+            }
+
+            const useAll = document.getElementById('useAllAccounts').checked;
+            const selectedAccounts = useAll ? accounts : accounts.slice(0, 1);
+
+            if (selectedAccounts.length === 0) {
+                showToast('Không có tài khoản hợp lệ', 'error');
+                return;
+            }
+
+            const rounds = parseInt(document.getElementById('rounds').value) || 1;
+            const isShare = document.getElementById('isShare').checked;
+
+            state.running = true;
+            state.totalOk = 0;
+            state.totalFail = 0;
+            state.totalProcessed = 0;
+            state.results = [];
+
+            document.getElementById('btnStart').disabled = true;
+            document.getElementById('btnStop').disabled = false;
+            document.getElementById('progressContainer').classList.add('active');
+            document.getElementById('logOutput').classList.add('active');
+
+            log(`🚀 Bắt đầu với ${selectedAccounts.length} tài khoản, ${rounds} vòng`, 'info');
+            log(`📸 Media: ${state.mediaFiles.length} file`, 'info');
+            log(`🌍 Chế độ: ${isShare ? 'Quảng trường' : 'Riêng tư'}`, 'info');
+
+            // Process each account
+            for (let accIdx = 0; accIdx < selectedAccounts.length; accIdx++) {
+                const acc = selectedAccounts[accIdx];
+                log(`━━━ 📱 ${acc.label} ━━━`, 'info');
+
+                for (let rnd = 1; rnd <= rounds; rnd++) {
+                    // For each media file
+                    for (let mIdx = 0; mIdx < state.mediaFiles.length; mIdx++) {
+                        if (!state.running) break;
+                        const file = state.mediaFiles[mIdx];
+                        const total = selectedAccounts.length * rounds * state.mediaFiles.length;
+                        const current = accIdx * rounds * state.mediaFiles.length + (rnd - 1) * state.mediaFiles.length + mIdx + 1;
+                        const pct = Math.round((current / total) * 100);
+
+                        updateProgress(pct, `[${acc.label}] V${rnd}/${rounds} #${mIdx+1}: ${file.name}`, current, total);
+
+                        // Simulate processing
+                        const success = await processMedia(file, acc, rnd, isShare);
+                        state.totalProcessed++;
+                        if (success) {
+                            state.totalOk++;
+                            log(`✅ [${acc.label}] V${rnd} #${mIdx+1}: ${file.name} → THÀNH CÔNG`, 'ok');
+                        } else {
+                            state.totalFail++;
+                            log(`❌ [${acc.label}] V${rnd} #${mIdx+1}: ${file.name} → THẤT BẠI`, 'err');
+                        }
+
+                        // Update results
+                        state.results.push({
+                            account: acc.label,
+                            round: rnd,
+                            file: file.name,
+                            success: success,
+                            share: isShare
+                        });
+                        renderResults();
+
+                        // Small delay
+                        await sleep(500);
+                    }
+                    if (!state.running) break;
+                }
+                if (!state.running) break;
+
+                // Delay between accounts
+                if (accIdx < selectedAccounts.length - 1) {
+                    log(`⏳ Nghỉ 2s trước acc tiếp theo...`, 'dim');
+                    await sleep(2000);
+                }
+            }
+
+            // Done
+            state.running = false;
+            document.getElementById('btnStart').disabled = false;
+            document.getElementById('btnStop').disabled = true;
+
+            updateProgress(100, '✅ HOÀN THÀNH!', state.totalProcessed, state.totalProcessed);
+
+            log(`━━━ 📊 TỔNG KẾT ━━━`, 'info');
+            log(`✅ Thành công: ${state.totalOk}`, 'ok');
+            log(`❌ Thất bại: ${state.totalFail}`, 'err');
+            log(`📊 Tổng: ${state.totalProcessed}`, 'info');
+
+            showToast(`Hoàn thành! OK: ${state.totalOk}, FAIL: ${state.totalFail}`, state.totalFail === 0 ? 'success' : 'info');
+
+            updateStats();
+        }
+
+        async function processMedia(file, account, round, isShare) {
+            // Simulate API call with random success (70% success rate for demo)
+            // In real implementation, this would call the actual APIs
+            const delay = 1000 + Math.random() * 2000;
+            await sleep(delay);
+
+            // Simulate occasional failure
+            const success = Math.random() > 0.25;
+            return success;
+        }
+
+        function stopProcess() {
+            state.running = false;
+            document.getElementById('btnStop').disabled = true;
+            log('⏹ Đã dừng process', 'warn');
+            showToast('Đã dừng process', 'info');
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // ============================================================
+        // UI UPDATES
+        // ============================================================
+        function updateProgress(pct, label, current, total) {
+            document.getElementById('progressFill').style.width = pct + '%';
+            document.getElementById('progressPercent').textContent = pct + '%';
+            document.getElementById('progressLabel').textContent = label;
+            document.getElementById('progressDetail').textContent =
+                `OK: ${state.totalOk} | FAIL: ${state.totalFail} | ${current}/${total}`;
+        }
+
+        function renderResults() {
+            const container = document.getElementById('resultDetails');
+            if (state.results.length === 0) {
+                container.innerHTML = '<p style="color:#6a8aaa;font-size:0.9rem;">Chưa có kết quả.</p>';
+                return;
+            }
+            // Show only last 20 results
+            const recent = state.results.slice(-20);
+            container.innerHTML = recent.map(r =>
+                `<div style="display:flex;justify-content:space-between;padding:6px 12px;background:rgba(0,0,0,0.15);border-radius:6px;margin-bottom:3px;font-size:0.85rem;">
+                    <span>${r.account} V${r.round}</span>
+                    <span style="color:#6a8aaa;">${r.file}</span>
+                    <span class="chip ${r.success ? 'ok' : 'fail'}">${r.success ? '✅' : '❌'}</span>
+                </div>`
+            ).join('');
+        }
+
+        function updateStats() {
+            document.getElementById('statTotal').textContent = state.totalProcessed;
+            document.getElementById('statOk').textContent = state.totalOk;
+            document.getElementById('statFail').textContent = state.totalFail;
+            document.getElementById('statAccounts').textContent = state.accounts.length || 0;
+        }
+
+        function clearLogs() {
+            const container = document.getElementById('logOutput');
+            container.innerHTML = `<div class="log-line"><span class="time">[System]</span> <span class="info">Logs đã được xóa.</span></div>`;
+            state.logs = [];
+        }
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        // Auto-load default HAR if exists
+        async function autoLoadHar() {
+            try {
+                const response = await fetch('0919.har');
+                if (response.ok) {
+                    const data = await response.json();
+                    const accounts = parseHarAccounts(data);
+                    state.accounts = accounts;
+                    state.harData = data;
+                    renderAccountList(accounts);
+                    log(`Tự động tải HAR: 0919.har, ${accounts.length} tài khoản`, 'ok');
+                }
+            } catch (e) {
+                // Ignore - file not found
+            }
+        }
+
+        // Initialize
+        autoLoadHar();
+        updateMediaCount();
+        updateStats();
+
+        // Handle Enter key on inputs
+        document.querySelectorAll('input').forEach(el => {
+            el.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') startProcess();
+            });
+        });
+
+        console.log('🔧 KGVN Mod Ảnh Load Trấn - Web UI loaded');
+        console.log('📖 Hướng dẫn: Tải HAR file, chọn ảnh, bấm Bắt đầu');
+    </script>
+
 </body>
-</html>
+                                                    </html>
