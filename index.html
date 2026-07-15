@@ -2,30 +2,32 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>KGVN Mod Ảnh Load Trấn</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             background: linear-gradient(135deg, #0a0e1a 0%, #1a1f35 50%, #0d1225 100%);
             min-height: 100vh;
             color: #e0e0e0;
-            padding: 20px;
+            padding: 12px;
+            padding-bottom: 80px;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             background: rgba(20, 28, 58, 0.85);
             backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
+            border-radius: 16px;
+            padding: 20px;
             border: 1px solid rgba(100, 180, 255, 0.15);
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
         }
@@ -33,144 +35,235 @@
         /* Header */
         .header {
             text-align: center;
-            padding-bottom: 30px;
+            padding-bottom: 20px;
             border-bottom: 2px solid rgba(100, 180, 255, 0.15);
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         .header h1 {
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             font-weight: 700;
             background: linear-gradient(135deg, #64b5f6, #42a5f5, #1a73e8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 0 40px rgba(66, 165, 245, 0.3);
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
         .header .subtitle {
             color: #88b4d8;
-            font-size: 1rem;
-            letter-spacing: 2px;
+            font-size: 0.85rem;
             opacity: 0.8;
         }
 
-        .header .badges {
-            margin-top: 12px;
+        .badges {
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 8px;
             flex-wrap: wrap;
+            margin-top: 10px;
         }
 
         .badge {
             background: rgba(100, 180, 255, 0.12);
-            padding: 5px 16px;
+            padding: 4px 12px;
             border-radius: 20px;
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             color: #8ab4f8;
             border: 1px solid rgba(100, 180, 255, 0.2);
             font-weight: 500;
-        }
-
-        /* Tabs */
-        .tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 25px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            padding: 6px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 12px 20px;
-            border: none;
-            background: transparent;
-            color: #8899bb;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.95rem;
-        }
-
-        .tab-btn:hover {
-            background: rgba(100, 180, 255, 0.08);
-            color: #c0d0e0;
-        }
-
-        .tab-btn.active {
-            background: linear-gradient(135deg, #1a73e8, #0d47a1);
-            color: white;
-            box-shadow: 0 4px 20px rgba(26, 115, 232, 0.4);
-        }
-
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Cards */
         .card {
             background: rgba(255, 255, 255, 0.04);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 20px;
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 16px;
             border: 1px solid rgba(255, 255, 255, 0.06);
-            transition: all 0.3s;
-        }
-
-        .card:hover {
-            background: rgba(255, 255, 255, 0.07);
-            border-color: rgba(100, 180, 255, 0.15);
         }
 
         .card-title {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: #6a8aaa;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-title .count {
+            background: rgba(100, 180, 255, 0.15);
+            padding: 1px 10px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            color: #8ab4f8;
+        }
+
+        /* Upload Area - Mobile Friendly */
+        .upload-area {
+            border: 2px dashed rgba(100, 180, 255, 0.2);
+            border-radius: 14px;
+            padding: 30px 16px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.2);
+            position: relative;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .upload-area:active {
+            transform: scale(0.98);
+        }
+
+        .upload-area .icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .upload-area p {
+            color: #8899bb;
+            font-size: 0.9rem;
+        }
+
+        .upload-area .hint {
+            font-size: 0.75rem;
+            color: #5a7a9a;
+            margin-top: 4px;
+        }
+
+        /* File list */
+        .file-list {
+            margin-top: 12px;
+            width: 100%;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            margin-bottom: 4px;
+            font-size: 0.8rem;
+            gap: 8px;
+        }
+
+        .file-item .name {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .file-item .size {
+            color: #6a8aaa;
+            font-size: 0.7rem;
+            flex-shrink: 0;
+        }
+
+        .file-item .remove-btn {
+            background: rgba(239, 83, 80, 0.2);
+            border: none;
+            color: #ef5350;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.7rem;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .file-item .remove-btn:active {
+            transform: scale(0.9);
+        }
+
+        /* Media grid */
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .media-thumb {
+            position: relative;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 8px 4px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .media-thumb .emoji {
+            font-size: 2rem;
+        }
+
+        .media-thumb .label {
+            font-size: 0.5rem;
+            color: #6a8aaa;
+            margin-top: 4px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 100%;
+        }
+
+        .media-thumb .remove-btn {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: rgba(0, 0, 0, 0.7);
+            border: none;
+            color: #ef5350;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 0.6rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         /* Form */
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 14px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             color: #aabbdd;
             font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        .form-group .hint {
-            display: block;
-            font-size: 0.8rem;
-            color: #6a8aaa;
-            margin-top: 4px;
+            font-size: 0.85rem;
         }
 
         input[type="text"],
         input[type="number"],
-        input[type="file"] {
+        select {
             width: 100%;
-            padding: 12px 16px;
+            padding: 10px 14px;
             background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(100, 180, 255, 0.15);
             border-radius: 10px;
@@ -178,51 +271,23 @@
             font-size: 0.95rem;
             transition: all 0.3s;
             outline: none;
+            -webkit-appearance: none;
+            appearance: none;
         }
 
         input[type="text"]:focus,
-        input[type="number"]:focus {
+        input[type="number"]:focus,
+        select:focus {
             border-color: #1a73e8;
             box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15);
             background: rgba(0, 0, 0, 0.5);
         }
 
-        input[type="file"] {
-            padding: 10px;
-            cursor: pointer;
-        }
-
-        input[type="file"]::file-selector-button {
-            padding: 8px 20px;
-            background: rgba(100, 180, 255, 0.15);
-            border: 1px solid rgba(100, 180, 255, 0.2);
-            border-radius: 8px;
-            color: #8ab4f8;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s;
-            margin-right: 12px;
-        }
-
-        input[type="file"]::file-selector-button:hover {
-            background: rgba(100, 180, 255, 0.25);
-        }
-
         select {
-            width: 100%;
-            padding: 12px 16px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(100, 180, 255, 0.15);
-            border-radius: 10px;
-            color: #e0e0e0;
-            font-size: 0.95rem;
-            outline: none;
-            cursor: pointer;
-        }
-
-        select:focus {
-            border-color: #1a73e8;
-            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236a8aaa' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 36px;
         }
 
         select option {
@@ -234,8 +299,8 @@
         .checkbox-group {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 8px 0;
+            gap: 10px;
+            padding: 6px 0;
         }
 
         .checkbox-group input[type="checkbox"] {
@@ -243,16 +308,18 @@
             height: 20px;
             accent-color: #1a73e8;
             cursor: pointer;
+            flex-shrink: 0;
         }
 
         .checkbox-group label {
             color: #aabbdd;
             cursor: pointer;
+            font-size: 0.9rem;
         }
 
         /* Buttons */
         .btn {
-            padding: 14px 32px;
+            padding: 14px 24px;
             border: none;
             border-radius: 12px;
             font-weight: 600;
@@ -261,7 +328,14 @@
             transition: all 0.3s;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
+            width: 100%;
+            touch-action: manipulation;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
         }
 
         .btn-primary {
@@ -270,26 +344,10 @@
             box-shadow: 0 4px 20px rgba(26, 115, 232, 0.35);
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(26, 115, 232, 0.5);
-        }
-
         .btn-primary:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none;
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, #2e7d32, #1b5e20);
-            color: white;
-            box-shadow: 0 4px 20px rgba(46, 125, 50, 0.35);
-        }
-
-        .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(46, 125, 50, 0.5);
         }
 
         .btn-danger {
@@ -297,9 +355,10 @@
             color: white;
         }
 
-        .btn-danger:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(198, 40, 40, 0.4);
+        .btn-danger:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .btn-outline {
@@ -308,93 +367,26 @@
             border: 1px solid rgba(100, 180, 255, 0.3);
         }
 
-        .btn-outline:hover {
-            background: rgba(100, 180, 255, 0.1);
+        .btn-success {
+            background: linear-gradient(135deg, #2e7d32, #1b5e20);
+            color: white;
         }
 
         .btn-group {
             display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 12px;
-        }
-
-        /* Upload area */
-        .upload-area {
-            border: 2px dashed rgba(100, 180, 255, 0.2);
-            border-radius: 16px;
-            padding: 40px 20px;
-            text-align: center;
-            transition: all 0.3s;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .upload-area:hover {
-            border-color: rgba(100, 180, 255, 0.4);
-            background: rgba(100, 180, 255, 0.05);
-        }
-
-        .upload-area.dragover {
-            border-color: #1a73e8;
-            background: rgba(26, 115, 232, 0.08);
-            box-shadow: 0 0 40px rgba(26, 115, 232, 0.1);
-        }
-
-        .upload-area .icon {
-            font-size: 3rem;
-            display: block;
-            margin-bottom: 12px;
-        }
-
-        .upload-area p {
-            color: #8899bb;
-        }
-
-        .upload-area .file-list {
-            margin-top: 16px;
-            text-align: left;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .file-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 6px 12px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 6px;
-            margin-bottom: 4px;
-            font-size: 0.85rem;
-        }
-
-        .file-item .size {
-            color: #6a8aaa;
-            font-size: 0.75rem;
-        }
-
-        /* Media grid preview */
-        .media-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
             gap: 10px;
-            margin-top: 12px;
+            flex-wrap: wrap;
         }
 
-        .media-thumb {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(0, 0, 0, 0.3);
+        .btn-group .btn {
+            flex: 1;
+            min-width: 120px;
         }
 
         /* Progress */
         .progress-container {
-            margin-top: 20px;
-            padding: 20px;
+            margin-top: 16px;
+            padding: 16px;
             background: rgba(0, 0, 0, 0.3);
             border-radius: 12px;
             display: none;
@@ -417,30 +409,29 @@
             height: 100%;
             background: linear-gradient(90deg, #1a73e8, #42a5f5);
             border-radius: 4px;
-            transition: width 0.3s;
+            transition: width 0.5s;
             width: 0%;
         }
 
         .progress-text {
             display: flex;
             justify-content: space-between;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #8899bb;
-            margin-top: 4px;
         }
 
-        /* Log output */
+        /* Log */
         .log-output {
             background: rgba(0, 0, 0, 0.5);
             border-radius: 12px;
-            padding: 16px;
-            max-height: 400px;
+            padding: 12px;
+            max-height: 300px;
             overflow-y: auto;
             font-family: 'Consolas', 'Courier New', monospace;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             line-height: 1.6;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            margin-top: 16px;
+            margin-top: 12px;
             display: none;
         }
 
@@ -451,11 +442,12 @@
         .log-line {
             padding: 2px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            word-break: break-all;
         }
 
         .log-line .time {
             color: #4a6a8a;
-            margin-right: 10px;
+            margin-right: 6px;
         }
 
         .log-line .ok { color: #66bb6a; }
@@ -464,70 +456,30 @@
         .log-line .info { color: #42a5f5; }
         .log-line .dim { color: #5a7a9a; }
 
-        /* Status chips */
-        .chip {
-            display: inline-block;
-            padding: 3px 12px;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
-        .chip.ok { background: rgba(102, 187, 106, 0.2); color: #66bb6a; }
-        .chip.fail { background: rgba(239, 83, 80, 0.2); color: #ef5350; }
-        .chip.pending { background: rgba(255, 167, 38, 0.2); color: #ffa726; }
-        .chip.idle { background: rgba(100, 180, 255, 0.12); color: #6a8aaa; }
-
-        /* Results table */
-        .results-table {
-            width: 100%;
-            margin-top: 16px;
-            border-collapse: collapse;
-        }
-
-        .results-table th,
-        .results-table td {
-            padding: 10px 14px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .results-table th {
-            color: #6a8aaa;
-            font-weight: 600;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .results-table td {
-            font-size: 0.9rem;
-        }
-
         /* Stats */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 16px;
-            margin-top: 16px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 12px;
         }
 
         .stat-card {
             background: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            padding: 16px;
+            border-radius: 10px;
+            padding: 12px;
             text-align: center;
         }
 
         .stat-card .number {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
         }
 
         .stat-card .label {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #6a8aaa;
-            margin-top: 4px;
+            margin-top: 2px;
         }
 
         .stat-card .number.green { color: #66bb6a; }
@@ -535,97 +487,138 @@
         .stat-card .number.blue { color: #42a5f5; }
         .stat-card .number.gold { color: #ffa726; }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                padding: 16px;
-                border-radius: 12px;
-            }
-
-            .header h1 {
-                font-size: 1.8rem;
-            }
-
-            .tabs {
-                flex-wrap: wrap;
-            }
-
-            .tab-btn {
-                font-size: 0.85rem;
-                padding: 10px 14px;
-            }
-
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .btn-group {
-                flex-direction: column;
-            }
+        /* Results */
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 10px;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 6px;
+            margin-bottom: 3px;
+            font-size: 0.75rem;
+            gap: 8px;
         }
 
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 6px;
+        .result-item .info {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
-        ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 3px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(100, 180, 255, 0.3);
-            border-radius: 3px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(100, 180, 255, 0.5);
-        }
-
-        /* Loading animation */
-        .spinner {
+        .chip {
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-top: 2px solid #42a5f5;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            flex-shrink: 0;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        .chip.ok { background: rgba(102, 187, 106, 0.2); color: #66bb6a; }
+        .chip.fail { background: rgba(239, 83, 80, 0.2); color: #ef5350; }
+        .chip.pending { background: rgba(255, 167, 38, 0.2); color: #ffa726; }
+        .chip.idle { background: rgba(100, 180, 255, 0.12); color: #6a8aaa; }
 
-        /* Toast notifications */
+        /* Toast */
         .toast {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            padding: 14px 24px;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            padding: 12px 24px;
             border-radius: 12px;
             background: rgba(20, 28, 58, 0.95);
             border: 1px solid rgba(100, 180, 255, 0.2);
             backdrop-filter: blur(10px);
             color: #e0e0e0;
             font-weight: 500;
-            transform: translateY(100px);
+            font-size: 0.9rem;
             opacity: 0;
             transition: all 0.4s ease;
             z-index: 1000;
-            max-width: 400px;
+            max-width: 90%;
+            text-align: center;
+            pointer-events: none;
         }
 
         .toast.show {
-            transform: translateY(0);
+            transform: translateX(-50%) translateY(0);
             opacity: 1;
         }
 
         .toast.success { border-color: #66bb6a; }
         .toast.error { border-color: #ef5350; }
         .toast.info { border-color: #42a5f5; }
+
+        /* Account list */
+        .account-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            margin-bottom: 3px;
+            font-size: 0.8rem;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 2px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(100, 180, 255, 0.3);
+            border-radius: 2px;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .container {
+                padding: 12px;
+                border-radius: 12px;
+            }
+            .header h1 {
+                font-size: 1.4rem;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+            }
+            .stat-card .number {
+                font-size: 1.4rem;
+            }
+            .btn-group .btn {
+                min-width: 80px;
+                font-size: 0.85rem;
+                padding: 12px 16px;
+            }
+            .upload-area {
+                padding: 20px 12px;
+                min-height: 80px;
+            }
+            .upload-area .icon {
+                font-size: 2rem;
+            }
+        }
+
+        /* Hidden file input */
+        .hidden-input {
+            display: none;
+        }
+
+        /* Empty state */
+        .empty-state {
+            color: #5a7a9a;
+            text-align: center;
+            padding: 16px;
+            font-size: 0.85rem;
+        }
     </style>
 </head>
 <body>
@@ -634,155 +627,128 @@
         <!-- Header -->
         <div class="header">
             <h1>⚔️ KGVN Mod Ảnh</h1>
-            <div class="subtitle">Load Trấn · Multi-Account Tool</div>
+            <div class="subtitle">Load Trấn · Multi-Account</div>
             <div class="badges">
-                <span class="badge">📸 JPG · PNG · WEBP · GIF · MP4</span>
+                <span class="badge">📸 Ảnh từ điện thoại</span>
                 <span class="badge">🔄 Song song</span>
-                <span class="badge">⚡ v1.0</span>
+                <span class="badge">📱 Mobile</span>
             </div>
         </div>
 
-        <!-- Tabs -->
-        <div class="tabs" id="tabs">
-            <button class="tab-btn active" data-tab="tab-setup">⚙️ Cấu hình</button>
-            <button class="tab-btn" data-tab="tab-media">🖼️ Media</button>
-            <button class="tab-btn" data-tab="tab-logs">📋 Logs</button>
-            <button class="tab-btn" data-tab="tab-results">📊 Kết quả</button>
+        <!-- HAR File -->
+        <div class="card">
+            <div class="card-title">📁 File HAR <span class="count">Token đăng nhập</span></div>
+            <div class="form-group">
+                <input type="text" id="harPath" value="0919.har" placeholder="Nhập tên file .har...">
+            </div>
+            <button class="btn btn-outline" onclick="document.getElementById('harFileInput').click()">
+                📂 Chọn file HAR từ điện thoại
+            </button>
+            <input type="file" id="harFileInput" accept=".har" class="hidden-input" onchange="handleHarFile(event)">
         </div>
 
-        <!-- Tab: Setup -->
-        <div class="tab-content active" id="tab-setup">
-            <div class="card">
-                <div class="card-title">📁 File HAR</div>
-                <div class="form-group">
-                    <label>Đường dẫn file HAR</label>
-                    <input type="text" id="harPath" value="0919.har" placeholder="Nhập tên file .har...">
-                    <span class="hint">File HAR chứa token đăng nhập từ ứng dụng KGVN</span>
-                </div>
-                <button class="btn btn-outline" onclick="document.getElementById('harFileInput').click()">
-                    📂 Chọn file HAR
-                </button>
-                <input type="file" id="harFileInput" accept=".har" style="display:none" onchange="handleHarFile(event)">
-            </div>
-
-            <div class="card">
-                <div class="card-title">🖼️ Thư mục ảnh</div>
-                <div class="form-group">
-                    <label>Đường dẫn thư mục</label>
-                    <input type="text" id="imageDir" value="." placeholder="Để trống = thư mục hiện tại">
-                    <span class="hint">Thư mục chứa ảnh/video cần tải lên</span>
-                </div>
-                <button class="btn btn-outline" onclick="document.getElementById('imageDirInput').click()">
-                    📂 Chọn thư mục
-                </button>
-                <input type="file" id="imageDirInput" webkitdirectory directory style="display:none" onchange="handleDirSelect(event)">
-            </div>
-
-            <div class="card">
-                <div class="card-title">⚙️ Tùy chọn nâng cao</div>
-                <div class="form-group">
-                    <label>Số vòng lặp</label>
-                    <input type="number" id="rounds" value="1" min="1" max="10">
-                    <span class="hint">Mỗi vòng = 1 lần tải lên cho mỗi ảnh</span>
-                </div>
-                <div class="checkbox-group">
-                    <input type="checkbox" id="isShare">
-                    <label for="isShare">🌍 Quảng trường (mọi người đều thấy)</label>
-                </div>
-                <div class="checkbox-group">
-                    <input type="checkbox" id="useAllAccounts" checked>
-                    <label for="useAllAccounts">🔓 Dùng tất cả tài khoản có trong HAR</label>
+        <!-- Media Upload - Mobile Friendly -->
+        <div class="card">
+            <div class="card-title">🖼️ Chọn ảnh/video <span class="count" id="mediaCount">0 file</span></div>
+            <div class="upload-area" id="dropArea" onclick="document.getElementById('mediaFileInput').click()">
+                <span class="icon">📤</span>
+                <p>Bấm để chọn ảnh từ điện thoại</p>
+                <span class="hint">Hỗ trợ: JPG, PNG, WEBP, GIF, MP4</span>
+                <div class="file-list" id="fileList">
+                    <div class="empty-state">Chưa chọn file nào</div>
                 </div>
             </div>
+            <input type="file" id="mediaFileInput" accept=".jpg,.jpeg,.png,.webp,.gif,.mp4" multiple class="hidden-input" onchange="handleMediaFiles(event)">
+            <div class="media-grid" id="mediaGrid"></div>
+        </div>
 
-            <div class="btn-group">
-                <button class="btn btn-primary" id="btnStart" onclick="startProcess()">
-                    🚀 Bắt đầu tải
-                </button>
-                <button class="btn btn-danger" id="btnStop" onclick="stopProcess()" disabled>
-                    ⏹ Dừng
-                </button>
-                <button class="btn btn-outline" onclick="clearLogs()">🗑 Xóa logs</button>
+        <!-- Settings -->
+        <div class="card">
+            <div class="card-title">⚙️ Cài đặt</div>
+
+            <div class="form-group">
+                <label>Số vòng lặp</label>
+                <input type="number" id="rounds" value="1" min="1" max="10">
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="isShare">
+                <label for="isShare">🌍 Quảng trường (mọi người thấy)</label>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="useAllAccounts" checked>
+                <label for="useAllAccounts">🔓 Dùng tất cả tài khoản</label>
             </div>
         </div>
 
-        <!-- Tab: Media -->
-        <div class="tab-content" id="tab-media">
-            <div class="card">
-                <div class="card-title">📸 Danh sách media</div>
-                <div class="upload-area" id="dropArea" onclick="document.getElementById('mediaFileInput').click()">
-                    <span class="icon">📤</span>
-                    <p>Kéo thả file hoặc bấm để chọn</p>
-                    <p style="font-size:0.8rem;color:#6a8aaa;margin-top:4px;">Hỗ trợ: JPG, PNG, WEBP, GIF, MP4</p>
-                    <div class="file-list" id="fileList"></div>
-                </div>
-                <input type="file" id="mediaFileInput" accept=".jpg,.jpeg,.png,.webp,.gif,.mp4" multiple style="display:none" onchange="handleMediaFiles(event)">
-                <div class="media-grid" id="mediaGrid"></div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">📋 Danh sách tài khoản</div>
-                <div id="accountList">
-                    <p style="color:#6a8aaa;font-size:0.9rem;">Chưa có dữ liệu. Tải HAR file để hiển thị tài khoản.</p>
-                </div>
+        <!-- Accounts -->
+        <div class="card">
+            <div class="card-title">👤 Tài khoản <span class="count" id="accCount">0</span></div>
+            <div id="accountList">
+                <div class="empty-state">Tải file HAR để hiển thị tài khoản</div>
             </div>
         </div>
 
-        <!-- Tab: Logs -->
-        <div class="tab-content" id="tab-logs">
-            <div class="card">
-                <div class="card-title">📋 Log chi tiết</div>
-                <div class="log-output active" id="logOutput">
-                    <div class="log-line"><span class="time">[System]</span> <span class="info">Chào mừng! Sẵn sàng tải ảnh lên KGVN.</span></div>
-                </div>
-            </div>
+        <!-- Actions -->
+        <div class="btn-group">
+            <button class="btn btn-primary" id="btnStart" onclick="startProcess()">
+                🚀 Bắt đầu
+            </button>
+            <button class="btn btn-danger" id="btnStop" onclick="stopProcess()" disabled>
+                ⏹ Dừng
+            </button>
+        </div>
 
-            <div class="card">
-                <div class="card-title">📊 Tiến trình</div>
-                <div class="progress-container" id="progressContainer">
-                    <div class="progress-text">
-                        <span id="progressLabel">Đang xử lý...</span>
-                        <span id="progressPercent">0%</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="fill" id="progressFill"></div>
-                    </div>
-                    <div style="margin-top:10px;font-size:0.85rem;color:#6a8aaa;">
-                        <span id="progressDetail">OK: 0 | FAIL: 0</span>
-                    </div>
-                </div>
+        <!-- Progress -->
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-text">
+                <span id="progressLabel">Đang xử lý...</span>
+                <span id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="fill" id="progressFill"></div>
+            </div>
+            <div style="margin-top:8px;font-size:0.8rem;color:#6a8aaa;display:flex;justify-content:space-between;">
+                <span id="progressDetail">OK: 0 | FAIL: 0</span>
+                <span id="progressTotal">0/0</span>
             </div>
         </div>
 
-        <!-- Tab: Results -->
-        <div class="tab-content" id="tab-results">
-            <div class="card">
-                <div class="card-title">📊 Tổng kết</div>
-                <div class="stats-grid" id="statsGrid">
-                    <div class="stat-card">
-                        <div class="number blue" id="statTotal">0</div>
-                        <div class="label">Tổng poster</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="number green" id="statOk">0</div>
-                        <div class="label">✅ Thành công</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="number red" id="statFail">0</div>
-                        <div class="label">❌ Thất bại</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="number gold" id="statAccounts">0</div>
-                        <div class="label">👤 Tài khoản</div>
-                    </div>
+        <!-- Logs -->
+        <div class="card">
+            <div class="card-title" style="justify-content:space-between;">
+                <span>📋 Logs</span>
+                <button class="btn btn-outline" style="width:auto;padding:4px 12px;font-size:0.7rem;" onclick="clearLogs()">🗑 Xóa</button>
+            </div>
+            <div class="log-output active" id="logOutput">
+                <div class="log-line"><span class="time">[System]</span> <span class="info">Sẵn sàng! Chọn ảnh và bắt đầu.</span></div>
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div class="card">
+            <div class="card-title">📊 Kết quả</div>
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card">
+                    <div class="number blue" id="statTotal">0</div>
+                    <div class="label">Tổng</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number green" id="statOk">0</div>
+                    <div class="label">✅ Thành công</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number red" id="statFail">0</div>
+                    <div class="label">❌ Thất bại</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number gold" id="statAccounts">0</div>
+                    <div class="label">👤 Tài khoản</div>
                 </div>
             </div>
-
-            <div class="card">
-                <div class="card-title">📋 Chi tiết từng tài khoản</div>
-                <div id="resultDetails">
-                    <p style="color:#6a8aaa;font-size:0.9rem;">Chạy process để xem kết quả.</p>
-                </div>
+            <div id="resultDetails" style="margin-top:12px;">
+                <div class="empty-state">Chạy process để xem kết quả</div>
             </div>
         </div>
     </div>
@@ -804,6 +770,7 @@
             totalOk: 0,
             totalFail: 0,
             totalProcessed: 0,
+            totalExpected: 0,
         };
 
         // ============================================================
@@ -813,14 +780,10 @@
             const time = new Date().toLocaleTimeString();
             const entry = { time, msg, type };
             state.logs.push(entry);
-            renderLog(entry);
-        }
-
-        function renderLog(entry) {
             const container = document.getElementById('logOutput');
             const div = document.createElement('div');
             div.className = 'log-line';
-            div.innerHTML = `<span class="time">[${entry.time}]</span> <span class="${entry.type}">${entry.msg}</span>`;
+            div.innerHTML = `<span class="time">[${time}]</span> <span class="${type}">${msg}</span>`;
             container.appendChild(div);
             container.scrollTop = container.scrollHeight;
         }
@@ -830,7 +793,7 @@
             toast.textContent = msg;
             toast.className = `toast ${type} show`;
             clearTimeout(toast._timer);
-            toast._timer = setTimeout(() => toast.classList.remove('show'), 4000);
+            toast._timer = setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
         function formatBytes(bytes) {
@@ -847,17 +810,22 @@
             return ['jpg', 'jpeg', 'png', 'webp', 'gif', 'mp4'].includes(ext);
         }
 
-        // ============================================================
-        // TAB SWITCHING
-        // ============================================================
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-                document.getElementById(this.dataset.tab).classList.add('active');
-            });
-        });
+        function getFileEmoji(filename) {
+            const ext = getFileExtension(filename);
+            const map = {
+                'mp4': '🎬',
+                'gif': '🎞️',
+                'jpg': '🖼️',
+                'jpeg': '🖼️',
+                'png': '🖼️',
+                'webp': '🖼️'
+            };
+            return map[ext] || '📄';
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
 
         // ============================================================
         // FILE HANDLERS
@@ -866,23 +834,19 @@
             const file = event.target.files[0];
             if (!file) return;
             document.getElementById('harPath').value = file.name;
-            readHarFile(file);
-        }
-
-        function readHarFile(file) {
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
                     const data = JSON.parse(e.target.result);
                     state.harData = data;
-                    // Parse accounts from HAR
                     const accounts = parseHarAccounts(data);
                     state.accounts = accounts;
                     renderAccountList(accounts);
-                    log(`Đã tải HAR: ${file.name}, tìm thấy ${accounts.length} tài khoản`, 'ok');
+                    document.getElementById('accCount').textContent = accounts.length;
+                    log(`✅ Đã tải HAR: ${file.name}, ${accounts.length} tài khoản`, 'ok');
                     showToast(`Tìm thấy ${accounts.length} tài khoản`, 'success');
                 } catch (err) {
-                    log(`Lỗi parse HAR: ${err.message}`, 'err');
+                    log(`❌ Lỗi parse HAR: ${err.message}`, 'err');
                     showToast('Lỗi parse file HAR', 'error');
                 }
             };
@@ -892,6 +856,7 @@
         function parseHarAccounts(har) {
             const accounts = [];
             const entries = har.log?.entries || [];
+            const seen = new Set();
             for (const entry of entries) {
                 const req = entry.request;
                 const headers = (req.headers || []).reduce((acc, h) => {
@@ -900,36 +865,30 @@
                 }, {});
                 const url = req.url || '';
                 if (url.includes('kgvn-api.mobagarena.com') && headers['msdk-itopencodeparam']) {
-                    // Extract user path from COS PUT requests
+                    const token = headers['msdk-itopencodeparam'];
+                    if (seen.has(token)) continue;
+                    seen.add(token);
                     let userPath = null;
-                    if (req.method === 'PUT' && url.includes('cos.')) {
-                        const parts = url.split('.cos.')[1]?.split('/') || [];
-                        if (parts.length >= 3) userPath = '/' + parts.slice(0, 3).join('/') + '/';
+                    // Try to find user path from COS URLs
+                    for (const e of entries) {
+                        const r = e.request;
+                        if (r.method === 'PUT' && r.url && r.url.includes('cos.')) {
+                            const parts = r.url.split('.cos.')[1]?.split('/') || [];
+                            if (parts.length >= 3) {
+                                userPath = '/' + parts.slice(0, 3).join('/') + '/';
+                                break;
+                            }
+                        }
                     }
                     accounts.push({
-                        token: headers['msdk-itopencodeparam'],
+                        token: token,
                         userPath: userPath || '/unknown/',
                         label: `Acc${accounts.length + 1}`,
-                        valid: !!headers['msdk-itopencodeparam']
+                        valid: true
                     });
                 }
             }
-            // Deduplicate by token
-            const seen = new Set();
-            return accounts.filter(a => {
-                if (seen.has(a.token)) return false;
-                seen.add(a.token);
-                return a.valid;
-            });
-        }
-
-        function handleDirSelect(event) {
-            const files = event.target.files;
-            if (!files.length) return;
-            // Get directory name
-            const path = files[0].webkitRelativePath.split('/')[0];
-            document.getElementById('imageDir').value = path;
-            log(`Đã chọn thư mục: ${path}`, 'info');
+            return accounts;
         }
 
         function handleMediaFiles(event) {
@@ -939,38 +898,26 @@
             }
             renderMediaGrid();
             updateMediaCount();
+            document.getElementById('mediaFileInput').value = '';
         }
-
-        // Drag and drop
-        const dropArea = document.getElementById('dropArea');
-        dropArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropArea.classList.add('dragover');
-        });
-        dropArea.addEventListener('dragleave', () => {
-            dropArea.classList.remove('dragover');
-        });
-        dropArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropArea.classList.remove('dragover');
-            const files = e.dataTransfer.files;
-            for (const file of files) {
-                addMediaFile(file);
-            }
-            renderMediaGrid();
-            updateMediaCount();
-        });
 
         function addMediaFile(file) {
             const ext = getFileExtension(file.name);
             if (!isImageExt(ext)) {
-                log(`Bỏ qua: ${file.name} (không hỗ trợ)`, 'warn');
+                log(`⚠️ Bỏ qua: ${file.name} (không hỗ trợ)`, 'warn');
                 return;
             }
-            // Check duplicate
             if (state.mediaFiles.some(f => f.name === file.name && f.size === file.size)) return;
             state.mediaFiles.push(file);
-            log(`Thêm media: ${file.name} (${formatBytes(file.size)})`, 'info');
+            log(`📎 Thêm: ${file.name} (${formatBytes(file.size)})`, 'info');
+        }
+
+        function removeMedia(index) {
+            const name = state.mediaFiles[index]?.name || '';
+            state.mediaFiles.splice(index, 1);
+            renderMediaGrid();
+            updateMediaCount();
+            log(`🗑 Đã xóa: ${name}`, 'dim');
         }
 
         function renderMediaGrid() {
@@ -979,46 +926,43 @@
                 grid.innerHTML = '';
                 return;
             }
-            grid.innerHTML = state.mediaFiles.map((f, i) => {
-                const ext = getFileExtension(f.name);
-                const emoji = ext === 'mp4' ? '🎬' : ext === 'gif' ? '🎞️' : '🖼️';
-                return `<div style="text-align:center;padding:6px;background:rgba(0,0,0,0.2);border-radius:8px;position:relative;">
-                    <div style="font-size:2rem;height:60px;display:flex;align-items:center;justify-content:center;">${emoji}</div>
-                    <div style="font-size:0.6rem;color:#6a8aaa;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${f.name}</div>
-                    <span style="position:absolute;top:-4px;right:-4px;background:rgba(0,0,0,0.6);border-radius:50%;width:20px;height:20px;font-size:0.6rem;display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="removeMedia(${i})">✕</span>
-                </div>`;
-            }).join('');
-        }
-
-        function removeMedia(index) {
-            state.mediaFiles.splice(index, 1);
-            renderMediaGrid();
-            updateMediaCount();
+            grid.innerHTML = state.mediaFiles.map((f, i) => `
+                <div class="media-thumb">
+                    <div class="emoji">${getFileEmoji(f.name)}</div>
+                    <div class="label">${f.name}</div>
+                    <button class="remove-btn" onclick="removeMedia(${i})">✕</button>
+                </div>
+            `).join('');
         }
 
         function updateMediaCount() {
-            const el = document.querySelector('#fileList');
+            document.getElementById('mediaCount').textContent = state.mediaFiles.length + ' file';
+            const list = document.getElementById('fileList');
             if (state.mediaFiles.length === 0) {
-                el.innerHTML = '<p style="color:#6a8aaa;font-size:0.85rem;">Chưa có file nào được chọn</p>';
+                list.innerHTML = '<div class="empty-state">Chưa chọn file nào</div>';
             } else {
-                el.innerHTML = state.mediaFiles.map(f =>
-                    `<div class="file-item"><span>${f.name}</span><span class="size">${formatBytes(f.size)}</span></div>`
-                ).join('');
+                list.innerHTML = state.mediaFiles.map((f, i) => `
+                    <div class="file-item">
+                        <span class="name">${getFileEmoji(f.name)} ${f.name}</span>
+                        <span class="size">${formatBytes(f.size)}</span>
+                        <button class="remove-btn" onclick="removeMedia(${i})">✕</button>
+                    </div>
+                `).join('');
             }
         }
 
         function renderAccountList(accounts) {
             const container = document.getElementById('accountList');
             if (!accounts || accounts.length === 0) {
-                container.innerHTML = '<p style="color:#6a8aaa;font-size:0.9rem;">Không tìm thấy tài khoản trong HAR.</p>';
+                container.innerHTML = '<div class="empty-state">Không tìm thấy tài khoản trong HAR</div>';
                 return;
             }
-            container.innerHTML = accounts.map((a, i) =>
-                `<div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(0,0,0,0.2);border-radius:8px;margin-bottom:4px;">
+            container.innerHTML = accounts.map(a => `
+                <div class="account-item">
                     <span>${a.label}</span>
-                    <span class="chip ${a.valid ? 'ok' : 'fail'}">${a.valid ? '✅ Hợp lệ' : '❌ Không hợp lệ'}</span>
-                </div>`
-            ).join('');
+                    <span class="chip ok">✅ Hợp lệ</span>
+                </div>
+            `).join('');
         }
 
         // ============================================================
@@ -1027,26 +971,25 @@
         async function startProcess() {
             if (state.running) return;
 
-            // Validate
             if (state.mediaFiles.length === 0) {
-                showToast('Vui lòng chọn ít nhất 1 file media', 'error');
+                showToast('⚠️ Vui lòng chọn ít nhất 1 ảnh/video', 'error');
                 return;
             }
 
-            // Get accounts from HAR or use default
             let accounts = state.accounts;
             if (accounts.length === 0) {
                 // Try to load from har path
                 const harPath = document.getElementById('harPath').value;
                 try {
                     const response = await fetch(harPath);
-                    if (!response.ok) throw new Error('Không tìm thấy file HAR');
+                    if (!response.ok) throw new Error('Không tìm thấy file');
                     const data = await response.json();
                     accounts = parseHarAccounts(data);
                     state.accounts = accounts;
                     renderAccountList(accounts);
+                    document.getElementById('accCount').textContent = accounts.length;
                 } catch (err) {
-                    log(`Không thể tải HAR: ${err.message}`, 'err');
+                    log(`❌ Không thể tải HAR: ${err.message}`, 'err');
                     showToast('Không tìm thấy file HAR hợp lệ', 'error');
                     return;
                 }
@@ -1067,6 +1010,7 @@
             state.totalOk = 0;
             state.totalFail = 0;
             state.totalProcessed = 0;
+            state.totalExpected = selectedAccounts.length * rounds * state.mediaFiles.length;
             state.results = [];
 
             document.getElementById('btnStart').disabled = true;
@@ -1074,25 +1018,25 @@
             document.getElementById('progressContainer').classList.add('active');
             document.getElementById('logOutput').classList.add('active');
 
-            log(`🚀 Bắt đầu với ${selectedAccounts.length} tài khoản, ${rounds} vòng`, 'info');
-            log(`📸 Media: ${state.mediaFiles.length} file`, 'info');
+            log(`🚀 Bắt đầu: ${selectedAccounts.length} acc × ${rounds} vòng × ${state.mediaFiles.length} ảnh`, 'info');
+            log(`📸 Tổng: ${state.totalExpected} poster`, 'info');
             log(`🌍 Chế độ: ${isShare ? 'Quảng trường' : 'Riêng tư'}`, 'info');
 
-            // Process each account
-            for (let accIdx = 0; accIdx < selectedAccounts.length; accIdx++) {
+            let processed = 0;
+
+            for (let accIdx = 0; accIdx < selectedAccounts.length && state.running; accIdx++) {
                 const acc = selectedAccounts[accIdx];
                 log(`━━━ 📱 ${acc.label} ━━━`, 'info');
 
-                for (let rnd = 1; rnd <= rounds; rnd++) {
-                    // For each media file
-                    for (let mIdx = 0; mIdx < state.mediaFiles.length; mIdx++) {
-                        if (!state.running) break;
+                for (let rnd = 1; rnd <= rounds && state.running; rnd++) {
+                    for (let mIdx = 0; mIdx < state.mediaFiles.length && state.running; mIdx++) {
                         const file = state.mediaFiles[mIdx];
-                        const total = selectedAccounts.length * rounds * state.mediaFiles.length;
-                        const current = accIdx * rounds * state.mediaFiles.length + (rnd - 1) * state.mediaFiles.length + mIdx + 1;
-                        const pct = Math.round((current / total) * 100);
+                        processed++;
+                        const pct = Math.round((processed / state.totalExpected) * 100);
 
-                        updateProgress(pct, `[${acc.label}] V${rnd}/${rounds} #${mIdx+1}: ${file.name}`, current, total);
+                        updateProgress(pct,
+                            `[${acc.label}] V${rnd} #${mIdx+1}: ${file.name}`,
+                            processed, state.totalExpected);
 
                         // Simulate processing
                         const success = await processMedia(file, acc, rnd, isShare);
@@ -1105,7 +1049,6 @@
                             log(`❌ [${acc.label}] V${rnd} #${mIdx+1}: ${file.name} → THẤT BẠI`, 'err');
                         }
 
-                        // Update results
                         state.results.push({
                             account: acc.label,
                             round: rnd,
@@ -1114,18 +1057,18 @@
                             share: isShare
                         });
                         renderResults();
+                        updateStats();
 
-                        // Small delay
-                        await sleep(500);
+                        await sleep(400 + Math.random() * 300);
                     }
-                    if (!state.running) break;
+                    if (state.running && rnd < rounds) {
+                        log(`⏳ Nghỉ 1s trước vòng tiếp theo...`, 'dim');
+                        await sleep(1000);
+                    }
                 }
-                if (!state.running) break;
-
-                // Delay between accounts
-                if (accIdx < selectedAccounts.length - 1) {
-                    log(`⏳ Nghỉ 2s trước acc tiếp theo...`, 'dim');
-                    await sleep(2000);
+                if (state.running && accIdx < selectedAccounts.length - 1) {
+                    log(`⏳ Nghỉ 1.5s trước acc tiếp theo...`, 'dim');
+                    await sleep(1500);
                 }
             }
 
@@ -1134,38 +1077,30 @@
             document.getElementById('btnStart').disabled = false;
             document.getElementById('btnStop').disabled = true;
 
-            updateProgress(100, '✅ HOÀN THÀNH!', state.totalProcessed, state.totalProcessed);
+            updateProgress(100, '✅ HOÀN THÀNH!', state.totalProcessed, state.totalExpected);
 
             log(`━━━ 📊 TỔNG KẾT ━━━`, 'info');
             log(`✅ Thành công: ${state.totalOk}`, 'ok');
             log(`❌ Thất bại: ${state.totalFail}`, 'err');
             log(`📊 Tổng: ${state.totalProcessed}`, 'info');
 
-            showToast(`Hoàn thành! OK: ${state.totalOk}, FAIL: ${state.totalFail}`, state.totalFail === 0 ? 'success' : 'info');
-
+            showToast(`✅ Hoàn thành! OK: ${state.totalOk}`, state.totalFail === 0 ? 'success' : 'info');
             updateStats();
         }
 
         async function processMedia(file, account, round, isShare) {
-            // Simulate API call with random success (70% success rate for demo)
-            // In real implementation, this would call the actual APIs
-            const delay = 1000 + Math.random() * 2000;
+            // Simulate API call with randomized delay
+            const delay = 800 + Math.random() * 1500;
             await sleep(delay);
-
-            // Simulate occasional failure
-            const success = Math.random() > 0.25;
-            return success;
+            // 85% success rate for demo
+            return Math.random() > 0.15;
         }
 
         function stopProcess() {
             state.running = false;
             document.getElementById('btnStop').disabled = true;
             log('⏹ Đã dừng process', 'warn');
-            showToast('Đã dừng process', 'info');
-        }
-
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
+            showToast('Đã dừng', 'info');
         }
 
         // ============================================================
@@ -1176,24 +1111,24 @@
             document.getElementById('progressPercent').textContent = pct + '%';
             document.getElementById('progressLabel').textContent = label;
             document.getElementById('progressDetail').textContent =
-                `OK: ${state.totalOk} | FAIL: ${state.totalFail} | ${current}/${total}`;
+                `✅ ${state.totalOk} | ❌ ${state.totalFail}`;
+            document.getElementById('progressTotal').textContent = `${current}/${total}`;
         }
 
         function renderResults() {
             const container = document.getElementById('resultDetails');
             if (state.results.length === 0) {
-                container.innerHTML = '<p style="color:#6a8aaa;font-size:0.9rem;">Chưa có kết quả.</p>';
+                container.innerHTML = '<div class="empty-state">Chạy process để xem kết quả</div>';
                 return;
             }
-            // Show only last 20 results
-            const recent = state.results.slice(-20);
-            container.innerHTML = recent.map(r =>
-                `<div style="display:flex;justify-content:space-between;padding:6px 12px;background:rgba(0,0,0,0.15);border-radius:6px;margin-bottom:3px;font-size:0.85rem;">
-                    <span>${r.account} V${r.round}</span>
-                    <span style="color:#6a8aaa;">${r.file}</span>
+            const recent = state.results.slice(-15);
+            container.innerHTML = recent.map(r => `
+                <div class="result-item">
+                    <span class="info">${r.account} V${r.round}</span>
+                    <span class="info" style="color:#6a8aaa;">${r.file}</span>
                     <span class="chip ${r.success ? 'ok' : 'fail'}">${r.success ? '✅' : '❌'}</span>
-                </div>`
-            ).join('');
+                </div>
+            `).join('');
         }
 
         function updateStats() {
@@ -1212,7 +1147,6 @@
         // ============================================================
         // INIT
         // ============================================================
-        // Auto-load default HAR if exists
         async function autoLoadHar() {
             try {
                 const response = await fetch('0919.har');
@@ -1222,28 +1156,29 @@
                     state.accounts = accounts;
                     state.harData = data;
                     renderAccountList(accounts);
-                    log(`Tự động tải HAR: 0919.har, ${accounts.length} tài khoản`, 'ok');
+                    document.getElementById('accCount').textContent = accounts.length;
+                    log(`📥 Tự động tải HAR: 0919.har, ${accounts.length} tài khoản`, 'info');
                 }
             } catch (e) {
-                // Ignore - file not found
+                // File not found - ignore
             }
         }
 
-        // Initialize
+        // Init
         autoLoadHar();
         updateMediaCount();
         updateStats();
 
-        // Handle Enter key on inputs
+        // Handle Enter key
         document.querySelectorAll('input').forEach(el => {
             el.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') startProcess();
             });
         });
 
-        console.log('🔧 KGVN Mod Ảnh Load Trấn - Web UI loaded');
-        console.log('📖 Hướng dẫn: Tải HAR file, chọn ảnh, bấm Bắt đầu');
+        console.log('🔧 KGVN Mod Ảnh Load Trấn - Mobile Ready');
+        console.log('📱 Bấm vào vùng chọn ảnh để chọn từ điện thoại');
     </script>
 
 </body>
-                                                    </html>
+	</html>
