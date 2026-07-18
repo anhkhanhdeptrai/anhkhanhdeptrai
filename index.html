@@ -233,15 +233,15 @@
             padding: 0 10px;
         }
 
+        /* ===== FIRMWARE INFO CARD ===== */
         .firmware-info-container {
             background: rgba(15, 22, 38, 0.85);
             backdrop-filter: blur(20px);
             border-radius: 24px;
-            padding: 40px;
+            padding: 30px;
             margin-bottom: 25px;
             border: 1px solid var(--glass-border);
             box-shadow: var(--shadow-glow);
-            text-align: center;
             position: relative;
             overflow: hidden;
         }
@@ -266,69 +266,196 @@
             z-index: 1;
         }
 
-        .firmware-info-container .chip-icon {
-            font-size: 4rem;
+        .fw-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .fw-header .chip-icon {
+            font-size: 3.5rem;
             background: var(--gradient-main);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 15px;
-            display: inline-block;
             animation: float 3s ease-in-out infinite;
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-8px); }
         }
 
-        .firmware-info-container h2 {
+        .fw-header .fw-title-group h2 {
             font-family: var(--font-title);
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 900;
             background: var(--gradient-main);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
+            margin: 0;
         }
 
-        .firmware-info-container .fw-desc {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 10px auto;
-        }
-
-        .firmware-info-container .fw-version {
+        .fw-header .fw-title-group .fw-version-tag {
             display: inline-block;
             background: rgba(0, 212, 255, 0.1);
             border: 1px solid rgba(0, 212, 255, 0.2);
-            padding: 5px 20px;
+            padding: 3px 15px;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--primary);
             font-family: var(--font-code);
+            margin-top: 5px;
+        }
+
+        .fw-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
             margin-top: 10px;
         }
 
+        .fw-body .fw-description {
+            grid-column: 1 / -1;
+        }
+
+        .fw-body .fw-description p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .fw-body .fw-description .fw-chip-info {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--accent-2);
+            margin-right: 10px;
+        }
+
+        /* ===== FIRMWARE DETAIL CARDS ===== */
+        .fw-detail-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 18px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .fw-detail-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .fw-detail-card .card-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.3);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .fw-detail-card .card-label i {
+            color: var(--primary);
+        }
+
+        .fw-detail-card .card-content {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+            word-break: break-all;
+        }
+
+        .fw-detail-card .card-content a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .fw-detail-card .card-content a:hover {
+            color: var(--accent-2);
+            text-decoration: underline;
+        }
+
+        .fw-detail-card .card-content .badge-item {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin: 2px 4px 2px 0;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* ===== SCHEMATIC IMAGE ===== */
+        .fw-schematic {
+            grid-column: 1 / -1;
+        }
+
+        .fw-schematic .schematic-image {
+            width: 100%;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            background: rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            position: relative;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fw-schematic .schematic-image img {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+            transition: all 0.3s ease;
+        }
+
+        .fw-schematic .schematic-image img:hover {
+            transform: scale(1.02);
+        }
+
+        .fw-schematic .schematic-image .no-image {
+            color: rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            text-align: center;
+        }
+
+        .fw-schematic .schematic-image .no-image i {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        /* ===== FLASH CONTAINER ===== */
         .flash-container {
             background: rgba(15, 22, 38, 0.85);
             backdrop-filter: blur(20px);
             border-radius: 24px;
-            padding: 40px;
+            padding: 30px;
             border: 1px solid var(--glass-border);
             box-shadow: var(--shadow-glow);
         }
 
         .flash-container h3 {
             font-family: var(--font-title);
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             background: var(--gradient-main);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
         .flash-container .alert {
@@ -336,8 +463,9 @@
             border: 1px solid rgba(0, 212, 255, 0.2);
             color: var(--primary);
             border-radius: 16px;
-            padding: 15px 20px;
+            padding: 12px 18px;
             font-weight: 500;
+            font-size: 0.9rem;
         }
 
         .flash-container .alert i {
@@ -348,22 +476,22 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100px;
-            padding: 20px 0;
+            min-height: 80px;
+            padding: 15px 0;
         }
 
         esp-web-install-button::part(button) {
             background: var(--gradient-main) !important;
             color: white !important;
             border: none !important;
-            padding: 18px 40px !important;
+            padding: 16px 35px !important;
             font-family: var(--font-title) !important;
             font-weight: 700 !important;
             text-transform: uppercase;
             border-radius: 16px !important;
             box-shadow: 0 0 40px rgba(0, 212, 255, 0.4) !important;
             transition: all 0.3s ease !important;
-            font-size: 1.1rem !important;
+            font-size: 1rem !important;
             letter-spacing: 2px !important;
             cursor: pointer !important;
         }
@@ -375,26 +503,26 @@
 
         .digital-clock {
             text-align: center;
-            padding: 25px;
+            padding: 20px;
             background: rgba(0, 212, 255, 0.05);
-            border-radius: 20px;
+            border-radius: 16px;
             border: 1px solid rgba(0, 212, 255, 0.1);
-            margin-top: 25px;
+            margin-top: 20px;
         }
 
         .digital-clock .time {
             font-family: var(--font-title);
-            font-size: 4.5rem;
+            font-size: 3.5rem;
             font-weight: 900;
             background: var(--gradient-main);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: 5px;
+            letter-spacing: 4px;
         }
 
         .digital-clock .date {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.5);
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.4);
             margin-top: 5px;
             font-weight: 300;
         }
@@ -402,9 +530,9 @@
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-            padding-top: 20px;
+            gap: 12px;
+            margin-top: 15px;
+            padding-top: 15px;
             border-top: 1px solid var(--glass-border);
         }
 
@@ -412,19 +540,19 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 45px;
-            height: 45px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--glass-border);
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.5);
             transition: all 0.3s ease;
             text-decoration: none;
-            font-size: 1.2rem;
+            font-size: 1rem;
         }
 
         .social-links a:hover {
-            transform: translateY(-5px) scale(1.1);
+            transform: translateY(-4px) scale(1.1);
             border-color: var(--primary);
             color: var(--primary);
             box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
@@ -438,13 +566,13 @@
         }
 
         .dark-toggle .toggle-btn {
-            width: 55px;
-            height: 55px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background: var(--gradient-main);
             border: none;
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             cursor: pointer;
             box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
             transition: all 0.3s ease;
@@ -460,38 +588,63 @@
 
         .feature-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin: 15px 0;
         }
 
         .feature-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 15px;
+            border-radius: 14px;
+            padding: 12px;
             text-align: center;
             transition: all 0.3s ease;
         }
 
         .feature-card:hover {
             background: rgba(255, 255, 255, 0.06);
-            transform: translateY(-5px);
+            transform: translateY(-4px);
             border-color: var(--primary);
         }
 
         .feature-card i {
-            font-size: 2rem;
+            font-size: 1.5rem;
             background: var(--gradient-main);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
 
         .feature-card span {
             display: block;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* ===== COMPONENT LIST ===== */
+        .component-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 5px;
+        }
+
+        .component-tag {
+            background: rgba(0, 212, 255, 0.08);
+            border: 1px solid rgba(0, 212, 255, 0.15);
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: var(--primary);
+            font-family: var(--font-code);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .fw-body {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 768px) {
@@ -506,32 +659,73 @@
                 padding: 0;
             }
 
-            .firmware-info-container h2 {
-                font-size: 1.8rem;
+            .fw-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .fw-header .fw-title-group h2 {
+                font-size: 1.5rem;
             }
 
             .digital-clock .time {
-                font-size: 3rem;
+                font-size: 2.5rem;
             }
 
             .firmware-info-container {
-                padding: 25px;
+                padding: 20px;
             }
 
             .flash-container {
-                padding: 25px;
+                padding: 20px;
+            }
+
+            .fw-body .fw-detail-card {
+                padding: 14px 16px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .fw-detail-card .card-content {
+                font-size: 0.85rem;
+            }
+            
+            .fw-schematic .schematic-image img {
+                max-height: 200px;
             }
         }
 
         ::-webkit-scrollbar {
-            width: 10px;
+            width: 8px;
         }
         ::-webkit-scrollbar-track {
             background: #0a0e17;
         }
         ::-webkit-scrollbar-thumb {
             background: var(--gradient-main);
-            border-radius: 10px;
+            border-radius: 8px;
+        }
+
+        /* Animation cho card khi chọn firmware */
+        .fw-detail-card {
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .fw-detail-card:nth-child(1) { animation-delay: 0.1s; }
+        .fw-detail-card:nth-child(2) { animation-delay: 0.2s; }
+        .fw-detail-card:nth-child(3) { animation-delay: 0.3s; }
+        .fw-detail-card:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
@@ -587,14 +781,59 @@
             </div>
 
             <div class="col-md-9 main-content">
+                <!-- ===== FIRMWARE INFO ===== -->
                 <div class="firmware-info-container" id="firmwareInfo">
-                    <div class="chip-icon">
-                        <i class="fas fa-microchip"></i>
+                    <div class="fw-header">
+                        <div class="chip-icon">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <div class="fw-title-group">
+                            <h2 id="fwTitle">Chọn Firmware</h2>
+                            <div>
+                                <span class="fw-version-tag" id="fwVersion">v1.0.0</span>
+                                <span class="fw-version-tag" id="fwChip" style="border-color:rgba(0,255,136,0.2);color:var(--accent-2);">ESP32</span>
+                            </div>
+                        </div>
                     </div>
-                    <h2 id="fwTitle">Chọn Firmware</h2>
-                    <p class="fw-desc" id="fwDesc">Chào mừng đến với VNK DIY IOT Flasher Pro</p>
-                    <div class="fw-version" id="fwVersion">v1.0.0</div>
-                    
+
+                    <div class="fw-body" id="fwBody">
+                        <!-- Description -->
+                        <div class="fw-description">
+                            <p id="fwDesc">Chào mừng đến với VNK DIY IOT Flasher Pro</p>
+                        </div>
+
+                        <!-- Components -->
+                        <div class="fw-detail-card">
+                            <div class="card-label">
+                                <i class="fas fa-microchip"></i> Linh Kiện
+                            </div>
+                            <div class="card-content" id="fwComponents">
+                                <span class="badge-item">ESP32</span>
+                                <span class="badge-item">Đang tải...</span>
+                            </div>
+                        </div>
+
+                        <!-- Links -->
+                        <div class="fw-detail-card">
+                            <div class="card-label">
+                                <i class="fas fa-link"></i> Link Tham Khảo
+                            </div>
+                            <div class="card-content" id="fwLinks">
+                                <span style="color:rgba(255,255,255,0.3);">Chưa có link</span>
+                            </div>
+                        </div>
+
+                        <!-- Schematic -->
+                        <div class="fw-schematic">
+                            <div class="schematic-image" id="fwSchematic">
+                                <div class="no-image">
+                                    <i class="fas fa-image"></i>
+                                    <span>Chưa có sơ đồ</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="social-links">
                         <a href="https://www.tiktok.com/@ZERODIY" target="_blank" title="TikTok">
                             <i class="fab fa-tiktok"></i>
@@ -611,6 +850,7 @@
                     </div>
                 </div>
 
+                <!-- ===== FLASH CONTAINER ===== -->
                 <div class="flash-container">
                     <h3>
                         <i class="fas fa-bolt"></i> Flash Firmware
@@ -637,14 +877,14 @@
                                 background: linear-gradient(135deg, #00d4ff, #ff6bff, #00ff88);
                                 color: white;
                                 border: none;
-                                padding: 18px 40px;
+                                padding: 16px 35px;
                                 font-family: 'Orbitron', sans-serif;
                                 font-weight: 700;
                                 text-transform: uppercase;
                                 border-radius: 16px;
                                 box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
                                 transition: all 0.3s ease;
-                                font-size: 1.1rem;
+                                font-size: 1rem;
                                 letter-spacing: 2px;
                                 cursor: pointer;
                             ">
@@ -664,6 +904,67 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // ======================== DATA FIRMWARE ========================
+        const firmwareList = [
+            { 
+                id: 'fw1', 
+                name: 'ESP32 Basic', 
+                file: 'firmware1.bin', 
+                desc: 'Firmware cơ bản cho ESP32 với WiFi & Bluetooth. Hỗ trợ các tính năng IoT cơ bản, kết nối MQTT, HTTP server, và điều khiển GPIO.',
+                version: 'v2.1.0',
+                chip: 'ESP32',
+                components: ['ESP32-WROOM-32', 'CP2102 USB-UART', 'AMS1117 3.3V', 'CH340G', 'LED 2x', 'Nút nhấn 2x'],
+                links: [
+                    { name: 'Datasheet ESP32', url: 'https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf' },
+                    { name: 'Schematic tham khảo', url: 'https://dl.espressif.com/dl/schematics/ESP32-CORE-BOARD-V2_sch.pdf' },
+                    { name: 'GitHub Project', url: 'https://github.com/espressif/esp-idf' }
+                ],
+                schematic: 'https://raw.githubusercontent.com/espressif/arduino-esp32/master/docs/esp32_pinmap.png'
+            },
+            { 
+                id: 'fw2', 
+                name: 'ESP32-C3 Pro', 
+                file: 'firmware2.bin', 
+                desc: 'Firmware tối ưu cho ESP32-C3 với BLE 5.0 và WiFi. Tiết kiệm năng lượng, phù hợp cho các dự án IoT pin.',
+                version: 'v1.8.3',
+                chip: 'ESP32-C3',
+                components: ['ESP32-C3-MINI-1', 'CH343P USB-UART', 'RT9080 LDO', 'Đèn LED NeoPixel', 'Cảm biến nhiệt'],
+                links: [
+                    { name: 'Datasheet ESP32-C3', url: 'https://www.espressif.com/sites/default/files/documentation/esp32-c3_datasheet_en.pdf' },
+                    { name: 'Schematic', url: 'https://dl.espressif.com/dl/schematics/ESP32-C3-DevKitM-1_sch.pdf' }
+                ],
+                schematic: 'https://docs.espressif.com/projects/esp-idf/en/latest/esp32c3/_images/esp32-c3-devkitm-1-v1-pinout.jpg'
+            },
+            { 
+                id: 'fw3', 
+                name: 'ESP32-S3 AI', 
+                file: 'firmware3.bin', 
+                desc: 'Firmware AI cho ESP32-S3 với TensorFlow Lite. Hỗ trợ nhận diện hình ảnh, xử lý âm thanh, và các ứng dụng Machine Learning.',
+                version: 'v3.0.1',
+                chip: 'ESP32-S3',
+                components: ['ESP32-S3-WROOM-1', 'FTDI FT232', 'MPU6050 IMU', 'Màn hình TFT 1.3"', 'Micro SD Card'],
+                links: [
+                    { name: 'Datasheet ESP32-S3', url: 'https://www.espressif.com/sites/default/files/documentation/esp32-s3_datasheet_en.pdf' },
+                    { name: 'TensorFlow Lite Micro', url: 'https://www.tensorflow.org/lite/microcontrollers' }
+                ],
+                schematic: 'https://docs.espressif.com/projects/esp-idf/en/latest/esp32s3/_images/esp32-s3-devkitc-1-v1.0-pinout.jpg'
+            },
+            { 
+                id: 'fw4', 
+                name: 'ESP8266 IoT', 
+                file: 'firmware4.bin', 
+                desc: 'Firmware nhẹ cho ESP8266 IoT projects. Tối ưu cho các ứng dụng cảm biến, điều khiển đèn, và thu thập dữ liệu.',
+                version: 'v1.5.0',
+                chip: 'ESP8266',
+                components: ['ESP8266-12E', 'CH340G USB-UART', 'AMS1117 3.3V', 'DHT11 Sensor', 'Relay 5V'],
+                links: [
+                    { name: 'Datasheet ESP8266', url: 'https://www.espressif.com/sites/default/files/documentation/0a-esp8266ex_datasheet_en.pdf' },
+                    { name: 'NodeMCU Documentation', url: 'https://nodemcu.readthedocs.io/' }
+                ],
+                schematic: 'https://raw.githubusercontent.com/nodemcu/nodemcu-devkit-v1.0/master/NODEMCU_DEVKIT_V1.0_PINMAP.png'
+            }
+        ];
+
         // ======================== PARTICLES ========================
         function createParticles() {
             const container = document.getElementById('particles');
@@ -714,42 +1015,7 @@
             }
         });
 
-        // ======================== FIRMWARE LIST ========================
-        const firmwareList = [
-            { 
-                id: 'fw1', 
-                name: 'ESP32 Basic', 
-                file: 'firmware1.bin', 
-                desc: 'Firmware cơ bản cho ESP32 với WiFi & Bluetooth',
-                version: 'v2.1.0',
-                chip: 'ESP32'
-            },
-            { 
-                id: 'fw2', 
-                name: 'ESP32-C3 Pro', 
-                file: 'firmware2.bin', 
-                desc: 'Firmware tối ưu cho ESP32-C3 với BLE 5.0',
-                version: 'v1.8.3',
-                chip: 'ESP32-C3'
-            },
-            { 
-                id: 'fw3', 
-                name: 'ESP32-S3 AI', 
-                file: 'firmware3.bin', 
-                desc: 'Firmware AI cho ESP32-S3 với TensorFlow Lite',
-                version: 'v3.0.1',
-                chip: 'ESP32-S3'
-            },
-            { 
-                id: 'fw4', 
-                name: 'ESP8266 IoT', 
-                file: 'firmware4.bin', 
-                desc: 'Firmware nhẹ cho ESP8266 IoT projects',
-                version: 'v1.5.0',
-                chip: 'ESP8266'
-            }
-        ];
-
+        // ======================== RENDER FIRMWARE LIST ========================
         const firmwareListEl = document.getElementById('firmwareList');
         firmwareListEl.innerHTML = firmwareList.map((fw, index) => `
             <button class="list-group-item ${index === 0 ? 'active' : ''}" data-id="${fw.id}">
@@ -759,23 +1025,66 @@
             </button>
         `).join('');
 
-        // ======================== SELECT FIRMWARE ========================
-        function updateUI(firmware) {
+        // ======================== RENDER FIRMWARE DETAIL ========================
+        function renderFirmwareDetail(firmware) {
+            // Title
             document.getElementById('fwTitle').textContent = firmware.name;
+            document.getElementById('fwVersion').textContent = firmware.version;
+            document.getElementById('fwChip').textContent = firmware.chip;
             document.getElementById('fwDesc').textContent = firmware.desc;
-            document.getElementById('fwVersion').textContent = `${firmware.version} • ${firmware.chip}`;
-            
-            // Cập nhật nút flash
+
+            // Components
+            const compContainer = document.getElementById('fwComponents');
+            compContainer.innerHTML = firmware.components.map(comp => 
+                `<span class="badge-item">${comp}</span>`
+            ).join('');
+
+            // Links
+            const linkContainer = document.getElementById('fwLinks');
+            if (firmware.links && firmware.links.length > 0) {
+                linkContainer.innerHTML = firmware.links.map(link => 
+                    `<a href="${link.url}" target="_blank" class="badge-item" style="color:var(--primary);">
+                        <i class="fas fa-external-link-alt" style="font-size:0.6rem;"></i> ${link.name}
+                    </a>`
+                ).join(' ');
+            } else {
+                linkContainer.innerHTML = '<span style="color:rgba(255,255,255,0.3);">Chưa có link</span>';
+            }
+
+            // Schematic Image
+            const schematicContainer = document.getElementById('fwSchematic');
+            if (firmware.schematic) {
+                schematicContainer.innerHTML = `
+                    <img src="${firmware.schematic}" alt="Sơ đồ ${firmware.name}" 
+                         onerror="this.parentElement.innerHTML='<div class=\\'no-image\\'><i class=\\'fas fa-image\\'></i><span>Không thể tải ảnh</span></div>'">
+                `;
+            } else {
+                schematicContainer.innerHTML = `
+                    <div class="no-image">
+                        <i class="fas fa-image"></i>
+                        <span>Chưa có sơ đồ</span>
+                    </div>
+                `;
+            }
+
+            // Update Flash Button
             const flashBtn = document.querySelector('esp-web-install-button');
             if (flashBtn) {
-                // Thay đổi text trên button
                 const btnSlot = flashBtn.querySelector('[slot="button"]');
                 if (btnSlot) {
                     btnSlot.innerHTML = `<i class="fas fa-bolt"></i> FLASH ${firmware.name}`;
                 }
             }
+
+            // Reset animation
+            document.querySelectorAll('.fw-detail-card').forEach(el => {
+                el.style.animation = 'none';
+                el.offsetHeight; // trigger reflow
+                el.style.animation = 'fadeInUp 0.5s ease forwards';
+            });
         }
 
+        // ======================== SELECT FIRMWARE ========================
         document.querySelectorAll('#firmwareList .list-group-item').forEach(item => {
             item.addEventListener('click', function() {
                 document.querySelectorAll('#firmwareList .list-group-item').forEach(i => i.classList.remove('active'));
@@ -783,12 +1092,12 @@
                 
                 const fwId = this.dataset.id;
                 const selected = firmwareList.find(f => f.id === fwId) || firmwareList[0];
-                updateUI(selected);
+                renderFirmwareDetail(selected);
             });
         });
 
         // ======================== INIT ========================
-        updateUI(firmwareList[0]);
+        renderFirmwareDetail(firmwareList[0]);
 
         // ======================== KEYBOARD SHORTCUTS ========================
         document.addEventListener('keydown', function(e) {
