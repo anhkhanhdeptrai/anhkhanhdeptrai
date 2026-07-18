@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Roboto+Mono:wght@400;700&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <script type="module" src="https://unpkg.com/esp-web-tools@10.0.0/dist/web/install-button.js?module"></script>
     <style>
+        /* ... CSS giữ nguyên như cũ ... */
         :root {
             --primary: #00d4ff;
             --primary-dark: #0099cc;
@@ -514,6 +515,11 @@
         .member-item .member-select-btn.flashing {
             animation: flashPulse 0.5s ease 3;
             background: var(--accent-3);
+        }
+
+        .member-item .member-select-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         @keyframes flashPulse {
@@ -1028,6 +1034,17 @@
                 transform: translateY(0);
             }
         }
+
+        /* Status indicator */
+        .fw-status-ok {
+            color: var(--accent-2);
+        }
+        .fw-status-missing {
+            color: #ff6b6b;
+        }
+        .fw-status-loading {
+            color: var(--accent-3);
+        }
     </style>
 </head>
 <body>
@@ -1044,7 +1061,7 @@
         <div class="progress-content">
             <div class="spinner"></div>
             <h3 id="progressTitle">Đang nạp firmware...</h3>
-            <p id="progressDesc">Đang kết nối đến ESP32...</p>
+            <p id="progressDesc">Đang kiểm tra file firmware...</p>
             <div class="progress-bar-bg">
                 <div class="progress-bar-fill" id="progressFill"></div>
             </div>
@@ -1241,14 +1258,12 @@
             'fw1': {
                 name: 'ESP32 Basic',
                 file: 'firmware1.bin',
-                desc: 'Firmware cơ bản cho ESP32 với WiFi & Bluetooth. Hỗ trợ các tính năng IoT cơ bản, kết nối MQTT, HTTP server, và điều khiển GPIO.',
+                desc: 'Firmware cơ bản cho ESP32 với WiFi & Bluetooth.',
                 version: 'v2.1.0',
                 chip: 'ESP32',
-                components: ['ESP32-WROOM-32', 'CP2102 USB-UART', 'AMS1117 3.3V', 'CH340G', 'LED 2x', 'Nút nhấn 2x'],
+                components: ['ESP32-WROOM-32', 'CP2102 USB-UART', 'AMS1117 3.3V'],
                 links: [
-                    { name: 'Datasheet ESP32', url: 'https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf' },
-                    { name: 'Schematic tham khảo', url: 'https://dl.espressif.com/dl/schematics/ESP32-CORE-BOARD-V2_sch.pdf' },
-                    { name: 'GitHub Project', url: 'https://github.com/espressif/esp-idf' }
+                    { name: 'Datasheet ESP32', url: 'https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf' }
                 ],
                 schematic: 'https://raw.githubusercontent.com/espressif/arduino-esp32/master/docs/esp32_pinmap.png',
                 members: [
@@ -1256,44 +1271,48 @@
                         id: 'member1', 
                         name: 'Nguyễn Văn A', 
                         firmware: 'firmware_a.bin',
-                        desc: 'Dự án điều khiển đèn LED qua WiFi'
+                        desc: 'Dự án điều khiển đèn LED qua WiFi',
+                        url: 'firmware_a.bin'  // URL thực tế để tải file
                     },
                     { 
                         id: 'member2', 
                         name: 'Trần Thị B', 
                         firmware: 'firmware_b.bin',
-                        desc: 'Dự án cảm biến nhiệt độ - độ ẩm'
+                        desc: 'Dự án cảm biến nhiệt độ - độ ẩm',
+                        url: 'firmware_b.bin'
                     },
                     { 
                         id: 'member3', 
                         name: 'Lê Văn C', 
                         firmware: 'firmware_c.bin',
-                        desc: 'Dự án điều khiển động cơ DC'
+                        desc: 'Dự án điều khiển động cơ DC',
+                        url: 'firmware_c.bin'
                     },
                     { 
                         id: 'member4', 
                         name: 'Phạm Thị D', 
                         firmware: 'firmware_d.bin',
-                        desc: 'Dự án MQTT Gateway'
+                        desc: 'Dự án MQTT Gateway',
+                        url: 'firmware_d.bin'
                     },
                     { 
                         id: 'member5', 
                         name: 'Hoàng Văn E', 
                         firmware: 'firmware_e.bin',
-                        desc: 'Dự án IoT Smart Home'
+                        desc: 'Dự án IoT Smart Home',
+                        url: 'firmware_e.bin'
                     }
                 ]
             },
             'fw2': {
                 name: 'ESP32-C3 Pro',
                 file: 'firmware2.bin',
-                desc: 'Firmware tối ưu cho ESP32-C3 với BLE 5.0 và WiFi. Tiết kiệm năng lượng, phù hợp cho các dự án IoT pin.',
+                desc: 'Firmware tối ưu cho ESP32-C3 với BLE 5.0.',
                 version: 'v1.8.3',
                 chip: 'ESP32-C3',
-                components: ['ESP32-C3-MINI-1', 'CH343P USB-UART', 'RT9080 LDO', 'Đèn LED NeoPixel', 'Cảm biến nhiệt'],
+                components: ['ESP32-C3-MINI-1', 'CH343P USB-UART', 'RT9080 LDO'],
                 links: [
-                    { name: 'Datasheet ESP32-C3', url: 'https://www.espressif.com/sites/default/files/documentation/esp32-c3_datasheet_en.pdf' },
-                    { name: 'Schematic', url: 'https://dl.espressif.com/dl/schematics/ESP32-C3-DevKitM-1_sch.pdf' }
+                    { name: 'Datasheet ESP32-C3', url: 'https://www.espressif.com/sites/default/files/documentation/esp32-c3_datasheet_en.pdf' }
                 ],
                 schematic: 'https://docs.espressif.com/projects/esp-idf/en/latest/esp32c3/_images/esp32-c3-devkitm-1-v1-pinout.jpg',
                 members: []
@@ -1301,13 +1320,12 @@
             'fw3': {
                 name: 'ESP32-S3 AI',
                 file: 'firmware3.bin',
-                desc: 'Firmware AI cho ESP32-S3 với TensorFlow Lite. Hỗ trợ nhận diện hình ảnh, xử lý âm thanh, và các ứng dụng Machine Learning.',
+                desc: 'Firmware AI cho ESP32-S3 với TensorFlow Lite.',
                 version: 'v3.0.1',
                 chip: 'ESP32-S3',
-                components: ['ESP32-S3-WROOM-1', 'FTDI FT232', 'MPU6050 IMU', 'Màn hình TFT 1.3"', 'Micro SD Card'],
+                components: ['ESP32-S3-WROOM-1', 'FTDI FT232', 'MPU6050 IMU'],
                 links: [
-                    { name: 'Datasheet ESP32-S3', url: 'https://www.espressif.com/sites/default/files/documentation/esp32-s3_datasheet_en.pdf' },
-                    { name: 'TensorFlow Lite Micro', url: 'https://www.tensorflow.org/lite/microcontrollers' }
+                    { name: 'Datasheet ESP32-S3', url: 'https://www.espressif.com/sites/default/files/documentation/esp32-s3_datasheet_en.pdf' }
                 ],
                 schematic: 'https://docs.espressif.com/projects/esp-idf/en/latest/esp32s3/_images/esp32-s3-devkitc-1-v1.0-pinout.jpg',
                 members: []
@@ -1315,13 +1333,12 @@
             'fw4': {
                 name: 'ESP8266 IoT',
                 file: 'firmware4.bin',
-                desc: 'Firmware nhẹ cho ESP8266 IoT projects. Tối ưu cho các ứng dụng cảm biến, điều khiển đèn, và thu thập dữ liệu.',
+                desc: 'Firmware nhẹ cho ESP8266 IoT projects.',
                 version: 'v1.5.0',
                 chip: 'ESP8266',
-                components: ['ESP8266-12E', 'CH340G USB-UART', 'AMS1117 3.3V', 'DHT11 Sensor', 'Relay 5V'],
+                components: ['ESP8266-12E', 'CH340G USB-UART', 'AMS1117 3.3V'],
                 links: [
-                    { name: 'Datasheet ESP8266', url: 'https://www.espressif.com/sites/default/files/documentation/0a-esp8266ex_datasheet_en.pdf' },
-                    { name: 'NodeMCU Documentation', url: 'https://nodemcu.readthedocs.io/' }
+                    { name: 'Datasheet ESP8266', url: 'https://www.espressif.com/sites/default/files/documentation/0a-esp8266ex_datasheet_en.pdf' }
                 ],
                 schematic: 'https://raw.githubusercontent.com/nodemcu/nodemcu-devkit-v1.0/master/NODEMCU_DEVKIT_V1.0_PINMAP.png',
                 members: []
@@ -1393,8 +1410,18 @@
             `;
         }).join('');
 
+        // ======================== CHECK FIRMWARE EXISTS ========================
+        async function checkFirmwareExists(url) {
+            try {
+                const response = await fetch(url, { method: 'HEAD' });
+                return response.ok;
+            } catch {
+                return false;
+            }
+        }
+
         // ======================== RENDER MEMBERS ========================
-        function renderMembers(members, firmwareId) {
+        async function renderMembers(members, firmwareId) {
             const container = document.getElementById('membersList');
             const countEl = document.getElementById('memberCount');
             
@@ -1413,31 +1440,47 @@
             document.querySelector('.members-dropdown-container').style.display = 'block';
             countEl.textContent = members.length;
 
-            container.innerHTML = members.map((member, index) => `
-                <div class="member-item" data-member-id="${member.id}" data-firmware="${member.firmware}">
-                    <div class="member-info">
-                        <div class="member-avatar">${member.name.charAt(0)}</div>
-                        <div>
-                            <div class="member-name">${member.name}</div>
-                            <div style="font-size:0.7rem;color:rgba(255,255,255,0.3);">${member.desc || ''}</div>
+            // Kiểm tra từng file firmware có tồn tại không
+            let membersHtml = '';
+            for (const member of members) {
+                const exists = await checkFirmwareExists(member.url);
+                const statusIcon = exists ? '✅' : '❌';
+                const statusClass = exists ? 'fw-status-ok' : 'fw-status-missing';
+                
+                membersHtml += `
+                    <div class="member-item" data-member-id="${member.id}" data-firmware="${member.firmware}">
+                        <div class="member-info">
+                            <div class="member-avatar">${member.name.charAt(0)}</div>
+                            <div>
+                                <div class="member-name">${member.name}</div>
+                                <div style="font-size:0.7rem;color:rgba(255,255,255,0.3);">${member.desc || ''}</div>
+                            </div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                            <span class="member-firmware ${statusClass}">${statusIcon} ${member.firmware}</span>
+                            <span class="member-status"></span>
+                            <button class="member-select-btn" onclick="selectAndFlash('${member.id}', '${firmwareId}')" ${!exists ? 'disabled' : ''}>
+                                <i class="fas fa-bolt"></i> ${exists ? 'Flash' : 'Missing'}
+                            </button>
                         </div>
                     </div>
-                    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-                        <span class="member-firmware">${member.firmware}</span>
-                        <span class="member-status"></span>
-                        <button class="member-select-btn" onclick="selectAndFlash('${member.id}', '${firmwareId}')">
-                            <i class="fas fa-bolt"></i> Flash
-                        </button>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }
+            container.innerHTML = membersHtml;
         }
 
         // ======================== SELECT AND FLASH ========================
-        window.selectAndFlash = function(memberId, firmwareId) {
+        window.selectAndFlash = async function(memberId, firmwareId) {
             const fw = firmwareData[firmwareId];
             const member = fw.members.find(m => m.id === memberId);
             if (!member) return;
+
+            // Kiểm tra file firmware tồn tại
+            const exists = await checkFirmwareExists(member.url);
+            if (!exists) {
+                showNotification(`❌ File firmware của ${member.name} (${member.firmware}) không tồn tại trên server!`);
+                return;
+            }
 
             // Highlight selected member
             document.querySelectorAll('.member-item').forEach(el => {
@@ -1452,45 +1495,108 @@
             const btn = selectedEl?.querySelector('.member-select-btn');
             if (btn) {
                 btn.classList.add('flashing');
-                setTimeout(() => btn.classList.remove('flashing'), 1500);
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
             }
 
             // Show progress
             showProgress(member.name, member.firmware);
 
-            // Update flash button
-            const flashBtn = document.querySelector('esp-web-install-button');
-            if (flashBtn) {
-                const btnSlot = flashBtn.querySelector('[slot="button"]');
-                if (btnSlot) {
-                    btnSlot.innerHTML = `<i class="fas fa-bolt"></i> FLASH ${member.name} (${member.firmware})`;
-                }
-            }
+            // Cập nhật manifest để dùng file firmware của thành viên
+            const manifestData = {
+                name: `${fw.name} - ${member.name}`,
+                version: fw.version,
+                builds: [
+                    {
+                        chipFamily: fw.chip,
+                        parts: [
+                            { 
+                                path: member.url, 
+                                offset: 0 
+                            }
+                        ]
+                    }
+                ]
+            };
 
-            // Tự động click vào nút Flash của ESP Web Tools
-            setTimeout(() => {
-                const espBtn = document.querySelector('esp-web-install-button');
-                if (espBtn) {
-                    // Lấy button bên trong shadow DOM
-                    const shadowRoot = espBtn.shadowRoot;
-                    if (shadowRoot) {
-                        const button = shadowRoot.querySelector('button');
-                        if (button) {
-                            button.click();
-                            hideProgress();
-                            showNotification(`🔥 Đang nạp firmware của ${member.name}...`);
-                        } else {
-                            hideProgress();
-                            showNotification('⚠️ Vui lòng kết nối ESP32 và bấm Flash thủ công');
-                        }
+            // Tạo manifest mới
+            const manifestJson = JSON.stringify(manifestData);
+            const manifestBase64 = btoa(unescape(encodeURIComponent(manifestJson)));
+            const manifestUrl = `data:application/json;base64,${manifestBase64}`;
+
+            // Update flash button với manifest mới
+            const flashContainer = document.getElementById('espWebToolsContainer');
+            
+            // Xóa button cũ
+            const oldBtn = flashContainer.querySelector('esp-web-install-button');
+            if (oldBtn) oldBtn.remove();
+
+            // Tạo button mới với manifest riêng
+            const newBtn = document.createElement('esp-web-install-button');
+            newBtn.setAttribute('manifest', manifestUrl);
+            newBtn.setAttribute('allow-multiple', '');
+            
+            newBtn.innerHTML = `
+                <i class="fas fa-bolt" slot="activate"></i>
+                <span slot="unsupported">
+                    <i class="fas fa-exclamation-triangle"></i> Trình duyệt không hỗ trợ Web Serial
+                </span>
+                <span slot="not-allowed">
+                    <i class="fas fa-lock"></i> Chưa được phép kết nối
+                </span>
+                <button slot="button" style="
+                    background: linear-gradient(135deg, #00d4ff, #ff6bff, #00ff88);
+                    color: white;
+                    border: none;
+                    padding: 16px 35px;
+                    font-family: 'Orbitron', sans-serif;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    border-radius: 16px;
+                    box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
+                    transition: all 0.3s ease;
+                    font-size: 1rem;
+                    letter-spacing: 2px;
+                    cursor: pointer;
+                ">
+                    <i class="fas fa-bolt"></i> FLASH ${member.name}
+                </button>
+            `;
+            
+            flashContainer.appendChild(newBtn);
+
+            // Đợi component load
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+            // Tự động click vào nút Flash
+            try {
+                const shadowRoot = newBtn.shadowRoot;
+                if (shadowRoot) {
+                    const button = shadowRoot.querySelector('button');
+                    if (button) {
+                        button.click();
+                        hideProgress();
+                        showNotification(`🔥 Đang nạp firmware của ${member.name}...`);
                     } else {
                         hideProgress();
                         showNotification('⚠️ Vui lòng bấm nút Flash để bắt đầu');
                     }
                 }
-            }, 500);
+            } catch (e) {
+                hideProgress();
+                showNotification('⚠️ Vui lòng bấm nút Flash để bắt đầu');
+            }
 
-            console.log(`🚀 Flash firmware của thành viên: ${member.name} -> ${member.firmware}`);
+            // Restore button
+            if (btn) {
+                setTimeout(() => {
+                    btn.classList.remove('flashing');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-bolt"></i> Flash';
+                }, 2000);
+            }
+
+            console.log(`🚀 Flash firmware của thành viên: ${member.name} -> ${member.url}`);
         };
 
         // ======================== PROGRESS OVERLAY ========================
@@ -1500,7 +1606,7 @@
         function showProgress(name, firmware) {
             const overlay = document.getElementById('progressOverlay');
             document.getElementById('progressTitle').textContent = `Đang nạp firmware của ${name}`;
-            document.getElementById('progressDesc').textContent = `File: ${firmware} - Đang kết nối...`;
+            document.getElementById('progressDesc').textContent = `File: ${firmware} - Đang kiểm tra...`;
             document.getElementById('progressFill').style.width = '0%';
             overlay.classList.add('active');
             progress = 0;
@@ -1510,10 +1616,13 @@
                 progress += Math.random() * 5 + 1;
                 if (progress > 95) progress = 95;
                 document.getElementById('progressFill').style.width = progress + '%';
-                if (progress > 30) {
+                if (progress > 20) {
                     document.getElementById('progressDesc').textContent = `File: ${firmware} - Đang tải firmware...`;
                 }
-                if (progress > 60) {
+                if (progress > 50) {
+                    document.getElementById('progressDesc').textContent = `File: ${firmware} - Đang kết nối ESP32...`;
+                }
+                if (progress > 75) {
                     document.getElementById('progressDesc').textContent = `File: ${firmware} - Đang ghi vào ESP32...`;
                 }
             }, 300);
@@ -1578,22 +1687,8 @@
             }, 4000);
         }
 
-        // Add animation styles
-        const styleSheet = document.createElement("style");
-        styleSheet.textContent = `
-            @keyframes slideDown {
-                from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
-                to { opacity: 1; transform: translateX(-50%) translateY(0); }
-            }
-            @keyframes slideUp {
-                from { opacity: 1; transform: translateX(-50%) translateY(0); }
-                to { opacity: 0; transform: translateX(-50%) translateY(-20px); }
-            }
-        `;
-        document.head.appendChild(styleSheet);
-
         // ======================== RENDER FIRMWARE DETAIL ========================
-        function renderFirmwareDetail(firmwareId) {
+        async function renderFirmwareDetail(firmwareId) {
             const fw = firmwareData[firmwareId];
             if (!fw) return;
 
@@ -1633,12 +1728,15 @@
                 `;
             }
 
-            renderMembers(fw.members, firmwareId);
+            await renderMembers(fw.members, firmwareId);
 
-            const flashBtn = document.querySelector('esp-web-install-button');
-            if (flashBtn) {
-                const btnSlot = flashBtn.querySelector('[slot="button"]');
-                if (btnSlot) {
+            // Reset flash button
+            const flashContainer = document.getElementById('espWebToolsContainer');
+            const oldBtn = flashContainer.querySelector('esp-web-install-button');
+            if (oldBtn) {
+                // Chỉ reset nếu không phải đang flash
+                const btnSlot = oldBtn.querySelector('[slot="button"]');
+                if (btnSlot && !btnSlot.textContent.includes('FLASH')) {
                     btnSlot.innerHTML = `<i class="fas fa-bolt"></i> FLASH ${fw.name}`;
                 }
             }
@@ -1687,8 +1785,8 @@
         });
 
         console.log('%c🚀 VNK DIY IOT Flasher Pro v2.0', 'font-size: 24px; font-weight: bold; color: #00d4ff;');
-        console.log('%c👥 Click "Flash" bên cạnh tên thành viên để nạp firmware ngay', 'font-size: 14px; color: #ff6bff;');
-        console.log('%c💡 Ctrl+1-4: Chọn firmware | Ctrl+D: Mở danh sách thành viên', 'font-size: 12px; color: #00ff88;');
+        console.log('%c📁 Mỗi thành viên có firmware riêng, phải có file .bin trên server', 'font-size: 14px; color: #ff6bff;');
+        console.log('%c✅ Nếu file không tồn tại, nút Flash sẽ bị disable và hiển thị ❌', 'font-size: 12px; color: #00ff88;');
     </script>
 </body>
 </html>
