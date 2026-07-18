@@ -1323,7 +1323,11 @@
             'ESP8266': { offset: 0 }
         };
 
-        // ======================== GENERATE 100+ MEMBERS ========================
+        // ======================== DANH SÁCH THÀNH VIÊN ĐĂNG KÝ ========================
+        // THÊM SỐ THỨ TỰ THÀNH VIÊN VÀO ĐÂY ĐỂ ĐĂNG KÝ
+        const registeredMembers = [1, 2];  // ← Đăng ký thành viên #1 và #2
+
+        // ======================== GENERATE MEMBERS ========================
         function generateMembers(count) {
             const names = [
                 'Nguyễn Văn A', 'Trần Thị B', 'Lê Văn C', 'Phạm Thị D', 'Hoàng Văn E',
@@ -1369,13 +1373,25 @@
                 }
                 usedProjects.add(project);
 
-                const isRegistered = Math.random() > 0.3;
-                const status = isRegistered ? 'registered' : 'empty';
+                // ===== KIỂM TRA THÀNH VIÊN CÓ TRONG DANH SÁCH ĐĂNG KÝ =====
+                let isRegistered = false;
+                let status = 'empty';
+                let firmware = '';
+
+                if (registeredMembers.includes(i)) {
+                    isRegistered = true;
+                    status = 'registered';
+                    firmware = i + '.bin';
+                } else {
+                    isRegistered = false;
+                    status = 'empty';
+                    firmware = '';
+                }
                 
                 members.push({
                     id: 'member' + i,
                     name: name,
-                    firmware: isRegistered ? 'firmware_' + i + '.bin' : '',
+                    firmware: firmware,
                     desc: isRegistered ? project : 'Chưa đăng ký firmware',
                     status: status,
                     number: i
@@ -1652,7 +1668,7 @@
                     parts: [
                         { 
                             path: member.firmware, 
-                            offset: offset  // OFFSET = 0
+                            offset: offset
                         }
                     ]
                 }]
@@ -1893,8 +1909,10 @@
 
         console.log('%c🚀 VNK DIY IOT Flasher Pro v2.0', 'font-size: 24px; font-weight: bold; color: #00d4ff;');
         console.log(`%c👥 Đã tạo ${MEMBER_COUNT} thành viên`, 'font-size: 14px; color: #ff6bff;');
+        console.log(`%c✅ Đã đăng ký: ${registeredMembers.join(', ')}`, 'font-size: 12px; color: #00ff88;');
         console.log('%c📌 OFFSET = 0 cho tất cả (file merged firmware)', 'font-size: 12px; color: #00ff88;');
         console.log('%c💡 Ctrl+D: Mở danh sách thành viên | Ctrl+1-4: Chọn firmware', 'font-size: 12px; color: #00ff88;');
+        console.log('%c🔧 Để đăng ký thêm thành viên, thêm số vào mảng registeredMembers', 'font-size: 12px; color: #ff6bff;');
     </script>
 </body>
 </html>
