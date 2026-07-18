@@ -10,6 +10,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Roboto+Mono:wght@400;700&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <script type="module" src="https://unpkg.com/esp-web-tools@10.0.0/dist/web/install-button.js?module"></script>
     <style>
+        /* ===== ZOOM 80% TOÀN BỘ TRANG ===== */
+        html {
+            zoom: 0.8;
+            -moz-transform: scale(0.8);
+            -moz-transform-origin: top left;
+        }
+
+        /* ===== BÙ LẠI KHOẢNG TRỐNG ===== */
+        body {
+            width: 125%;
+            margin: 0 auto;
+            transform-origin: top left;
+        }
+
+        /* ===== PHẦN CÒN LẠI GIỮ NGUYÊN CSS ===== */
         :root {
             --primary: #00d4ff;
             --primary-dark: #0099cc;
@@ -809,6 +824,19 @@
                 transform: translateY(0);
             }
         }
+
+        /* ===== THANH CUỘN MỎNG HƠN ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.03);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
@@ -1030,7 +1058,7 @@
                 components: COMMON_CONTENT.components,
                 links: COMMON_CONTENT.links,
                 schematic: COMMON_CONTENT.schematic,
-                exists: null // Chưa kiểm tra
+                exists: null
             });
         }
 
@@ -1094,7 +1122,7 @@
             }
         }
 
-        // ======================== KIỂM TRA TỪNG THÀNH VIÊN (CHẬM NHƯNG KHÔNG ẢNH HƯỞNG UI) ========================
+        // ======================== KIỂM TRA TẤT CẢ THÀNH VIÊN ========================
         async function checkAllMembers() {
             const items = document.querySelectorAll('#firmwareList .list-group-item');
             
@@ -1102,17 +1130,14 @@
                 const member = members[i];
                 const fileUrl = GITHUB_RAW + member.file;
                 
-                // Cập nhật loading
                 const item = items[i];
                 const statusIcon = item.querySelector('.status-icon');
                 statusIcon.textContent = '⏳';
                 statusIcon.className = 'status-icon loading';
                 
-                // Kiểm tra file
                 const exists = await checkFirmwareExists(fileUrl);
                 member.exists = exists;
                 
-                // Cập nhật icon
                 statusIcon.className = 'status-icon';
                 if (exists) {
                     statusIcon.textContent = '✅';
@@ -1122,7 +1147,6 @@
                     statusIcon.style.color = '#ff6b6b';
                 }
                 
-                // Nếu là thành viên đang hiển thị, cập nhật nút flash
                 const activeId = parseInt(document.querySelector('#firmwareList .list-group-item.active')?.dataset?.id);
                 if (activeId === member.id) {
                     renderFlashButton(member);
@@ -1130,7 +1154,7 @@
             }
         }
 
-        // ======================== RENDER FIRMWARE LIST (HIỂN THỊ NGAY, KHÔNG CHỜ) ========================
+        // ======================== RENDER FIRMWARE LIST ========================
         function renderFirmwareList() {
             const container = document.getElementById('firmwareList');
             
@@ -1147,7 +1171,6 @@
             }
             container.innerHTML = html;
 
-            // Event listeners
             document.querySelectorAll('#firmwareList .list-group-item').forEach(item => {
                 item.addEventListener('click', function() {
                     document.querySelectorAll('#firmwareList .list-group-item').forEach(i => i.classList.remove('active'));
@@ -1157,7 +1180,6 @@
                     const member = members.find(m => m.id === id);
                     if (member) {
                         updateUI(member);
-                        // Nếu chưa kiểm tra thì kiểm tra ngay
                         if (member.exists === null) {
                             checkMemberExists(member);
                         }
@@ -1165,12 +1187,10 @@
                 });
             });
 
-            // Init first member
             if (members.length > 0) {
                 updateUI(members[0]);
             }
 
-            // Bắt đầu kiểm tra từ từ (không block UI)
             setTimeout(() => {
                 checkAllMembers();
             }, 100);
@@ -1203,7 +1223,6 @@
                 }
             }
             
-            // Nếu là thành viên đang hiển thị, cập nhật nút flash
             const activeId = parseInt(document.querySelector('#firmwareList .list-group-item.active')?.dataset?.id);
             if (activeId === member.id) {
                 renderFlashButton(member);
@@ -1261,7 +1280,6 @@
         async function renderFlashButton(member) {
             const container = document.getElementById('espWebToolsContainer');
             
-            // Nếu chưa kiểm tra, hiển thị loading
             if (member.exists === null) {
                 container.innerHTML = `
                     <div style="text-align:center;color:var(--accent-3);padding:20px;">
@@ -1440,10 +1458,10 @@
         // ======================== INIT ========================
         renderFirmwareList();
 
-        console.log('%c🚀 VNK DIY IOT Flasher Pro v3.0 (Tối ưu tốc độ)', 'font-size: 24px; font-weight: bold; color: #00d4ff;');
-        console.log(`%c📁 Lấy firmware từ: ${GITHUB_RAW}`, 'font-size: 14px; color: #ff6bff;');
+        console.log('%c🚀 VNK DIY IOT Flasher Pro v3.0 (Zoom 80%)', 'font-size: 24px; font-weight: bold; color: #00d4ff;');
+        console.log('%c🔍 Trang web đang hiển thị ở tỉ lệ 80% để rộng hơn', 'font-size: 14px; color: #ffd700;');
+        console.log(`%c📁 Lấy firmware từ: ${GITHUB_RAW}`, 'font-size: 12px; color: #ff6bff;');
         console.log(`%c👥 Số thành viên: ${MEMBER_COUNT}`, 'font-size: 12px; color: #00ff88;');
-        console.log('%c⚡ Hiển thị danh sách ngay, kiểm tra file sau', 'font-size: 12px; color: #ffd700;');
         console.log('%c💡 Ctrl+1-9: Chọn thành viên nhanh', 'font-size: 12px; color: #00ff88;');
     </script>
 </body>
