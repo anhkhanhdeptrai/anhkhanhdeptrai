@@ -237,6 +237,14 @@
             font-size: 0.7rem;
         }
 
+        .list-group-item .status-icon.loading {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            100% { transform: translateY(-50%) rotate(360deg); }
+        }
+
         .main-content {
             padding: 0 10px;
         }
@@ -659,10 +667,6 @@
             margin: 0 auto 20px;
         }
 
-        @keyframes spin {
-            100% { transform: rotate(360deg); }
-        }
-
         .flash-progress-overlay .progress-content h3 {
             color: white;
             font-family: var(--font-title);
@@ -715,6 +719,9 @@
         }
         .fw-status-missing {
             color: #ff6b6b;
+        }
+        .fw-status-loading {
+            color: var(--accent-3);
         }
 
         @media (max-width: 992px) {
@@ -995,83 +1002,17 @@
         };
 
         // ======================== DANH SÁCH TÊN THÀNH VIÊN ========================
-        // 🔧 SỬA TÊN THÀNH VIÊN Ở ĐÂY
         const memberNames = [
-            'Nguyễn Văn A',
-            'Trần Thị B',
-            'Lê Văn C',
-            'Phạm Thị D',
-            'Hoàng Văn E',
-            'Vũ Thị F',
-            'Đặng Văn G',
-            'Bùi Thị H',
-            'Đỗ Văn I',
-            'Hồ Thị K',
-            'Ngô Văn L',
-            'Dương Thị M',
-            'Trương Văn N',
-            'Lý Thị O',
-            'Vương Văn P',
-            'Trịnh Thị Q',
-            'Phùng Văn R',
-            'Mai Thị S',
-            'Chu Văn T',
-            'Lưu Thị U',
-            'Cao Văn V',
-            'Hà Thị X',
-            'Nguyễn Văn Y',
-            'Trần Thị Z',
-            'Lê Văn AA',
-            'Phạm Thị AB',
-            'Hoàng Văn AC',
-            'Vũ Thị AD',
-            'Đặng Văn AE',
-            'Bùi Thị AF',
-            'Đỗ Văn AG',
-            'Hồ Thị AH',
-            'Ngô Văn AI',
-            'Dương Thị AJ',
-            'Trương Văn AK',
-            'Lý Thị AL',
-            'Vương Văn AM',
-            'Trịnh Thị AN',
-            'Phùng Văn AO',
-            'Mai Thị AP',
-            'Chu Văn AQ',
-            'Lưu Thị AR',
-            'Cao Văn AS',
-            'Hà Thị AT',
-            'Nguyễn Văn AU',
-            'Trần Thị AV',
-            'Lê Văn AW',
-            'Phạm Thị AX',
-            'Hoàng Văn AY',
-            'Vũ Thị AZ',
-            // THÊM TÊN TỪ ĐÂY...
-            'Nguyễn Văn BA',
-            'Trần Thị BB',
-            'Lê Văn BC',
-            'Phạm Thị BD',
-            'Hoàng Văn BE',
-            'Vũ Thị BF',
-            'Đặng Văn BG',
-            'Bùi Thị BH',
-            'Đỗ Văn BI',
-            'Hồ Thị BK',
-            'Ngô Văn BL',
-            'Dương Thị BM',
-            'Trương Văn BN',
-            'Lý Thị BO',
-            'Vương Văn BP',
-            'Trịnh Thị BQ',
-            'Phùng Văn BR',
-            'Mai Thị BS',
-            'Chu Văn BT',
-            'Lưu Thị BU',
-            'Cao Văn BV',
-            'Hà Thị BX',
-            'Nguyễn Văn BY',
-            'Trần Thị BZ'
+            'Nguyễn Văn A', 'Trần Thị B', 'Lê Văn C', 'Phạm Thị D', 'Hoàng Văn E',
+            'Vũ Thị F', 'Đặng Văn G', 'Bùi Thị H', 'Đỗ Văn I', 'Hồ Thị K',
+            'Ngô Văn L', 'Dương Thị M', 'Trương Văn N', 'Lý Thị O', 'Vương Văn P',
+            'Trịnh Thị Q', 'Phùng Văn R', 'Mai Thị S', 'Chu Văn T', 'Lưu Thị U',
+            'Cao Văn V', 'Hà Thị X', 'Nguyễn Văn Y', 'Trần Thị Z', 'Lê Văn AA',
+            'Phạm Thị AB', 'Hoàng Văn AC', 'Vũ Thị AD', 'Đặng Văn AE', 'Bùi Thị AF',
+            'Đỗ Văn AG', 'Hồ Thị AH', 'Ngô Văn AI', 'Dương Thị AJ', 'Trương Văn AK',
+            'Lý Thị AL', 'Vương Văn AM', 'Trịnh Thị AN', 'Phùng Văn AO', 'Mai Thị AP',
+            'Chu Văn AQ', 'Lưu Thị AR', 'Cao Văn AS', 'Hà Thị AT', 'Nguyễn Văn AU',
+            'Trần Thị AV', 'Lê Văn AW', 'Phạm Thị AX', 'Hoàng Văn AY', 'Vũ Thị AZ'
         ];
 
         // ======================== TẠO DANH SÁCH THÀNH VIÊN ========================
@@ -1088,7 +1029,8 @@
                 desc: COMMON_CONTENT.desc,
                 components: COMMON_CONTENT.components,
                 links: COMMON_CONTENT.links,
-                schematic: COMMON_CONTENT.schematic
+                schematic: COMMON_CONTENT.schematic,
+                exists: null // Chưa kiểm tra
             });
         }
 
@@ -1152,22 +1094,53 @@
             }
         }
 
-        // ======================== RENDER FIRMWARE LIST ========================
-        async function renderFirmwareList() {
+        // ======================== KIỂM TRA TỪNG THÀNH VIÊN (CHẬM NHƯNG KHÔNG ẢNH HƯỞNG UI) ========================
+        async function checkAllMembers() {
+            const items = document.querySelectorAll('#firmwareList .list-group-item');
+            
+            for (let i = 0; i < members.length; i++) {
+                const member = members[i];
+                const fileUrl = GITHUB_RAW + member.file;
+                
+                // Cập nhật loading
+                const item = items[i];
+                const statusIcon = item.querySelector('.status-icon');
+                statusIcon.textContent = '⏳';
+                statusIcon.className = 'status-icon loading';
+                
+                // Kiểm tra file
+                const exists = await checkFirmwareExists(fileUrl);
+                member.exists = exists;
+                
+                // Cập nhật icon
+                statusIcon.className = 'status-icon';
+                if (exists) {
+                    statusIcon.textContent = '✅';
+                    statusIcon.style.color = 'var(--accent-2)';
+                } else {
+                    statusIcon.textContent = '❌';
+                    statusIcon.style.color = '#ff6b6b';
+                }
+                
+                // Nếu là thành viên đang hiển thị, cập nhật nút flash
+                const activeId = parseInt(document.querySelector('#firmwareList .list-group-item.active')?.dataset?.id);
+                if (activeId === member.id) {
+                    renderFlashButton(member);
+                }
+            }
+        }
+
+        // ======================== RENDER FIRMWARE LIST (HIỂN THỊ NGAY, KHÔNG CHỜ) ========================
+        function renderFirmwareList() {
             const container = document.getElementById('firmwareList');
             
             let html = '';
             for (const member of members) {
-                const fileUrl = GITHUB_RAW + member.file;
-                const exists = await checkFirmwareExists(fileUrl);
-                const statusIcon = exists ? '✅' : '❌';
-                const statusClass = exists ? 'fw-status-ok' : 'fw-status-missing';
-                
                 html += `
                     <button class="list-group-item ${member.id === 1 ? 'active' : ''}" data-id="${member.id}">
                         <span class="fw-icon"><i class="fas fa-user"></i></span>
                         ${member.name}
-                        <span class="status-icon ${statusClass}">${statusIcon}</span>
+                        <span class="status-icon">⏳</span>
                         <span class="fw-badge">#${member.id}</span>
                     </button>
                 `;
@@ -1184,6 +1157,10 @@
                     const member = members.find(m => m.id === id);
                     if (member) {
                         updateUI(member);
+                        // Nếu chưa kiểm tra thì kiểm tra ngay
+                        if (member.exists === null) {
+                            checkMemberExists(member);
+                        }
                     }
                 });
             });
@@ -1192,23 +1169,59 @@
             if (members.length > 0) {
                 updateUI(members[0]);
             }
+
+            // Bắt đầu kiểm tra từ từ (không block UI)
+            setTimeout(() => {
+                checkAllMembers();
+            }, 100);
+        }
+
+        // ======================== KIỂM TRA 1 THÀNH VIÊN ========================
+        async function checkMemberExists(member) {
+            const fileUrl = GITHUB_RAW + member.file;
+            const items = document.querySelectorAll('#firmwareList .list-group-item');
+            const index = members.indexOf(member);
+            const item = items[index];
+            const statusIcon = item?.querySelector('.status-icon');
+            
+            if (statusIcon) {
+                statusIcon.textContent = '⏳';
+                statusIcon.className = 'status-icon loading';
+            }
+            
+            const exists = await checkFirmwareExists(fileUrl);
+            member.exists = exists;
+            
+            if (statusIcon) {
+                statusIcon.className = 'status-icon';
+                if (exists) {
+                    statusIcon.textContent = '✅';
+                    statusIcon.style.color = 'var(--accent-2)';
+                } else {
+                    statusIcon.textContent = '❌';
+                    statusIcon.style.color = '#ff6b6b';
+                }
+            }
+            
+            // Nếu là thành viên đang hiển thị, cập nhật nút flash
+            const activeId = parseInt(document.querySelector('#firmwareList .list-group-item.active')?.dataset?.id);
+            if (activeId === member.id) {
+                renderFlashButton(member);
+            }
         }
 
         // ======================== UPDATE UI ========================
         function updateUI(member) {
-            // Update info
             document.getElementById('fwTitle').textContent = member.name;
             document.getElementById('fwVersion').textContent = `#${member.id}`;
             document.getElementById('fwChip').textContent = member.chip || 'ESP32';
             document.getElementById('fwDesc').textContent = member.desc;
 
-            // Components
             const compContainer = document.getElementById('fwComponents');
             compContainer.innerHTML = member.components.map(comp => 
                 `<span class="badge-item">${comp}</span>`
             ).join('');
 
-            // Links
             const linkContainer = document.getElementById('fwLinks');
             if (member.links && member.links.length > 0) {
                 linkContainer.innerHTML = member.links.map(link => 
@@ -1220,7 +1233,6 @@
                 linkContainer.innerHTML = '<span style="color:rgba(255,255,255,0.3);">Chưa có link</span>';
             }
 
-            // Schematic
             const schematicContainer = document.getElementById('fwSchematic');
             if (member.schematic) {
                 schematicContainer.innerHTML = `
@@ -1236,10 +1248,8 @@
                 `;
             }
 
-            // Render flash button
             renderFlashButton(member);
 
-            // Reset animation
             document.querySelectorAll('.fw-detail-card').forEach(el => {
                 el.style.animation = 'none';
                 el.offsetHeight;
@@ -1251,10 +1261,18 @@
         async function renderFlashButton(member) {
             const container = document.getElementById('espWebToolsContainer');
             
-            const fileUrl = GITHUB_RAW + member.file;
-            const exists = await checkFirmwareExists(fileUrl);
+            // Nếu chưa kiểm tra, hiển thị loading
+            if (member.exists === null) {
+                container.innerHTML = `
+                    <div style="text-align:center;color:var(--accent-3);padding:20px;">
+                        <i class="fas fa-spinner fa-spin" style="font-size:2rem;display:block;margin-bottom:10px;"></i>
+                        <span>Đang kiểm tra file firmware...</span>
+                    </div>
+                `;
+                return;
+            }
 
-            if (!exists) {
+            if (!member.exists) {
                 container.innerHTML = `
                     <div style="text-align:center;color:#ff6b6b;padding:20px;">
                         <i class="fas fa-exclamation-triangle" style="font-size:2rem;display:block;margin-bottom:10px;"></i>
@@ -1265,10 +1283,9 @@
                 return;
             }
 
-            // Lấy offset theo chip
+            const fileUrl = GITHUB_RAW + member.file;
             const offset = CHIP_CONFIG[member.chip]?.offset || 0;
 
-            // Tạo manifest
             const manifestData = {
                 name: `VNK - ${member.name}`,
                 version: '1.0.0',
@@ -1283,7 +1300,6 @@
                 }]
             };
 
-            // Tạo Blob URL
             const manifestJson = JSON.stringify(manifestData);
             const blob = new Blob([manifestJson], { type: 'application/json' });
             const manifestUrl = URL.createObjectURL(blob);
@@ -1424,12 +1440,11 @@
         // ======================== INIT ========================
         renderFirmwareList();
 
-        console.log('%c🚀 VNK DIY IOT Flasher Pro v3.0', 'font-size: 24px; font-weight: bold; color: #00d4ff;');
+        console.log('%c🚀 VNK DIY IOT Flasher Pro v3.0 (Tối ưu tốc độ)', 'font-size: 24px; font-weight: bold; color: #00d4ff;');
         console.log(`%c📁 Lấy firmware từ: ${GITHUB_RAW}`, 'font-size: 14px; color: #ff6bff;');
         console.log(`%c👥 Số thành viên: ${MEMBER_COUNT}`, 'font-size: 12px; color: #00ff88;');
-        console.log('%c📌 Tất cả thành viên dùng chung nội dung', 'font-size: 12px; color: #ffd700;');
+        console.log('%c⚡ Hiển thị danh sách ngay, kiểm tra file sau', 'font-size: 12px; color: #ffd700;');
         console.log('%c💡 Ctrl+1-9: Chọn thành viên nhanh', 'font-size: 12px; color: #00ff88;');
-        console.log('%c🔧 Để đổi tên, sửa mảng memberNames', 'font-size: 12px; color: #ff6bff;');
     </script>
 </body>
 </html>
