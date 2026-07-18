@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Roboto+Mono:wght@400;700&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <script type="module" src="https://unpkg.com/esp-web-tools@10.0.0/dist/web/install-button.js?module"></script>
     <style>
-        /* ... CSS giữ nguyên như cũ ... */
         :root {
             --primary: #00d4ff;
             --primary-dark: #0099cc;
@@ -243,7 +242,6 @@
             padding: 0 10px;
         }
 
-        /* ===== FIRMWARE INFO CARD ===== */
         .firmware-info-container {
             background: rgba(15, 22, 38, 0.85);
             backdrop-filter: blur(20px);
@@ -335,16 +333,6 @@
             font-size: 1rem;
             line-height: 1.6;
             margin: 0;
-        }
-
-        .fw-body .fw-description .fw-chip-info {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 4px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            color: var(--accent-2);
-            margin-right: 10px;
         }
 
         /* ===== MEMBERS DROPDOWN ===== */
@@ -450,6 +438,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            flex: 1;
         }
 
         .member-item .member-avatar {
@@ -463,6 +452,7 @@
             font-size: 0.8rem;
             font-weight: 700;
             color: white;
+            flex-shrink: 0;
         }
 
         .member-item .member-name {
@@ -471,21 +461,42 @@
             font-size: 0.9rem;
         }
 
-        .member-item .member-firmware {
+        .member-item .member-desc {
             font-size: 0.7rem;
-            color: var(--primary);
-            font-family: var(--font-code);
-            background: rgba(0, 212, 255, 0.1);
-            padding: 2px 12px;
-            border-radius: 12px;
+            color: rgba(255, 255, 255, 0.3);
+            display: block;
         }
 
-        .member-item .member-status {
-            width: 8px;
-            height: 8px;
+        /* ===== STATUS ICON ===== */
+        .member-status-icon {
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
-            background: var(--accent-2);
-            animation: pulse 2s infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .member-status-icon.status-ok {
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--accent-2);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .member-status-icon.status-missing {
+            background: rgba(255, 107, 107, 0.15);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .member-status-icon.status-loading {
+            background: rgba(255, 215, 0, 0.15);
+            color: var(--accent-3);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            animation: spin 1s linear infinite;
         }
 
         .member-item .member-select-btn {
@@ -500,6 +511,7 @@
             transition: all 0.3s ease;
             opacity: 0;
             transform: scale(0.8);
+            flex-shrink: 0;
         }
 
         .member-item:hover .member-select-btn {
@@ -507,19 +519,19 @@
             transform: scale(1);
         }
 
-        .member-item .member-select-btn:hover {
+        .member-item .member-select-btn:hover:not(:disabled) {
             transform: scale(1.05);
             box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
         }
 
-        .member-item .member-select-btn.flashing {
-            animation: flashPulse 0.5s ease 3;
-            background: var(--accent-3);
+        .member-item .member-select-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: scale(0.9);
         }
 
-        .member-item .member-select-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        .member-item .member-select-btn.flashing {
+            animation: flashPulse 0.5s ease 3;
         }
 
         @keyframes flashPulse {
@@ -671,11 +683,6 @@
             position: relative;
         }
 
-        /* ===== HIDDEN FLASH BUTTON ===== */
-        #hiddenFlashBtn {
-            display: none;
-        }
-
         esp-web-install-button::part(button) {
             background: var(--gradient-main) !important;
             color: white !important;
@@ -816,23 +823,6 @@
             display: block;
             font-size: 0.7rem;
             color: rgba(255, 255, 255, 0.4);
-        }
-
-        .component-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 5px;
-        }
-
-        .component-tag {
-            background: rgba(0, 212, 255, 0.08);
-            border: 1px solid rgba(0, 212, 255, 0.15);
-            padding: 2px 12px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            color: var(--primary);
-            font-family: var(--font-code);
         }
 
         /* ===== PROGRESS OVERLAY ===== */
@@ -992,13 +982,12 @@
                 max-height: 200px;
             }
 
-            .member-item .member-firmware {
-                font-size: 0.6rem;
-                padding: 1px 8px;
-            }
-
             .flash-progress-overlay .progress-content {
                 padding: 25px;
+            }
+
+            .member-item .member-desc {
+                display: none;
             }
         }
 
@@ -1013,7 +1002,6 @@
             border-radius: 8px;
         }
 
-        /* Animation cho card khi chọn firmware */
         .fw-detail-card {
             animation: fadeInUp 0.5s ease forwards;
             opacity: 0;
@@ -1035,15 +1023,26 @@
             }
         }
 
-        /* Status indicator */
-        .fw-status-ok {
-            color: var(--accent-2);
+        /* Tooltip cho status */
+        .status-tooltip {
+            position: relative;
+            cursor: help;
         }
-        .fw-status-missing {
-            color: #ff6b6b;
-        }
-        .fw-status-loading {
-            color: var(--accent-3);
+
+        .status-tooltip:hover::after {
+            content: attr(data-tip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            white-space: nowrap;
+            z-index: 10;
+            border: 1px solid var(--glass-border);
         }
     </style>
 </head>
@@ -1056,7 +1055,6 @@
         </button>
     </div>
 
-    <!-- ===== PROGRESS OVERLAY ===== -->
     <div class="flash-progress-overlay" id="progressOverlay">
         <div class="progress-content">
             <div class="spinner"></div>
@@ -1114,7 +1112,6 @@
             </div>
 
             <div class="col-md-9 main-content">
-                <!-- ===== FIRMWARE INFO ===== -->
                 <div class="firmware-info-container" id="firmwareInfo">
                     <div class="fw-header">
                         <div class="chip-icon">
@@ -1130,12 +1127,10 @@
                     </div>
 
                     <div class="fw-body" id="fwBody">
-                        <!-- Description -->
                         <div class="fw-description">
                             <p id="fwDesc">Chào mừng đến với VNK DIY IOT Flasher Pro</p>
                         </div>
 
-                        <!-- ===== MEMBERS DROPDOWN ===== -->
                         <div class="members-dropdown-container" id="membersDropdown">
                             <div class="members-dropdown-header" id="dropdownHeader">
                                 <div class="header-left">
@@ -1150,7 +1145,6 @@
                             </div>
                         </div>
 
-                        <!-- Components -->
                         <div class="fw-detail-card">
                             <div class="card-label">
                                 <i class="fas fa-microchip"></i> Linh Kiện
@@ -1161,7 +1155,6 @@
                             </div>
                         </div>
 
-                        <!-- Links -->
                         <div class="fw-detail-card">
                             <div class="card-label">
                                 <i class="fas fa-link"></i> Link Tham Khảo
@@ -1171,7 +1164,6 @@
                             </div>
                         </div>
 
-                        <!-- Schematic -->
                         <div class="fw-schematic">
                             <div class="schematic-image" id="fwSchematic">
                                 <div class="no-image">
@@ -1198,7 +1190,6 @@
                     </div>
                 </div>
 
-                <!-- ===== FLASH CONTAINER ===== -->
                 <div class="flash-container">
                     <h3>
                         <i class="fas fa-bolt"></i> Flash Firmware
@@ -1253,7 +1244,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // ======================== DATA FIRMWARE & MEMBERS ========================
+        // ======================== DATA ========================
         const firmwareData = {
             'fw1': {
                 name: 'ESP32 Basic',
@@ -1267,41 +1258,11 @@
                 ],
                 schematic: 'https://raw.githubusercontent.com/espressif/arduino-esp32/master/docs/esp32_pinmap.png',
                 members: [
-                    { 
-                        id: 'member1', 
-                        name: 'Nguyễn Văn A', 
-                        firmware: 'firmware_a.bin',
-                        desc: 'Dự án điều khiển đèn LED qua WiFi',
-                        url: 'firmware_a.bin'  // URL thực tế để tải file
-                    },
-                    { 
-                        id: 'member2', 
-                        name: 'Trần Thị B', 
-                        firmware: 'firmware_b.bin',
-                        desc: 'Dự án cảm biến nhiệt độ - độ ẩm',
-                        url: 'firmware_b.bin'
-                    },
-                    { 
-                        id: 'member3', 
-                        name: 'Lê Văn C', 
-                        firmware: 'firmware_c.bin',
-                        desc: 'Dự án điều khiển động cơ DC',
-                        url: 'firmware_c.bin'
-                    },
-                    { 
-                        id: 'member4', 
-                        name: 'Phạm Thị D', 
-                        firmware: 'firmware_d.bin',
-                        desc: 'Dự án MQTT Gateway',
-                        url: 'firmware_d.bin'
-                    },
-                    { 
-                        id: 'member5', 
-                        name: 'Hoàng Văn E', 
-                        firmware: 'firmware_e.bin',
-                        desc: 'Dự án IoT Smart Home',
-                        url: 'firmware_e.bin'
-                    }
+                    { id: 'member1', name: 'Nguyễn Văn A', firmware: 'firmware_a.bin', desc: 'Dự án đèn LED WiFi' },
+                    { id: 'member2', name: 'Trần Thị B', firmware: 'firmware_b.bin', desc: 'Dự án cảm biến DHT11' },
+                    { id: 'member3', name: 'Lê Văn C', firmware: 'firmware_c.bin', desc: 'Dự án động cơ DC' },
+                    { id: 'member4', name: 'Phạm Thị D', firmware: 'firmware_d.bin', desc: 'Dự án MQTT Gateway' },
+                    { id: 'member5', name: 'Hoàng Văn E', firmware: 'firmware_e.bin', desc: 'Dự án Smart Home' }
                 ]
             },
             'fw2': {
@@ -1440,27 +1401,28 @@
             document.querySelector('.members-dropdown-container').style.display = 'block';
             countEl.textContent = members.length;
 
-            // Kiểm tra từng file firmware có tồn tại không
             let membersHtml = '';
             for (const member of members) {
-                const exists = await checkFirmwareExists(member.url);
+                const exists = await checkFirmwareExists(member.firmware);
+                const statusClass = exists ? 'status-ok' : 'status-missing';
                 const statusIcon = exists ? '✅' : '❌';
-                const statusClass = exists ? 'fw-status-ok' : 'fw-status-missing';
+                const statusTip = exists ? 'Firmware đã có sẵn' : 'Chưa có file firmware trên server';
                 
                 membersHtml += `
-                    <div class="member-item" data-member-id="${member.id}" data-firmware="${member.firmware}">
+                    <div class="member-item" data-member-id="${member.id}">
                         <div class="member-info">
                             <div class="member-avatar">${member.name.charAt(0)}</div>
                             <div>
                                 <div class="member-name">${member.name}</div>
-                                <div style="font-size:0.7rem;color:rgba(255,255,255,0.3);">${member.desc || ''}</div>
+                                <span class="member-desc">${member.desc || ''}</span>
                             </div>
                         </div>
-                        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-                            <span class="member-firmware ${statusClass}">${statusIcon} ${member.firmware}</span>
-                            <span class="member-status"></span>
+                        <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+                            <div class="member-status-icon ${statusClass}" data-tip="${statusTip}" title="${statusTip}">
+                                ${statusIcon}
+                            </div>
                             <button class="member-select-btn" onclick="selectAndFlash('${member.id}', '${firmwareId}')" ${!exists ? 'disabled' : ''}>
-                                <i class="fas fa-bolt"></i> ${exists ? 'Flash' : 'Missing'}
+                                <i class="fas fa-bolt"></i> ${exists ? 'Flash' : 'Chờ'}
                             </button>
                         </div>
                     </div>
@@ -1475,75 +1437,50 @@
             const member = fw.members.find(m => m.id === memberId);
             if (!member) return;
 
-            // Kiểm tra file firmware tồn tại
-            const exists = await checkFirmwareExists(member.url);
+            const exists = await checkFirmwareExists(member.firmware);
             if (!exists) {
-                showNotification(`❌ File firmware của ${member.name} (${member.firmware}) không tồn tại trên server!`);
+                showNotification(`❌ File firmware của ${member.name} chưa được tải lên server!`);
                 return;
             }
 
-            // Highlight selected member
-            document.querySelectorAll('.member-item').forEach(el => {
-                el.classList.remove('active-member');
-            });
+            // Highlight
+            document.querySelectorAll('.member-item').forEach(el => el.classList.remove('active-member'));
             const selectedEl = document.querySelector(`.member-item[data-member-id="${memberId}"]`);
-            if (selectedEl) {
-                selectedEl.classList.add('active-member');
-            }
+            if (selectedEl) selectedEl.classList.add('active-member');
 
-            // Animation button
+            // Button animation
             const btn = selectedEl?.querySelector('.member-select-btn');
             if (btn) {
                 btn.classList.add('flashing');
                 btn.disabled = true;
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
             }
 
-            // Show progress
             showProgress(member.name, member.firmware);
 
-            // Cập nhật manifest để dùng file firmware của thành viên
+            // Tạo manifest
             const manifestData = {
                 name: `${fw.name} - ${member.name}`,
                 version: fw.version,
-                builds: [
-                    {
-                        chipFamily: fw.chip,
-                        parts: [
-                            { 
-                                path: member.url, 
-                                offset: 0 
-                            }
-                        ]
-                    }
-                ]
+                builds: [{ chipFamily: fw.chip, parts: [{ path: member.firmware, offset: 0 }] }]
             };
 
-            // Tạo manifest mới
             const manifestJson = JSON.stringify(manifestData);
             const manifestBase64 = btoa(unescape(encodeURIComponent(manifestJson)));
             const manifestUrl = `data:application/json;base64,${manifestBase64}`;
 
-            // Update flash button với manifest mới
+            // Tạo button mới
             const flashContainer = document.getElementById('espWebToolsContainer');
-            
-            // Xóa button cũ
             const oldBtn = flashContainer.querySelector('esp-web-install-button');
             if (oldBtn) oldBtn.remove();
 
-            // Tạo button mới với manifest riêng
             const newBtn = document.createElement('esp-web-install-button');
             newBtn.setAttribute('manifest', manifestUrl);
             newBtn.setAttribute('allow-multiple', '');
-            
             newBtn.innerHTML = `
                 <i class="fas fa-bolt" slot="activate"></i>
-                <span slot="unsupported">
-                    <i class="fas fa-exclamation-triangle"></i> Trình duyệt không hỗ trợ Web Serial
-                </span>
-                <span slot="not-allowed">
-                    <i class="fas fa-lock"></i> Chưa được phép kết nối
-                </span>
+                <span slot="unsupported">Trình duyệt không hỗ trợ Web Serial</span>
+                <span slot="not-allowed">Chưa được phép kết nối</span>
                 <button slot="button" style="
                     background: linear-gradient(135deg, #00d4ff, #ff6bff, #00ff88);
                     color: white;
@@ -1562,13 +1499,10 @@
                     <i class="fas fa-bolt"></i> FLASH ${member.name}
                 </button>
             `;
-            
             flashContainer.appendChild(newBtn);
 
-            // Đợi component load
             await new Promise(resolve => setTimeout(resolve, 500));
 
-            // Tự động click vào nút Flash
             try {
                 const shadowRoot = newBtn.shadowRoot;
                 if (shadowRoot) {
@@ -1577,9 +1511,6 @@
                         button.click();
                         hideProgress();
                         showNotification(`🔥 Đang nạp firmware của ${member.name}...`);
-                    } else {
-                        hideProgress();
-                        showNotification('⚠️ Vui lòng bấm nút Flash để bắt đầu');
                     }
                 }
             } catch (e) {
@@ -1587,26 +1518,23 @@
                 showNotification('⚠️ Vui lòng bấm nút Flash để bắt đầu');
             }
 
-            // Restore button
             if (btn) {
                 setTimeout(() => {
                     btn.classList.remove('flashing');
                     btn.disabled = false;
                     btn.innerHTML = '<i class="fas fa-bolt"></i> Flash';
-                }, 2000);
+                }, 3000);
             }
-
-            console.log(`🚀 Flash firmware của thành viên: ${member.name} -> ${member.url}`);
         };
 
-        // ======================== PROGRESS OVERLAY ========================
+        // ======================== PROGRESS ========================
         let progressInterval = null;
         let progress = 0;
 
         function showProgress(name, firmware) {
             const overlay = document.getElementById('progressOverlay');
             document.getElementById('progressTitle').textContent = `Đang nạp firmware của ${name}`;
-            document.getElementById('progressDesc').textContent = `File: ${firmware} - Đang kiểm tra...`;
+            document.getElementById('progressDesc').textContent = `File: ${firmware}`;
             document.getElementById('progressFill').style.width = '0%';
             overlay.classList.add('active');
             progress = 0;
@@ -1616,24 +1544,15 @@
                 progress += Math.random() * 5 + 1;
                 if (progress > 95) progress = 95;
                 document.getElementById('progressFill').style.width = progress + '%';
-                if (progress > 20) {
-                    document.getElementById('progressDesc').textContent = `File: ${firmware} - Đang tải firmware...`;
-                }
-                if (progress > 50) {
-                    document.getElementById('progressDesc').textContent = `File: ${firmware} - Đang kết nối ESP32...`;
-                }
-                if (progress > 75) {
-                    document.getElementById('progressDesc').textContent = `File: ${firmware} - Đang ghi vào ESP32...`;
-                }
+                if (progress > 20) document.getElementById('progressDesc').textContent = `File: ${firmware} - Đang tải...`;
+                if (progress > 50) document.getElementById('progressDesc').textContent = `File: ${firmware} - Đang kết nối ESP32...`;
+                if (progress > 75) document.getElementById('progressDesc').textContent = `File: ${firmware} - Đang ghi...`;
             }, 300);
         }
 
         function hideProgress() {
             const overlay = document.getElementById('progressOverlay');
-            if (progressInterval) {
-                clearInterval(progressInterval);
-                progressInterval = null;
-            }
+            if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
             document.getElementById('progressFill').style.width = '100%';
             document.getElementById('progressDesc').textContent = '✅ Hoàn tất!';
             setTimeout(() => {
@@ -1643,12 +1562,9 @@
         }
 
         window.cancelFlash = function() {
-            if (progressInterval) {
-                clearInterval(progressInterval);
-                progressInterval = null;
-            }
+            if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
             hideProgress();
-            showNotification('❌ Đã hủy quá trình nạp firmware');
+            showNotification('❌ Đã hủy nạp firmware');
         };
 
         // ======================== NOTIFICATION ========================
@@ -1678,7 +1594,7 @@
                 gap: 12px;
                 max-width: 90%;
             `;
-            notif.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+            notif.innerHTML = `<i class="fas fa-info-circle"></i> ${message}`;
             document.body.appendChild(notif);
 
             setTimeout(() => {
@@ -1697,8 +1613,7 @@
             document.getElementById('fwChip').textContent = fw.chip;
             document.getElementById('fwDesc').textContent = fw.desc;
 
-            const compContainer = document.getElementById('fwComponents');
-            compContainer.innerHTML = fw.components.map(comp => 
+            document.getElementById('fwComponents').innerHTML = fw.components.map(comp => 
                 `<span class="badge-item">${comp}</span>`
             ).join('');
 
@@ -1730,17 +1645,6 @@
 
             await renderMembers(fw.members, firmwareId);
 
-            // Reset flash button
-            const flashContainer = document.getElementById('espWebToolsContainer');
-            const oldBtn = flashContainer.querySelector('esp-web-install-button');
-            if (oldBtn) {
-                // Chỉ reset nếu không phải đang flash
-                const btnSlot = oldBtn.querySelector('[slot="button"]');
-                if (btnSlot && !btnSlot.textContent.includes('FLASH')) {
-                    btnSlot.innerHTML = `<i class="fas fa-bolt"></i> FLASH ${fw.name}`;
-                }
-            }
-
             document.querySelectorAll('.fw-detail-card').forEach(el => {
                 el.style.animation = 'none';
                 el.offsetHeight;
@@ -1750,10 +1654,8 @@
 
         // ======================== DROPDOWN TOGGLE ========================
         document.getElementById('dropdownHeader').addEventListener('click', function() {
-            const list = document.getElementById('membersList');
-            const icon = document.getElementById('toggleIcon');
-            list.classList.toggle('open');
-            icon.classList.toggle('open');
+            document.getElementById('membersList').classList.toggle('open');
+            document.getElementById('toggleIcon').classList.toggle('open');
         });
 
         // ======================== SELECT FIRMWARE ========================
@@ -1761,8 +1663,7 @@
             item.addEventListener('click', function() {
                 document.querySelectorAll('#firmwareList .list-group-item').forEach(i => i.classList.remove('active'));
                 this.classList.add('active');
-                const fwId = this.dataset.id;
-                renderFirmwareDetail(fwId);
+                renderFirmwareDetail(this.dataset.id);
             });
         });
 
@@ -1774,9 +1675,7 @@
             if (e.ctrlKey && e.key >= '1' && e.key <= '4') {
                 const index = parseInt(e.key) - 1;
                 const items = document.querySelectorAll('#firmwareList .list-group-item');
-                if (items[index]) {
-                    items[index].click();
-                }
+                if (items[index]) items[index].click();
             }
             if (e.ctrlKey && e.key === 'd') {
                 e.preventDefault();
@@ -1785,8 +1684,8 @@
         });
 
         console.log('%c🚀 VNK DIY IOT Flasher Pro v2.0', 'font-size: 24px; font-weight: bold; color: #00d4ff;');
-        console.log('%c📁 Mỗi thành viên có firmware riêng, phải có file .bin trên server', 'font-size: 14px; color: #ff6bff;');
-        console.log('%c✅ Nếu file không tồn tại, nút Flash sẽ bị disable và hiển thị ❌', 'font-size: 12px; color: #00ff88;');
+        console.log('%c✅ Hiển thị icon thay vì tên file firmware', 'font-size: 14px; color: #ff6bff;');
+        console.log('%c💡 Hover vào icon để xem trạng thái chi tiết', 'font-size: 12px; color: #00ff88;');
     </script>
 </body>
 </html>
