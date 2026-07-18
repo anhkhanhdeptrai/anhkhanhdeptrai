@@ -16,9 +16,6 @@
             --accent-1: #ff6bff;
             --accent-2: #00ff88;
             --accent-3: #ffd700;
-            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             --gradient-main: linear-gradient(135deg, #00d4ff, #ff6bff, #00ff88);
             --glass-bg: rgba(255, 255, 255, 0.1);
             --glass-border: rgba(255, 255, 255, 0.2);
@@ -43,7 +40,6 @@
             position: relative;
         }
 
-        /* Animated Background */
         body::before {
             content: '';
             position: fixed;
@@ -64,7 +60,6 @@
             50% { transform: scale(1.1); }
         }
 
-        /* Floating Particles */
         .particles {
             position: fixed;
             top: 0;
@@ -105,7 +100,6 @@
             padding: 20px;
         }
 
-        /* Sidebar */
         .sidebar {
             background: rgba(15, 22, 38, 0.85);
             backdrop-filter: blur(20px);
@@ -146,7 +140,6 @@
             background: var(--gradient-main);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: none;
             letter-spacing: 2px;
         }
 
@@ -185,10 +178,6 @@
             gap: 10px;
         }
 
-        .firmware-list-container h5 i {
-            font-size: 1.2rem;
-        }
-
         .list-group-item {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -201,18 +190,6 @@
             font-weight: 500;
             position: relative;
             overflow: hidden;
-        }
-
-        .list-group-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--gradient-main);
-            opacity: 0;
-            transition: opacity 0.4s ease;
         }
 
         .list-group-item:hover {
@@ -228,10 +205,6 @@
             border-color: transparent;
             box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
             transform: scale(1.05);
-        }
-
-        .list-group-item.active::before {
-            opacity: 0;
         }
 
         .list-group-item .fw-icon {
@@ -256,12 +229,10 @@
             color: white;
         }
 
-        /* Main Content */
         .main-content {
             padding: 0 10px;
         }
 
-        /* Firmware Info */
         .firmware-info-container {
             background: rgba(15, 22, 38, 0.85);
             backdrop-filter: blur(20px);
@@ -339,7 +310,6 @@
             margin-top: 10px;
         }
 
-        /* Flash Container */
         .flash-container {
             background: rgba(15, 22, 38, 0.85);
             backdrop-filter: blur(20px);
@@ -374,7 +344,14 @@
             margin-right: 10px;
         }
 
-        /* ESP Web Tools Button */
+        .flash-btn-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100px;
+            padding: 20px 0;
+        }
+
         esp-web-install-button::part(button) {
             background: var(--gradient-main) !important;
             color: white !important;
@@ -388,6 +365,7 @@
             transition: all 0.3s ease !important;
             font-size: 1.1rem !important;
             letter-spacing: 2px !important;
+            cursor: pointer !important;
         }
 
         esp-web-install-button::part(button):hover {
@@ -395,7 +373,6 @@
             box-shadow: 0 0 60px rgba(0, 212, 255, 0.6) !important;
         }
 
-        /* Digital Clock */
         .digital-clock {
             text-align: center;
             padding: 25px;
@@ -413,7 +390,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: 5px;
-            text-shadow: none;
         }
 
         .digital-clock .date {
@@ -423,7 +399,6 @@
             font-weight: 300;
         }
 
-        /* Social Links */
         .social-links {
             display: flex;
             justify-content: center;
@@ -455,7 +430,6 @@
             box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
         }
 
-        /* Dark Mode Toggle */
         .dark-toggle {
             position: fixed;
             bottom: 30px;
@@ -484,64 +458,6 @@
             box-shadow: 0 0 50px rgba(0, 212, 255, 0.5);
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .sidebar {
-                height: auto;
-                position: relative;
-                top: 0;
-                margin-bottom: 20px;
-            }
-            
-            .main-content {
-                padding: 0;
-            }
-
-            .firmware-info-container h2 {
-                font-size: 1.8rem;
-            }
-
-            .digital-clock .time {
-                font-size: 3rem;
-            }
-
-            .firmware-info-container {
-                padding: 25px;
-            }
-
-            .flash-container {
-                padding: 25px;
-            }
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a0e17;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--gradient-main);
-            border-radius: 10px;
-        }
-
-        /* Loading Animation */
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            border-top-color: var(--primary);
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Feature Cards */
         .feature-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -577,23 +493,59 @@
             font-size: 0.8rem;
             color: rgba(255, 255, 255, 0.5);
         }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                height: auto;
+                position: relative;
+                top: 0;
+                margin-bottom: 20px;
+            }
+            
+            .main-content {
+                padding: 0;
+            }
+
+            .firmware-info-container h2 {
+                font-size: 1.8rem;
+            }
+
+            .digital-clock .time {
+                font-size: 3rem;
+            }
+
+            .firmware-info-container {
+                padding: 25px;
+            }
+
+            .flash-container {
+                padding: 25px;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0e17;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-main);
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
-    <!-- Particles -->
     <div class="particles" id="particles"></div>
 
-    <!-- Dark Mode Toggle -->
     <div class="dark-toggle">
         <button class="toggle-btn" id="themeToggle">
             <i class="fas fa-moon"></i>
         </button>
     </div>
 
-    <!-- Main Content -->
     <div class="container-fluid">
         <div class="row g-4">
-            <!-- Sidebar -->
             <div class="col-md-3">
                 <div class="sidebar">
                     <div class="sidebar-header">
@@ -634,9 +586,7 @@
                 </div>
             </div>
 
-            <!-- Main -->
             <div class="col-md-9 main-content">
-                <!-- Firmware Info -->
                 <div class="firmware-info-container" id="firmwareInfo">
                     <div class="chip-icon">
                         <i class="fas fa-microchip"></i>
@@ -661,7 +611,6 @@
                     </div>
                 </div>
 
-                <!-- Flash Container -->
                 <div class="flash-container">
                     <h3>
                         <i class="fas fa-bolt"></i> Flash Firmware
@@ -672,8 +621,36 @@
                         Kết nối ESP32 qua USB → Bấm nút Flash → Chọn cổng COM → Đợi hoàn tất
                     </div>
 
-                    <div id="espWebToolsContainer" class="text-center my-4">
-                        <!-- ESP Web Tools Button -->
+                    <div class="flash-btn-wrapper" id="espWebToolsContainer">
+                        <esp-web-install-button
+                            manifest="manifest.json"
+                            allow-multiple
+                        >
+                            <i class="fas fa-bolt" slot="activate"></i>
+                            <span slot="unsupported">
+                                <i class="fas fa-exclamation-triangle"></i> Trình duyệt không hỗ trợ Web Serial
+                            </span>
+                            <span slot="not-allowed">
+                                <i class="fas fa-lock"></i> Chưa được phép kết nối
+                            </span>
+                            <button slot="button" style="
+                                background: linear-gradient(135deg, #00d4ff, #ff6bff, #00ff88);
+                                color: white;
+                                border: none;
+                                padding: 18px 40px;
+                                font-family: 'Orbitron', sans-serif;
+                                font-weight: 700;
+                                text-transform: uppercase;
+                                border-radius: 16px;
+                                box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
+                                transition: all 0.3s ease;
+                                font-size: 1.1rem;
+                                letter-spacing: 2px;
+                                cursor: pointer;
+                            ">
+                                <i class="fas fa-bolt"></i> FLASH FIRMWARE
+                            </button>
+                        </esp-web-install-button>
                     </div>
 
                     <div class="digital-clock">
@@ -687,7 +664,57 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // ======================== CONFIG ========================
+        // ======================== PARTICLES ========================
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = (Math.random() * 4 + 2) + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
+                particle.style.animationDelay = (Math.random() * 10) + 's';
+                particle.style.opacity = Math.random() * 0.3 + 0.1;
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // ======================== CLOCK ========================
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
+            document.getElementById('date').textContent = now.toLocaleDateString('vi-VN', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // ======================== THEME TOGGLE ========================
+        let isDark = true;
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            isDark = !isDark;
+            if (isDark) {
+                document.body.style.background = '#0a0e17';
+                document.body.style.color = '#e0e7ff';
+                this.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                document.body.style.background = '#f0f4ff';
+                document.body.style.color = '#1a1a2e';
+                this.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+        });
+
+        // ======================== FIRMWARE LIST ========================
         const firmwareList = [
             { 
                 id: 'fw1', 
@@ -723,24 +750,6 @@
             }
         ];
 
-        // ======================== PARTICLES ========================
-        function createParticles() {
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 50; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.width = (Math.random() * 4 + 2) + 'px';
-                particle.style.height = particle.style.width;
-                particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
-                particle.style.animationDelay = (Math.random() * 10) + 's';
-                particle.style.opacity = Math.random() * 0.3 + 0.1;
-                container.appendChild(particle);
-            }
-        }
-        createParticles();
-
-        // ======================== FIRMWARE LIST ========================
         const firmwareListEl = document.getElementById('firmwareList');
         firmwareListEl.innerHTML = firmwareList.map((fw, index) => `
             <button class="list-group-item ${index === 0 ? 'active' : ''}" data-id="${fw.id}">
@@ -751,7 +760,21 @@
         `).join('');
 
         // ======================== SELECT FIRMWARE ========================
-        let selectedFirmware = firmwareList[0];
+        function updateUI(firmware) {
+            document.getElementById('fwTitle').textContent = firmware.name;
+            document.getElementById('fwDesc').textContent = firmware.desc;
+            document.getElementById('fwVersion').textContent = `${firmware.version} • ${firmware.chip}`;
+            
+            // Cập nhật nút flash
+            const flashBtn = document.querySelector('esp-web-install-button');
+            if (flashBtn) {
+                // Thay đổi text trên button
+                const btnSlot = flashBtn.querySelector('[slot="button"]');
+                if (btnSlot) {
+                    btnSlot.innerHTML = `<i class="fas fa-bolt"></i> FLASH ${firmware.name}`;
+                }
+            }
+        }
 
         document.querySelectorAll('#firmwareList .list-group-item').forEach(item => {
             item.addEventListener('click', function() {
@@ -759,117 +782,16 @@
                 this.classList.add('active');
                 
                 const fwId = this.dataset.id;
-                selectedFirmware = firmwareList.find(f => f.id === fwId) || firmwareList[0];
-                updateUI(selectedFirmware);
+                const selected = firmwareList.find(f => f.id === fwId) || firmwareList[0];
+                updateUI(selected);
             });
         });
-
-        // ======================== UPDATE UI ========================
-        function updateUI(firmware) {
-            document.getElementById('fwTitle').textContent = firmware.name;
-            document.getElementById('fwDesc').textContent = firmware.desc;
-            document.getElementById('fwVersion').textContent = `${firmware.version} • ${firmware.chip}`;
-            
-            const container = document.getElementById('espWebToolsContainer');
-            
-            // Tạo manifest động
-            const manifest = {
-                name: firmware.name,
-                version: firmware.version,
-                builds: [
-                    {
-                        chipFamily: firmware.chip,
-                        parts: [
-                            { path: firmware.file, offset: 0 }
-                        ]
-                    }
-                ]
-            };
-
-            container.innerHTML = `
-                <esp-web-install-button
-                    manifest="${btoa(JSON.stringify(manifest))}"
-                    allow-multiple
-                >
-                    <i class="fas fa-bolt" slot="activate"></i>
-                    <span slot="unsupported">
-                        <i class="fas fa-exclamation-triangle"></i> Trình duyệt không hỗ trợ Web Serial
-                    </span>
-                    <span slot="not-allowed">
-                        <i class="fas fa-lock"></i> Chưa được phép kết nối
-                    </span>
-                    <button slot="button" style="
-                        background: var(--gradient-main);
-                        color: white;
-                        border: none;
-                        padding: 18px 40px;
-                        font-family: var(--font-title);
-                        font-weight: 700;
-                        text-transform: uppercase;
-                        border-radius: 16px;
-                        box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
-                        transition: all 0.3s ease;
-                        font-size: 1.1rem;
-                        letter-spacing: 2px;
-                        cursor: pointer;
-                    ">
-                        <i class="fas fa-bolt"></i> FLASH ${firmware.name}
-                    </button>
-                </esp-web-install-button>
-            `;
-
-            // Re-initialize ESP Web Tools
-            const script = document.createElement('script');
-            script.type = 'module';
-            script.src = 'https://unpkg.com/esp-web-tools@10.0.0/dist/web/install-button.js?module';
-            document.head.appendChild(script);
-        }
 
         // ======================== INIT ========================
-        updateUI(selectedFirmware);
-
-        // ======================== CLOCK ========================
-        function updateClock() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            
-            document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
-            document.getElementById('date').textContent = now.toLocaleDateString('vi-VN', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            });
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-
-        // ======================== THEME TOGGLE ========================
-        let isDark = true;
-        document.getElementById('themeToggle').addEventListener('click', function() {
-            isDark = !isDark;
-            if (isDark) {
-                document.body.style.background = '#0a0e17';
-                document.body.style.color = '#e0e7ff';
-                this.innerHTML = '<i class="fas fa-moon"></i>';
-            } else {
-                document.body.style.background = '#f0f4ff';
-                document.body.style.color = '#1a1a2e';
-                this.innerHTML = '<i class="fas fa-sun"></i>';
-            }
-        });
+        updateUI(firmwareList[0]);
 
         // ======================== KEYBOARD SHORTCUTS ========================
         document.addEventListener('keydown', function(e) {
-            // Ctrl + F: Focus firmware list
-            if (e.ctrlKey && e.key === 'f') {
-                e.preventDefault();
-                document.querySelector('#firmwareList .list-group-item')?.focus();
-            }
-            
-            // Ctrl + 1-4: Select firmware
             if (e.ctrlKey && e.key >= '1' && e.key <= '4') {
                 const index = parseInt(e.key) - 1;
                 const items = document.querySelectorAll('#firmwareList .list-group-item');
@@ -879,22 +801,9 @@
             }
         });
 
-        // ======================== CONSOLE WELCOME ========================
         console.log('%c🚀 VNK DIY IOT Flasher Pro v2.0', 'font-size: 24px; font-weight: bold; color: #00d4ff;');
-        console.log('%c🔧 Firmware: ' + selectedFirmware.name, 'font-size: 14px; color: #ff6bff;');
+        console.log('%c🔧 Đã tải ' + firmwareList.length + ' firmware', 'font-size: 14px; color: #ff6bff;');
         console.log('%c💡 Ctrl+1-4 để chọn firmware nhanh', 'font-size: 12px; color: #00ff88;');
-
-        // ======================== RESPONSIVE ========================
-        function handleResize() {
-            const sidebar = document.querySelector('.sidebar');
-            if (window.innerWidth < 768) {
-                sidebar.style.height = 'auto';
-            } else {
-                sidebar.style.height = 'calc(100vh - 40px)';
-            }
-        }
-        window.addEventListener('resize', handleResize);
-        handleResize();
     </script>
 </body>
 </html>
