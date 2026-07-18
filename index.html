@@ -491,9 +491,9 @@
             background: var(--gradient-main);
             border: none;
             color: white;
-            padding: 4px 14px;
+            padding: 6px 18px;
             border-radius: 12px;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -509,6 +509,16 @@
         .member-item .member-select-btn:hover {
             transform: scale(1.05);
             box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .member-item .member-select-btn.flashing {
+            animation: flashPulse 0.5s ease 3;
+            background: var(--accent-3);
+        }
+
+        @keyframes flashPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
         }
 
         /* ===== FIRMWARE DETAIL CARDS ===== */
@@ -652,6 +662,12 @@
             align-items: center;
             min-height: 80px;
             padding: 15px 0;
+            position: relative;
+        }
+
+        /* ===== HIDDEN FLASH BUTTON ===== */
+        #hiddenFlashBtn {
+            display: none;
         }
 
         esp-web-install-button::part(button) {
@@ -813,6 +829,98 @@
             font-family: var(--font-code);
         }
 
+        /* ===== PROGRESS OVERLAY ===== */
+        .flash-progress-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 9998;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .flash-progress-overlay.active {
+            display: flex;
+        }
+
+        .flash-progress-overlay .progress-content {
+            background: rgba(15, 22, 38, 0.95);
+            padding: 40px;
+            border-radius: 24px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 60px rgba(0, 212, 255, 0.3);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+        }
+
+        .flash-progress-overlay .progress-content .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .flash-progress-overlay .progress-content h3 {
+            color: white;
+            font-family: var(--font-title);
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .flash-progress-overlay .progress-content p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .flash-progress-overlay .progress-content .progress-bar-bg {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .flash-progress-overlay .progress-content .progress-bar-fill {
+            height: 100%;
+            background: var(--gradient-main);
+            width: 0%;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .flash-progress-overlay .progress-content .cancel-btn {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+            padding: 8px 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .flash-progress-overlay .progress-content .cancel-btn:hover {
+            background: rgba(255, 0, 0, 0.1);
+            border-color: #ff4444;
+            color: #ff4444;
+        }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 992px) {
             .fw-body {
@@ -882,6 +990,10 @@
                 font-size: 0.6rem;
                 padding: 1px 8px;
             }
+
+            .flash-progress-overlay .progress-content {
+                padding: 25px;
+            }
         }
 
         ::-webkit-scrollbar {
@@ -925,6 +1037,21 @@
         <button class="toggle-btn" id="themeToggle">
             <i class="fas fa-moon"></i>
         </button>
+    </div>
+
+    <!-- ===== PROGRESS OVERLAY ===== -->
+    <div class="flash-progress-overlay" id="progressOverlay">
+        <div class="progress-content">
+            <div class="spinner"></div>
+            <h3 id="progressTitle">Đang nạp firmware...</h3>
+            <p id="progressDesc">Đang kết nối đến ESP32...</p>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressFill"></div>
+            </div>
+            <button class="cancel-btn" onclick="cancelFlash()">
+                <i class="fas fa-times"></i> Hủy bỏ
+            </button>
+        </div>
     </div>
 
     <div class="container-fluid">
@@ -1067,6 +1194,7 @@
 
                     <div class="flash-btn-wrapper" id="espWebToolsContainer">
                         <esp-web-install-button
+                            id="mainFlashBtn"
                             manifest="manifest.json"
                             allow-multiple
                         >
@@ -1123,42 +1251,36 @@
                     { name: 'GitHub Project', url: 'https://github.com/espressif/esp-idf' }
                 ],
                 schematic: 'https://raw.githubusercontent.com/espressif/arduino-esp32/master/docs/esp32_pinmap.png',
-                // Danh sách thành viên với firmware riêng
                 members: [
                     { 
                         id: 'member1', 
                         name: 'Nguyễn Văn A', 
                         firmware: 'firmware_a.bin',
-                        desc: 'Firmware cho dự án điều khiển đèn LED qua WiFi',
-                        version: 'v1.2.0'
+                        desc: 'Dự án điều khiển đèn LED qua WiFi'
                     },
                     { 
                         id: 'member2', 
                         name: 'Trần Thị B', 
                         firmware: 'firmware_b.bin',
-                        desc: 'Firmware cho dự án cảm biến nhiệt độ - độ ẩm',
-                        version: 'v2.0.1'
+                        desc: 'Dự án cảm biến nhiệt độ - độ ẩm'
                     },
                     { 
                         id: 'member3', 
                         name: 'Lê Văn C', 
                         firmware: 'firmware_c.bin',
-                        desc: 'Firmware cho dự án điều khiển động cơ DC',
-                        version: 'v1.5.2'
+                        desc: 'Dự án điều khiển động cơ DC'
                     },
                     { 
                         id: 'member4', 
                         name: 'Phạm Thị D', 
                         firmware: 'firmware_d.bin',
-                        desc: 'Firmware cho dự án MQTT Gateway',
-                        version: 'v3.0.0'
+                        desc: 'Dự án MQTT Gateway'
                     },
                     { 
                         id: 'member5', 
                         name: 'Hoàng Văn E', 
                         firmware: 'firmware_e.bin',
-                        desc: 'Firmware cho dự án IoT Smart Home',
-                        version: 'v2.3.1'
+                        desc: 'Dự án IoT Smart Home'
                     }
                 ]
             },
@@ -1303,7 +1425,7 @@
                     <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
                         <span class="member-firmware">${member.firmware}</span>
                         <span class="member-status"></span>
-                        <button class="member-select-btn" onclick="selectMember('${member.id}', '${firmwareId}')">
+                        <button class="member-select-btn" onclick="selectAndFlash('${member.id}', '${firmwareId}')">
                             <i class="fas fa-bolt"></i> Flash
                         </button>
                     </div>
@@ -1311,8 +1433,8 @@
             `).join('');
         }
 
-        // ======================== SELECT MEMBER ========================
-        window.selectMember = function(memberId, firmwareId) {
+        // ======================== SELECT AND FLASH ========================
+        window.selectAndFlash = function(memberId, firmwareId) {
             const fw = firmwareData[firmwareId];
             const member = fw.members.find(m => m.id === memberId);
             if (!member) return;
@@ -1326,7 +1448,17 @@
                 selectedEl.classList.add('active-member');
             }
 
-            // Update flash button for specific member firmware
+            // Animation button
+            const btn = selectedEl?.querySelector('.member-select-btn');
+            if (btn) {
+                btn.classList.add('flashing');
+                setTimeout(() => btn.classList.remove('flashing'), 1500);
+            }
+
+            // Show progress
+            showProgress(member.name, member.firmware);
+
+            // Update flash button
             const flashBtn = document.querySelector('esp-web-install-button');
             if (flashBtn) {
                 const btnSlot = flashBtn.querySelector('[slot="button"]');
@@ -1335,10 +1467,79 @@
                 }
             }
 
-            // Show notification
-            showNotification(`Đã chọn firmware của ${member.name}: ${member.firmware}`);
+            // Tự động click vào nút Flash của ESP Web Tools
+            setTimeout(() => {
+                const espBtn = document.querySelector('esp-web-install-button');
+                if (espBtn) {
+                    // Lấy button bên trong shadow DOM
+                    const shadowRoot = espBtn.shadowRoot;
+                    if (shadowRoot) {
+                        const button = shadowRoot.querySelector('button');
+                        if (button) {
+                            button.click();
+                            hideProgress();
+                            showNotification(`🔥 Đang nạp firmware của ${member.name}...`);
+                        } else {
+                            hideProgress();
+                            showNotification('⚠️ Vui lòng kết nối ESP32 và bấm Flash thủ công');
+                        }
+                    } else {
+                        hideProgress();
+                        showNotification('⚠️ Vui lòng bấm nút Flash để bắt đầu');
+                    }
+                }
+            }, 500);
 
-            console.log(`🔧 Chọn firmware của thành viên: ${member.name} -> ${member.firmware}`);
+            console.log(`🚀 Flash firmware của thành viên: ${member.name} -> ${member.firmware}`);
+        };
+
+        // ======================== PROGRESS OVERLAY ========================
+        let progressInterval = null;
+        let progress = 0;
+
+        function showProgress(name, firmware) {
+            const overlay = document.getElementById('progressOverlay');
+            document.getElementById('progressTitle').textContent = `Đang nạp firmware của ${name}`;
+            document.getElementById('progressDesc').textContent = `File: ${firmware} - Đang kết nối...`;
+            document.getElementById('progressFill').style.width = '0%';
+            overlay.classList.add('active');
+            progress = 0;
+            
+            if (progressInterval) clearInterval(progressInterval);
+            progressInterval = setInterval(() => {
+                progress += Math.random() * 5 + 1;
+                if (progress > 95) progress = 95;
+                document.getElementById('progressFill').style.width = progress + '%';
+                if (progress > 30) {
+                    document.getElementById('progressDesc').textContent = `File: ${firmware} - Đang tải firmware...`;
+                }
+                if (progress > 60) {
+                    document.getElementById('progressDesc').textContent = `File: ${firmware} - Đang ghi vào ESP32...`;
+                }
+            }, 300);
+        }
+
+        function hideProgress() {
+            const overlay = document.getElementById('progressOverlay');
+            if (progressInterval) {
+                clearInterval(progressInterval);
+                progressInterval = null;
+            }
+            document.getElementById('progressFill').style.width = '100%';
+            document.getElementById('progressDesc').textContent = '✅ Hoàn tất!';
+            setTimeout(() => {
+                overlay.classList.remove('active');
+                document.getElementById('progressFill').style.width = '0%';
+            }, 1000);
+        }
+
+        window.cancelFlash = function() {
+            if (progressInterval) {
+                clearInterval(progressInterval);
+                progressInterval = null;
+            }
+            hideProgress();
+            showNotification('❌ Đã hủy quá trình nạp firmware');
         };
 
         // ======================== NOTIFICATION ========================
@@ -1366,6 +1567,7 @@
                 display: flex;
                 align-items: center;
                 gap: 12px;
+                max-width: 90%;
             `;
             notif.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
             document.body.appendChild(notif);
@@ -1373,7 +1575,7 @@
             setTimeout(() => {
                 notif.style.animation = 'slideUp 0.5s ease forwards';
                 setTimeout(() => notif.remove(), 500);
-            }, 3000);
+            }, 4000);
         }
 
         // Add animation styles
@@ -1395,19 +1597,16 @@
             const fw = firmwareData[firmwareId];
             if (!fw) return;
 
-            // Title
             document.getElementById('fwTitle').textContent = fw.name;
             document.getElementById('fwVersion').textContent = fw.version;
             document.getElementById('fwChip').textContent = fw.chip;
             document.getElementById('fwDesc').textContent = fw.desc;
 
-            // Components
             const compContainer = document.getElementById('fwComponents');
             compContainer.innerHTML = fw.components.map(comp => 
                 `<span class="badge-item">${comp}</span>`
             ).join('');
 
-            // Links
             const linkContainer = document.getElementById('fwLinks');
             if (fw.links && fw.links.length > 0) {
                 linkContainer.innerHTML = fw.links.map(link => 
@@ -1419,7 +1618,6 @@
                 linkContainer.innerHTML = '<span style="color:rgba(255,255,255,0.3);">Chưa có link</span>';
             }
 
-            // Schematic Image
             const schematicContainer = document.getElementById('fwSchematic');
             if (fw.schematic) {
                 schematicContainer.innerHTML = `
@@ -1435,10 +1633,8 @@
                 `;
             }
 
-            // Render Members
             renderMembers(fw.members, firmwareId);
 
-            // Reset flash button to default
             const flashBtn = document.querySelector('esp-web-install-button');
             if (flashBtn) {
                 const btnSlot = flashBtn.querySelector('[slot="button"]');
@@ -1447,7 +1643,6 @@
                 }
             }
 
-            // Reset animation
             document.querySelectorAll('.fw-detail-card').forEach(el => {
                 el.style.animation = 'none';
                 el.offsetHeight;
@@ -1468,7 +1663,6 @@
             item.addEventListener('click', function() {
                 document.querySelectorAll('#firmwareList .list-group-item').forEach(i => i.classList.remove('active'));
                 this.classList.add('active');
-                
                 const fwId = this.dataset.id;
                 renderFirmwareDetail(fwId);
             });
@@ -1486,8 +1680,6 @@
                     items[index].click();
                 }
             }
-            
-            // Ctrl + D: Toggle dropdown
             if (e.ctrlKey && e.key === 'd') {
                 e.preventDefault();
                 document.getElementById('dropdownHeader').click();
@@ -1495,7 +1687,7 @@
         });
 
         console.log('%c🚀 VNK DIY IOT Flasher Pro v2.0', 'font-size: 24px; font-weight: bold; color: #00d4ff;');
-        console.log('%c👥 Hỗ trợ nhiều thành viên với firmware riêng', 'font-size: 14px; color: #ff6bff;');
+        console.log('%c👥 Click "Flash" bên cạnh tên thành viên để nạp firmware ngay', 'font-size: 14px; color: #ff6bff;');
         console.log('%c💡 Ctrl+1-4: Chọn firmware | Ctrl+D: Mở danh sách thành viên', 'font-size: 12px; color: #00ff88;');
     </script>
 </body>
