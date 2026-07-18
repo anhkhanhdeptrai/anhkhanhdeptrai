@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VNK IOT Flasher Pro - GitHub</title>
+    <title>VNK IOT Flasher Pro</title>
     <link rel="icon" href="logo1.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
@@ -390,6 +390,47 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
+        .fw-schematic {
+            grid-column: 1 / -1;
+        }
+
+        .fw-schematic .schematic-image {
+            width: 100%;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            background: rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            position: relative;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fw-schematic .schematic-image img {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+            transition: all 0.3s ease;
+        }
+
+        .fw-schematic .schematic-image img:hover {
+            transform: scale(1.02);
+        }
+
+        .fw-schematic .schematic-image .no-image {
+            color: rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            text-align: center;
+        }
+
+        .fw-schematic .schematic-image .no-image i {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+
         .flash-container {
             background: rgba(15, 22, 38, 0.85);
             backdrop-filter: blur(20px);
@@ -675,9 +716,6 @@
         .fw-status-missing {
             color: #ff6b6b;
         }
-        .fw-status-loading {
-            color: var(--accent-3);
-        }
 
         @media (max-width: 992px) {
             .fw-body {
@@ -752,6 +790,7 @@
         .fw-detail-card:nth-child(1) { animation-delay: 0.1s; }
         .fw-detail-card:nth-child(2) { animation-delay: 0.2s; }
         .fw-detail-card:nth-child(3) { animation-delay: 0.3s; }
+        .fw-detail-card:nth-child(4) { animation-delay: 0.4s; }
 
         @keyframes fadeInUp {
             from {
@@ -766,17 +805,14 @@
     </style>
 </head>
 <body>
-    <!-- Particles -->
     <div class="particles" id="particles"></div>
 
-    <!-- Dark Mode Toggle -->
     <div class="dark-toggle">
         <button class="toggle-btn" id="themeToggle">
             <i class="fas fa-moon"></i>
         </button>
     </div>
 
-    <!-- Progress Overlay -->
     <div class="flash-progress-overlay" id="progressOverlay">
         <div class="progress-content">
             <div class="spinner"></div>
@@ -791,10 +827,8 @@
         </div>
     </div>
 
-    <!-- Main Content -->
     <div class="container-fluid">
         <div class="row g-4">
-            <!-- Sidebar -->
             <div class="col-md-3">
                 <div class="sidebar">
                     <div class="sidebar-header">
@@ -835,9 +869,7 @@
                 </div>
             </div>
 
-            <!-- Main Content -->
             <div class="col-md-9 main-content">
-                <!-- Firmware Info -->
                 <div class="firmware-info-container" id="firmwareInfo">
                     <div class="fw-header">
                         <div class="chip-icon">
@@ -846,7 +878,7 @@
                         <div class="fw-title-group">
                             <h2 id="fwTitle">Chọn Thành Viên</h2>
                             <div>
-                                <span class="fw-version-tag" id="fwVersion">#1</span>
+                                <span class="fw-version-tag" id="fwVersion">v1.0.0</span>
                                 <span class="fw-version-tag" id="fwChip" style="border-color:rgba(0,255,136,0.2);color:var(--accent-2);">ESP32</span>
                             </div>
                         </div>
@@ -854,33 +886,45 @@
 
                     <div class="fw-body" id="fwBody">
                         <div class="fw-description">
-                            <p id="fwDesc">Chào mừng đến với VNK DIY IOT Flasher Pro. Chọn thành viên bên trái để bắt đầu nạp firmware.</p>
+                            <p id="fwDesc">Chọn thành viên bên trái để xem thông tin chi tiết và nạp firmware.</p>
                         </div>
 
                         <div class="fw-detail-card">
                             <div class="card-label">
-                                <i class="fas fa-microchip"></i> Chip
+                                <i class="fas fa-microchip"></i> Linh Kiện
                             </div>
-                            <div class="card-content" id="fwChipDetail">
-                                <span class="badge-item">ESP32</span>
-                            </div>
-                        </div>
-
-                        <div class="fw-detail-card">
-                            <div class="card-label">
-                                <i class="fas fa-link"></i> Firmware
-                            </div>
-                            <div class="card-content" id="fwFileDetail">
-                                <span style="color:rgba(255,255,255,0.3);">Chưa chọn</span>
+                            <div class="card-content" id="fwComponents">
+                                <span class="badge-item">ESP32-WROOM-32</span>
+                                <span class="badge-item">CP2102 USB-UART</span>
+                                <span class="badge-item">AMS1117 3.3V</span>
+                                <span class="badge-item">CH340G</span>
+                                <span class="badge-item">LED 2x</span>
+                                <span class="badge-item">Nút nhấn 2x</span>
                             </div>
                         </div>
 
                         <div class="fw-detail-card">
                             <div class="card-label">
-                                <i class="fas fa-cloud-download-alt"></i> Nguồn
+                                <i class="fas fa-link"></i> Link Tham Khảo
                             </div>
-                            <div class="card-content" id="fwSourceDetail">
-                                <span style="color:rgba(255,255,255,0.3);">GitHub</span>
+                            <div class="card-content" id="fwLinks">
+                                <a href="https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf" target="_blank" class="badge-item" style="color:var(--primary);">
+                                    <i class="fas fa-external-link-alt" style="font-size:0.6rem;"></i> Datasheet ESP32
+                                </a>
+                                <a href="https://dl.espressif.com/dl/schematics/ESP32-CORE-BOARD-V2_sch.pdf" target="_blank" class="badge-item" style="color:var(--primary);">
+                                    <i class="fas fa-external-link-alt" style="font-size:0.6rem;"></i> Schematic
+                                </a>
+                                <a href="https://github.com/espressif/esp-idf" target="_blank" class="badge-item" style="color:var(--primary);">
+                                    <i class="fas fa-external-link-alt" style="font-size:0.6rem;"></i> GitHub Project
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="fw-schematic">
+                            <div class="schematic-image" id="fwSchematic">
+                                <img src="https://raw.githubusercontent.com/espressif/arduino-esp32/master/docs/esp32_pinmap.png" 
+                                     alt="Sơ đồ ESP32"
+                                     onerror="this.parentElement.innerHTML='<div class=\\'no-image\\'><i class=\\'fas fa-image\\'></i><span>Không thể tải ảnh</span></div>'">
                             </div>
                         </div>
                     </div>
@@ -901,7 +945,6 @@
                     </div>
                 </div>
 
-                <!-- Flash Container -->
                 <div class="flash-container">
                     <h3>
                         <i class="fas fa-bolt"></i> Flash Firmware
@@ -931,10 +974,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // ======================== CẤU HÌNH ========================
-        // URL RAW GitHub của bạn
         const GITHUB_RAW = 'https://raw.githubusercontent.com/anhkhanhdeptrai/anhkhanhdeptrai/main/';
-        
-        // Chip config - OFFSET = 0 cho file merged firmware
         const CHIP_CONFIG = {
             'ESP32': { offset: 0 },
             'ESP32-C3': { offset: 0 },
@@ -942,22 +982,36 @@
             'ESP8266': { offset: 0 }
         };
 
+        // ======================== NỘI DUNG CHUNG CHO TẤT CẢ THÀNH VIÊN ========================
+        const COMMON_CONTENT = {
+            desc: 'Firmware cơ bản cho ESP32 với WiFi & Bluetooth. Hỗ trợ các tính năng IoT cơ bản, kết nối MQTT, HTTP server, và điều khiển GPIO.',
+            components: ['ESP32-WROOM-32', 'CP2102 USB-UART', 'AMS1117 3.3V', 'CH340G', 'LED 2x', 'Nút nhấn 2x'],
+            links: [
+                { name: 'Datasheet ESP32', url: 'https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf' },
+                { name: 'Schematic tham khảo', url: 'https://dl.espressif.com/dl/schematics/ESP32-CORE-BOARD-V2_sch.pdf' },
+                { name: 'GitHub Project', url: 'https://github.com/espressif/esp-idf' }
+            ],
+            schematic: 'https://raw.githubusercontent.com/espressif/arduino-esp32/master/docs/esp32_pinmap.png'
+        };
+
         // ======================== DANH SÁCH THÀNH VIÊN ========================
-        // THÊM THÀNH VIÊN MỚI VÀO ĐÂY
-        const members = [
-            { id: 1, name: 'Nguyễn Văn A', file: '1.bin', chip: 'ESP32' },
-            { id: 2, name: 'Trần Thị B', file: '2.bin', chip: 'ESP32' },
-            { id: 3, name: 'Lê Văn C', file: '3.bin', chip: 'ESP32' },
-            { id: 4, name: 'Phạm Thị D', file: '4.bin', chip: 'ESP32' },
-            { id: 5, name: 'Hoàng Văn E', file: '5.bin', chip: 'ESP32' },
-            { id: 6, name: 'Vũ Thị F', file: '6.bin', chip: 'ESP32' },
-            { id: 7, name: 'Đặng Văn G', file: '7.bin', chip: 'ESP32' },
-            { id: 8, name: 'Bùi Thị H', file: '8.bin', chip: 'ESP32' },
-            { id: 9, name: 'Đỗ Văn I', file: '9.bin', chip: 'ESP32' },
-            { id: 10, name: 'Hồ Thị K', file: '10.bin', chip: 'ESP32' },
-            // THÊM THÀNH VIÊN MỚI:
-            // { id: 11, name: 'Tên Mới', file: '11.bin', chip: 'ESP32' },
-        ];
+        // TẤT CẢ ĐỀU DÙNG CHUNG NỘI DUNG
+        const members = [];
+        const MEMBER_COUNT = 120;
+
+        for (let i = 1; i <= MEMBER_COUNT; i++) {
+            members.push({
+                id: i,
+                name: `Thành viên #${i}`,
+                file: i + '.bin',
+                chip: 'ESP32',
+                // Gán nội dung chung
+                desc: COMMON_CONTENT.desc,
+                components: COMMON_CONTENT.components,
+                links: COMMON_CONTENT.links,
+                schematic: COMMON_CONTENT.schematic
+            });
+        }
 
         // ======================== PARTICLES ========================
         function createParticles() {
@@ -1062,22 +1116,56 @@
         }
 
         // ======================== UPDATE UI ========================
-        async function updateUI(member) {
+        function updateUI(member) {
             // Update info
             document.getElementById('fwTitle').textContent = member.name;
             document.getElementById('fwVersion').textContent = `#${member.id}`;
             document.getElementById('fwChip').textContent = member.chip || 'ESP32';
-            document.getElementById('fwDesc').textContent = `Firmware của ${member.name} - File: ${member.file}`;
-            document.getElementById('fwChipDetail').innerHTML = `<span class="badge-item">${member.chip || 'ESP32'}</span>`;
-            document.getElementById('fwFileDetail').innerHTML = `<span class="badge-item">${member.file}</span>`;
-            document.getElementById('fwSourceDetail').innerHTML = `
-                <a href="${GITHUB_RAW}${member.file}" target="_blank" style="color:var(--primary);">
-                    <i class="fas fa-external-link-alt"></i> ${GITHUB_RAW}${member.file}
-                </a>
-            `;
+            document.getElementById('fwDesc').textContent = member.desc;
+
+            // Components
+            const compContainer = document.getElementById('fwComponents');
+            compContainer.innerHTML = member.components.map(comp => 
+                `<span class="badge-item">${comp}</span>`
+            ).join('');
+
+            // Links
+            const linkContainer = document.getElementById('fwLinks');
+            if (member.links && member.links.length > 0) {
+                linkContainer.innerHTML = member.links.map(link => 
+                    `<a href="${link.url}" target="_blank" class="badge-item" style="color:var(--primary);">
+                        <i class="fas fa-external-link-alt" style="font-size:0.6rem;"></i> ${link.name}
+                    </a>`
+                ).join(' ');
+            } else {
+                linkContainer.innerHTML = '<span style="color:rgba(255,255,255,0.3);">Chưa có link</span>';
+            }
+
+            // Schematic
+            const schematicContainer = document.getElementById('fwSchematic');
+            if (member.schematic) {
+                schematicContainer.innerHTML = `
+                    <img src="${member.schematic}" alt="Sơ đồ ${member.name}" 
+                         onerror="this.parentElement.innerHTML='<div class=\\'no-image\\'><i class=\\'fas fa-image\\'></i><span>Không thể tải ảnh</span></div>'">
+                `;
+            } else {
+                schematicContainer.innerHTML = `
+                    <div class="no-image">
+                        <i class="fas fa-image"></i>
+                        <span>Chưa có sơ đồ</span>
+                    </div>
+                `;
+            }
 
             // Render flash button
-            await renderFlashButton(member);
+            renderFlashButton(member);
+
+            // Reset animation
+            document.querySelectorAll('.fw-detail-card').forEach(el => {
+                el.style.animation = 'none';
+                el.offsetHeight;
+                el.style.animation = 'fadeInUp 0.5s ease forwards';
+            });
         }
 
         // ======================== RENDER FLASH BUTTON ========================
@@ -1093,7 +1181,6 @@
                         <i class="fas fa-exclamation-triangle" style="font-size:2rem;display:block;margin-bottom:10px;"></i>
                         <span style="font-size:1.1rem;font-weight:600;">File firmware chưa có trên server!</span>
                         <br><small style="color:rgba(255,255,255,0.3);">Vui lòng upload file <strong>${member.file}</strong> lên GitHub</small>
-                        <br><small style="color:rgba(255,255,255,0.2);">Đường dẫn: ${fileUrl}</small>
                     </div>
                 `;
                 return;
@@ -1152,9 +1239,6 @@
                         <i class="fas fa-bolt"></i> FLASH ${member.name}
                     </button>
                 </esp-web-install-button>
-                <div style="margin-top:8px;font-size:0.65rem;color:rgba(255,255,255,0.15);">
-                    <i class="fas fa-link"></i> ${fileUrl}
-                </div>
             `;
         }
 
@@ -1234,7 +1318,6 @@
             }, 4000);
         }
 
-        // Add animation styles
         const styleSheet = document.createElement("style");
         styleSheet.textContent = `
             @keyframes slideDown {
@@ -1264,9 +1347,9 @@
 
         console.log('%c🚀 VNK DIY IOT Flasher Pro v3.0', 'font-size: 24px; font-weight: bold; color: #00d4ff;');
         console.log(`%c📁 Lấy firmware từ: ${GITHUB_RAW}`, 'font-size: 14px; color: #ff6bff;');
-        console.log(`%c👥 Số thành viên: ${members.length}`, 'font-size: 12px; color: #00ff88;');
-        console.log('%c💡 Ctrl+1-9: Chọn thành viên nhanh', 'font-size: 12px; color: #ffd700;');
-        console.log('%c🔧 Để thêm thành viên, sửa mảng members trong code', 'font-size: 12px; color: #ff6bff;');
+        console.log(`%c👥 Số thành viên: ${MEMBER_COUNT}`, 'font-size: 12px; color: #00ff88;');
+        console.log('%c📌 Tất cả thành viên dùng chung nội dung (linh kiện, link, ảnh)', 'font-size: 12px; color: #ffd700;');
+        console.log('%c💡 Ctrl+1-9: Chọn thành viên nhanh', 'font-size: 12px; color: #00ff88;');
     </script>
 </body>
 </html>
