@@ -335,7 +335,6 @@
             margin: 0;
         }
 
-        /* ===== MEMBERS DROPDOWN ===== */
         .members-dropdown-container {
             grid-column: 1 / -1;
             background: rgba(255, 255, 255, 0.03);
@@ -343,6 +342,9 @@
             border-radius: 16px;
             padding: 5px;
             transition: all 0.3s ease;
+            max-height: 500px;
+            display: flex;
+            flex-direction: column;
         }
 
         .members-dropdown-container:hover {
@@ -358,6 +360,7 @@
             border-radius: 12px;
             transition: all 0.3s ease;
             user-select: none;
+            flex-shrink: 0;
         }
 
         .members-dropdown-header:hover {
@@ -399,28 +402,46 @@
             transform: rotate(180deg);
         }
 
-        .members-list {
+        .members-list-wrapper {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 0 5px;
+            flex-shrink: 0;
         }
 
-        .members-list.open {
-            max-height: 600px;
-            padding: 5px 5px 10px 5px;
+        .members-list-wrapper.open {
+            max-height: 400px;
+        }
+
+        .members-list {
+            max-height: 380px;
+            overflow-y: auto;
+            padding: 5px 5px 5px 5px;
+            scroll-behavior: smooth;
+        }
+
+        .members-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .members-list::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+        .members-list::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
         }
 
         .member-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 16px;
-            margin: 4px 0;
+            padding: 8px 12px;
+            margin: 3px 0;
             background: rgba(255, 255, 255, 0.03);
-            border-radius: 12px;
+            border-radius: 10px;
             border: 1px solid transparent;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             cursor: pointer;
         }
 
@@ -437,46 +458,71 @@
         .member-item .member-info {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             flex: 1;
+            min-width: 0;
+        }
+
+        .member-item .member-number {
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 0.65rem;
+            font-weight: 600;
+            min-width: 28px;
+            font-family: var(--font-code);
         }
 
         .member-item .member-avatar {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             background: var(--gradient-main);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             font-weight: 700;
             color: white;
             flex-shrink: 0;
         }
 
+        .member-item .member-avatar.empty {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.2);
+        }
+
         .member-item .member-name {
             color: rgba(255, 255, 255, 0.9);
             font-weight: 500;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .member-item .member-name.empty {
+            color: rgba(255, 255, 255, 0.2);
+            font-style: italic;
         }
 
         .member-item .member-desc {
-            font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.25);
             display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 120px;
         }
 
-        /* ===== STATUS ICON ===== */
-        .member-status-icon {
-            width: 28px;
-            height: 28px;
+        .member-item .member-status-icon {
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.9rem;
-            font-weight: 700;
+            font-size: 0.7rem;
             flex-shrink: 0;
         }
 
@@ -492,20 +538,20 @@
             border: 1px solid rgba(255, 107, 107, 0.3);
         }
 
-        .member-status-icon.status-loading {
-            background: rgba(255, 215, 0, 0.15);
-            color: var(--accent-3);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            animation: spin 1s linear infinite;
+        .member-status-icon.status-empty {
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.15);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            font-size: 0.6rem;
         }
 
         .member-item .member-select-btn {
             background: var(--gradient-main);
             border: none;
             color: white;
-            padding: 6px 18px;
-            border-radius: 12px;
-            font-size: 0.75rem;
+            padding: 4px 14px;
+            border-radius: 10px;
+            font-size: 0.65rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -525,7 +571,7 @@
         }
 
         .member-item .member-select-btn:disabled {
-            opacity: 0.4;
+            opacity: 0.3;
             cursor: not-allowed;
             transform: scale(0.9);
         }
@@ -539,7 +585,6 @@
             50% { transform: scale(1.15); }
         }
 
-        /* ===== FIRMWARE DETAIL CARDS ===== */
         .fw-detail-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--glass-border);
@@ -596,7 +641,6 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
-        /* ===== SCHEMATIC IMAGE ===== */
         .fw-schematic {
             grid-column: 1 / -1;
         }
@@ -638,7 +682,6 @@
             margin-bottom: 10px;
         }
 
-        /* ===== FLASH CONTAINER ===== */
         .flash-container {
             background: rgba(15, 22, 38, 0.85);
             backdrop-filter: blur(20px);
@@ -825,7 +868,6 @@
             color: rgba(255, 255, 255, 0.4);
         }
 
-        /* ===== PROGRESS OVERLAY ===== */
         .flash-progress-overlay {
             position: fixed;
             top: 0;
@@ -917,7 +959,6 @@
             color: #ff4444;
         }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 992px) {
             .fw-body {
                 grid-template-columns: 1fr;
@@ -963,13 +1004,42 @@
 
             .member-item {
                 flex-wrap: wrap;
-                gap: 8px;
+                gap: 4px;
+                padding: 6px 10px;
             }
 
             .member-item .member-select-btn {
                 opacity: 1;
                 transform: scale(1);
-                margin-left: auto;
+                padding: 3px 10px;
+                font-size: 0.6rem;
+            }
+
+            .member-item .member-desc {
+                display: none;
+            }
+
+            .member-item .member-number {
+                min-width: 20px;
+                font-size: 0.55rem;
+            }
+
+            .member-item .member-avatar {
+                width: 22px;
+                height: 22px;
+                font-size: 0.6rem;
+            }
+
+            .member-item .member-name {
+                font-size: 0.75rem;
+            }
+
+            .members-list {
+                max-height: 250px;
+            }
+
+            .members-list-wrapper.open {
+                max-height: 280px;
             }
         }
 
@@ -988,6 +1058,14 @@
 
             .member-item .member-desc {
                 display: none;
+            }
+
+            .members-list {
+                max-height: 200px;
+            }
+
+            .members-list-wrapper.open {
+                max-height: 230px;
             }
         }
 
@@ -1023,26 +1101,16 @@
             }
         }
 
-        /* Tooltip cho status */
-        .status-tooltip {
-            position: relative;
-            cursor: help;
+        .members-list::-webkit-scrollbar {
+            width: 4px;
         }
-
-        .status-tooltip:hover::after {
-            content: attr(data-tip);
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 8px;
-            font-size: 0.7rem;
-            white-space: nowrap;
-            z-index: 10;
-            border: 1px solid var(--glass-border);
+        .members-list::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 4px;
+        }
+        .members-list::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
         }
     </style>
 </head>
@@ -1135,13 +1203,15 @@
                             <div class="members-dropdown-header" id="dropdownHeader">
                                 <div class="header-left">
                                     <i class="fas fa-users"></i>
-                                    <span>Thành viên dự án</span>
+                                    <span>Danh sách thành viên</span>
                                     <span class="member-count" id="memberCount">0</span>
                                 </div>
                                 <i class="fas fa-chevron-down toggle-icon" id="toggleIcon"></i>
                             </div>
-                            <div class="members-list" id="membersList">
-                                <!-- Generated by JS -->
+                            <div class="members-list-wrapper" id="membersListWrapper">
+                                <div class="members-list" id="membersList">
+                                    <!-- Generated by JS -->
+                                </div>
                             </div>
                         </div>
 
@@ -1244,12 +1314,85 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // ======================== CẤU HÌNH OFFSET ========================
+        // TẤT CẢ ĐỀU DÙNG OFFSET 0 VÌ LÀ FILE MERGED FIRMWARE
+        const CHIP_CONFIG = {
+            'ESP32': { offset: 0 },
+            'ESP32-C3': { offset: 0 },
+            'ESP32-S3': { offset: 0 },
+            'ESP8266': { offset: 0 }
+        };
+
+        // ======================== GENERATE 100+ MEMBERS ========================
+        function generateMembers(count) {
+            const names = [
+                'Nguyễn Văn A', 'Trần Thị B', 'Lê Văn C', 'Phạm Thị D', 'Hoàng Văn E',
+                'Vũ Thị F', 'Đặng Văn G', 'Bùi Thị H', 'Đỗ Văn I', 'Hồ Thị K',
+                'Ngô Văn L', 'Dương Thị M', 'Trương Văn N', 'Lý Thị O', 'Vương Văn P',
+                'Trịnh Thị Q', 'Phùng Văn R', 'Mai Thị S', 'Chu Văn T', 'Lưu Thị U',
+                'Cao Văn V', 'Hà Thị X', 'Nguyễn Văn Y', 'Trần Thị Z', 'Lê Văn AA',
+                'Phạm Thị AB', 'Hoàng Văn AC', 'Vũ Thị AD', 'Đặng Văn AE', 'Bùi Thị AF',
+                'Đỗ Văn AG', 'Hồ Thị AH', 'Ngô Văn AI', 'Dương Thị AJ', 'Trương Văn AK',
+                'Lý Thị AL', 'Vương Văn AM', 'Trịnh Thị AN', 'Phùng Văn AO', 'Mai Thị AP',
+                'Chu Văn AQ', 'Lưu Thị AR', 'Cao Văn AS', 'Hà Thị AT', 'Nguyễn Văn AU',
+                'Trần Thị AV', 'Lê Văn AW', 'Phạm Thị AX', 'Hoàng Văn AY', 'Vũ Thị AZ'
+            ];
+
+            const projects = [
+                'Đèn LED WiFi', 'Cảm biến DHT11', 'Động cơ DC', 'MQTT Gateway', 'Smart Home',
+                'Cảm biến khí', 'Điều khiển nhiệt độ', 'Hệ thống tưới', 'Cửa tự động', 'Báo động',
+                'Đo độ ẩm', 'Điều khiển quạt', 'Hệ thống ánh sáng', 'Cảm biến chuyển động', 'IoT Core',
+                'Nhiệt kế số', 'Đồng hồ thời gian', 'Hệ thống an ninh', 'Điều khiển từ xa', 'Gateway Hub',
+                'Cảm biến áp suất', 'Điều khiển LED', 'Hệ thống năng lượng', 'Cảm biến mưa', 'IoT Bridge',
+                'Điều khiển servo', 'Cảm biến khoảng cách', 'Hệ thống báo khói', 'Màn hình OLED', 'IoT Shield'
+            ];
+
+            const members = [];
+            const usedNames = new Set();
+            const usedProjects = new Set();
+
+            for (let i = 1; i <= count; i++) {
+                let name;
+                do {
+                    const firstName = names[Math.floor(Math.random() * names.length)];
+                    const lastName = names[Math.floor(Math.random() * names.length)];
+                    name = firstName + ' ' + lastName;
+                } while (usedNames.has(name) && usedNames.size < 200);
+                usedNames.add(name);
+
+                let project;
+                const availableProjects = projects.filter(p => !usedProjects.has(p) || usedProjects.size >= projects.length);
+                if (availableProjects.length > 0) {
+                    project = availableProjects[Math.floor(Math.random() * availableProjects.length)];
+                } else {
+                    project = 'Dự án #' + i;
+                }
+                usedProjects.add(project);
+
+                const isRegistered = Math.random() > 0.3;
+                const status = isRegistered ? 'registered' : 'empty';
+                
+                members.push({
+                    id: 'member' + i,
+                    name: name,
+                    firmware: isRegistered ? 'firmware_' + i + '.bin' : '',
+                    desc: isRegistered ? project : 'Chưa đăng ký firmware',
+                    status: status,
+                    number: i
+                });
+            }
+
+            return members;
+        }
+
         // ======================== DATA ========================
+        const MEMBER_COUNT = 120;
+
         const firmwareData = {
             'fw1': {
                 name: 'ESP32 Basic',
                 file: 'firmware1.bin',
-                desc: 'Firmware cơ bản cho ESP32 với WiFi & Bluetooth.',
+                desc: 'Firmware cơ bản cho ESP32 với WiFi & Bluetooth. Hỗ trợ đa thành viên.',
                 version: 'v2.1.0',
                 chip: 'ESP32',
                 components: ['ESP32-WROOM-32', 'CP2102 USB-UART', 'AMS1117 3.3V'],
@@ -1257,13 +1400,7 @@
                     { name: 'Datasheet ESP32', url: 'https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf' }
                 ],
                 schematic: 'https://raw.githubusercontent.com/espressif/arduino-esp32/master/docs/esp32_pinmap.png',
-                members: [
-                    { id: 'member1', name: 'Nguyễn Văn A', firmware: 'firmware_a.bin', desc: 'Dự án đèn LED WiFi' },
-                    { id: 'member2', name: 'Trần Thị B', firmware: 'firmware_b.bin', desc: 'Dự án cảm biến DHT11' },
-                    { id: 'member3', name: 'Lê Văn C', firmware: 'firmware_c.bin', desc: 'Dự án động cơ DC' },
-                    { id: 'member4', name: 'Phạm Thị D', firmware: 'firmware_d.bin', desc: 'Dự án MQTT Gateway' },
-                    { id: 'member5', name: 'Hoàng Văn E', firmware: 'firmware_e.bin', desc: 'Dự án Smart Home' }
-                ]
+                members: generateMembers(MEMBER_COUNT)
             },
             'fw2': {
                 name: 'ESP32-C3 Pro',
@@ -1373,6 +1510,7 @@
 
         // ======================== CHECK FIRMWARE EXISTS ========================
         async function checkFirmwareExists(url) {
+            if (!url) return false;
             try {
                 const response = await fetch(url, { method: 'HEAD' });
                 return response.ok;
@@ -1384,6 +1522,7 @@
         // ======================== RENDER MEMBERS ========================
         async function renderMembers(members, firmwareId) {
             const container = document.getElementById('membersList');
+            const wrapper = document.getElementById('membersListWrapper');
             const countEl = document.getElementById('memberCount');
             
             if (!members || members.length === 0) {
@@ -1398,37 +1537,76 @@
                 return;
             }
 
-            document.querySelector('.members-dropdown-container').style.display = 'block';
+            document.querySelector('.members-dropdown-container').style.display = 'flex';
             countEl.textContent = members.length;
+
+            const registeredCount = members.filter(m => m.status === 'registered').length;
+            const emptyCount = members.filter(m => m.status === 'empty').length;
+
+            const header = document.querySelector('.members-dropdown-header .header-left span');
+            header.textContent = `Danh sách thành viên (${registeredCount} đã đăng ký, ${emptyCount} trống)`;
 
             let membersHtml = '';
             for (const member of members) {
-                const exists = await checkFirmwareExists(member.firmware);
-                const statusClass = exists ? 'status-ok' : 'status-missing';
-                const statusIcon = exists ? '✅' : '❌';
-                const statusTip = exists ? 'Firmware đã có sẵn' : 'Chưa có file firmware trên server';
+                const isRegistered = member.status === 'registered';
+                const exists = isRegistered ? await checkFirmwareExists(member.firmware) : false;
                 
+                let statusClass = 'status-empty';
+                let statusIcon = '⬜';
+                let statusTip = 'Chưa đăng ký';
+                let btnDisabled = true;
+                let btnText = 'Chờ';
+
+                if (isRegistered) {
+                    if (exists) {
+                        statusClass = 'status-ok';
+                        statusIcon = '✅';
+                        statusTip = 'Đã đăng ký - Có firmware';
+                        btnDisabled = false;
+                        btnText = 'Flash';
+                    } else {
+                        statusClass = 'status-missing';
+                        statusIcon = '❌';
+                        statusTip = 'Đã đăng ký - Chưa có firmware';
+                        btnDisabled = true;
+                        btnText = 'Chờ';
+                    }
+                }
+
+                const avatarClass = isRegistered ? '' : 'empty';
+                const nameClass = isRegistered ? '' : 'empty';
+                const displayName = isRegistered ? member.name : `Thành viên #${member.number}`;
+                const displayDesc = isRegistered ? member.desc : 'Chưa đăng ký firmware';
+
                 membersHtml += `
                     <div class="member-item" data-member-id="${member.id}">
                         <div class="member-info">
-                            <div class="member-avatar">${member.name.charAt(0)}</div>
+                            <span class="member-number">#${member.number}</span>
+                            <div class="member-avatar ${avatarClass}">
+                                ${isRegistered ? member.name.charAt(0) : '?'}
+                            </div>
                             <div>
-                                <div class="member-name">${member.name}</div>
-                                <span class="member-desc">${member.desc || ''}</span>
+                                <div class="member-name ${nameClass}">${displayName}</div>
+                                <span class="member-desc">${displayDesc}</span>
                             </div>
                         </div>
-                        <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
-                            <div class="member-status-icon ${statusClass}" data-tip="${statusTip}" title="${statusTip}">
+                        <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+                            <div class="member-status-icon ${statusClass}" title="${statusTip}">
                                 ${statusIcon}
                             </div>
-                            <button class="member-select-btn" onclick="selectAndFlash('${member.id}', '${firmwareId}')" ${!exists ? 'disabled' : ''}>
-                                <i class="fas fa-bolt"></i> ${exists ? 'Flash' : 'Chờ'}
+                            <button class="member-select-btn" onclick="selectAndFlash('${member.id}', '${firmwareId}')" ${btnDisabled ? 'disabled' : ''}>
+                                <i class="fas fa-bolt"></i> ${btnText}
                             </button>
                         </div>
                     </div>
                 `;
             }
             container.innerHTML = membersHtml;
+
+            if (members.length > 5) {
+                wrapper.classList.add('open');
+                document.getElementById('toggleIcon').classList.add('open');
+            }
         }
 
         // ======================== SELECT AND FLASH ========================
@@ -1436,6 +1614,11 @@
             const fw = firmwareData[firmwareId];
             const member = fw.members.find(m => m.id === memberId);
             if (!member) return;
+
+            if (member.status === 'empty') {
+                showNotification(`❌ Thành viên ${member.name || '#' + member.number} chưa đăng ký firmware!`);
+                return;
+            }
 
             const exists = await checkFirmwareExists(member.firmware);
             if (!exists) {
@@ -1448,7 +1631,6 @@
             const selectedEl = document.querySelector(`.member-item[data-member-id="${memberId}"]`);
             if (selectedEl) selectedEl.classList.add('active-member');
 
-            // Button animation
             const btn = selectedEl?.querySelector('.member-select-btn');
             if (btn) {
                 btn.classList.add('flashing');
@@ -1458,11 +1640,22 @@
 
             showProgress(member.name, member.firmware);
 
-            // Tạo manifest
+            // ===== OFFSET = 0 CHO TẤT CẢ (FILE MERGED FIRMWARE) =====
+            const offset = 0;
+
+            // Tạo manifest với offset = 0
             const manifestData = {
                 name: `${fw.name} - ${member.name}`,
                 version: fw.version,
-                builds: [{ chipFamily: fw.chip, parts: [{ path: member.firmware, offset: 0 }] }]
+                builds: [{
+                    chipFamily: fw.chip,
+                    parts: [
+                        { 
+                            path: member.firmware, 
+                            offset: offset  // OFFSET = 0
+                        }
+                    ]
+                }]
             };
 
             const manifestJson = JSON.stringify(manifestData);
@@ -1603,6 +1796,19 @@
             }, 4000);
         }
 
+        const styleSheet = document.createElement("style");
+        styleSheet.textContent = `
+            @keyframes slideDown {
+                from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+                to { opacity: 1; transform: translateX(-50%) translateY(0); }
+            }
+            @keyframes slideUp {
+                from { opacity: 1; transform: translateX(-50%) translateY(0); }
+                to { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+
         // ======================== RENDER FIRMWARE DETAIL ========================
         async function renderFirmwareDetail(firmwareId) {
             const fw = firmwareData[firmwareId];
@@ -1654,8 +1860,10 @@
 
         // ======================== DROPDOWN TOGGLE ========================
         document.getElementById('dropdownHeader').addEventListener('click', function() {
-            document.getElementById('membersList').classList.toggle('open');
-            document.getElementById('toggleIcon').classList.toggle('open');
+            const wrapper = document.getElementById('membersListWrapper');
+            const icon = document.getElementById('toggleIcon');
+            wrapper.classList.toggle('open');
+            icon.classList.toggle('open');
         });
 
         // ======================== SELECT FIRMWARE ========================
@@ -1684,8 +1892,9 @@
         });
 
         console.log('%c🚀 VNK DIY IOT Flasher Pro v2.0', 'font-size: 24px; font-weight: bold; color: #00d4ff;');
-        console.log('%c✅ Hiển thị icon thay vì tên file firmware', 'font-size: 14px; color: #ff6bff;');
-        console.log('%c💡 Hover vào icon để xem trạng thái chi tiết', 'font-size: 12px; color: #00ff88;');
+        console.log(`%c👥 Đã tạo ${MEMBER_COUNT} thành viên`, 'font-size: 14px; color: #ff6bff;');
+        console.log('%c📌 OFFSET = 0 cho tất cả (file merged firmware)', 'font-size: 12px; color: #00ff88;');
+        console.log('%c💡 Ctrl+D: Mở danh sách thành viên | Ctrl+1-4: Chọn firmware', 'font-size: 12px; color: #00ff88;');
     </script>
 </body>
 </html>
