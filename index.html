@@ -229,6 +229,15 @@
             color: white;
         }
 
+        .list-group-item.has-members::after {
+            content: '👥';
+            position: absolute;
+            right: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.8rem;
+        }
+
         .main-content {
             padding: 0 10px;
         }
@@ -335,6 +344,171 @@
             font-size: 0.8rem;
             color: var(--accent-2);
             margin-right: 10px;
+        }
+
+        /* ===== MEMBERS DROPDOWN ===== */
+        .members-dropdown-container {
+            grid-column: 1 / -1;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .members-dropdown-container:hover {
+            border-color: var(--primary);
+        }
+
+        .members-dropdown-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 18px;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .members-dropdown-header:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .members-dropdown-header .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .members-dropdown-header .header-left i {
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .members-dropdown-header .header-left span {
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+        }
+
+        .members-dropdown-header .header-left .member-count {
+            background: var(--gradient-main);
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            color: white;
+            font-weight: 700;
+        }
+
+        .members-dropdown-header .toggle-icon {
+            color: rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .members-dropdown-header .toggle-icon.open {
+            transform: rotate(180deg);
+        }
+
+        .members-list {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 0 5px;
+        }
+
+        .members-list.open {
+            max-height: 600px;
+            padding: 5px 5px 10px 5px;
+        }
+
+        .member-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            margin: 4px 0;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .member-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(0, 212, 255, 0.2);
+        }
+
+        .member-item.active-member {
+            background: rgba(0, 212, 255, 0.08);
+            border-color: var(--primary);
+        }
+
+        .member-item .member-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .member-item .member-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--gradient-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .member-item .member-name {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .member-item .member-firmware {
+            font-size: 0.7rem;
+            color: var(--primary);
+            font-family: var(--font-code);
+            background: rgba(0, 212, 255, 0.1);
+            padding: 2px 12px;
+            border-radius: 12px;
+        }
+
+        .member-item .member-status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-2);
+            animation: pulse 2s infinite;
+        }
+
+        .member-item .member-select-btn {
+            background: var(--gradient-main);
+            border: none;
+            color: white;
+            padding: 4px 14px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .member-item:hover .member-select-btn {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .member-item .member-select-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
         }
 
         /* ===== FIRMWARE DETAIL CARDS ===== */
@@ -622,7 +796,6 @@
             color: rgba(255, 255, 255, 0.4);
         }
 
-        /* ===== COMPONENT LIST ===== */
         .component-list {
             display: flex;
             flex-wrap: wrap;
@@ -683,6 +856,17 @@
             .fw-body .fw-detail-card {
                 padding: 14px 16px;
             }
+
+            .member-item {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .member-item .member-select-btn {
+                opacity: 1;
+                transform: scale(1);
+                margin-left: auto;
+            }
         }
 
         @media (max-width: 576px) {
@@ -692,6 +876,11 @@
             
             .fw-schematic .schematic-image img {
                 max-height: 200px;
+            }
+
+            .member-item .member-firmware {
+                font-size: 0.6rem;
+                padding: 1px 8px;
             }
         }
 
@@ -802,6 +991,21 @@
                             <p id="fwDesc">Chào mừng đến với VNK DIY IOT Flasher Pro</p>
                         </div>
 
+                        <!-- ===== MEMBERS DROPDOWN ===== -->
+                        <div class="members-dropdown-container" id="membersDropdown">
+                            <div class="members-dropdown-header" id="dropdownHeader">
+                                <div class="header-left">
+                                    <i class="fas fa-users"></i>
+                                    <span>Thành viên dự án</span>
+                                    <span class="member-count" id="memberCount">0</span>
+                                </div>
+                                <i class="fas fa-chevron-down toggle-icon" id="toggleIcon"></i>
+                            </div>
+                            <div class="members-list" id="membersList">
+                                <!-- Generated by JS -->
+                            </div>
+                        </div>
+
                         <!-- Components -->
                         <div class="fw-detail-card">
                             <div class="card-label">
@@ -904,12 +1108,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // ======================== DATA FIRMWARE ========================
-        const firmwareList = [
-            { 
-                id: 'fw1', 
-                name: 'ESP32 Basic', 
-                file: 'firmware1.bin', 
+        // ======================== DATA FIRMWARE & MEMBERS ========================
+        const firmwareData = {
+            'fw1': {
+                name: 'ESP32 Basic',
+                file: 'firmware1.bin',
                 desc: 'Firmware cơ bản cho ESP32 với WiFi & Bluetooth. Hỗ trợ các tính năng IoT cơ bản, kết nối MQTT, HTTP server, và điều khiển GPIO.',
                 version: 'v2.1.0',
                 chip: 'ESP32',
@@ -919,12 +1122,49 @@
                     { name: 'Schematic tham khảo', url: 'https://dl.espressif.com/dl/schematics/ESP32-CORE-BOARD-V2_sch.pdf' },
                     { name: 'GitHub Project', url: 'https://github.com/espressif/esp-idf' }
                 ],
-                schematic: 'https://raw.githubusercontent.com/espressif/arduino-esp32/master/docs/esp32_pinmap.png'
+                schematic: 'https://raw.githubusercontent.com/espressif/arduino-esp32/master/docs/esp32_pinmap.png',
+                // Danh sách thành viên với firmware riêng
+                members: [
+                    { 
+                        id: 'member1', 
+                        name: 'Nguyễn Văn A', 
+                        firmware: 'firmware_a.bin',
+                        desc: 'Firmware cho dự án điều khiển đèn LED qua WiFi',
+                        version: 'v1.2.0'
+                    },
+                    { 
+                        id: 'member2', 
+                        name: 'Trần Thị B', 
+                        firmware: 'firmware_b.bin',
+                        desc: 'Firmware cho dự án cảm biến nhiệt độ - độ ẩm',
+                        version: 'v2.0.1'
+                    },
+                    { 
+                        id: 'member3', 
+                        name: 'Lê Văn C', 
+                        firmware: 'firmware_c.bin',
+                        desc: 'Firmware cho dự án điều khiển động cơ DC',
+                        version: 'v1.5.2'
+                    },
+                    { 
+                        id: 'member4', 
+                        name: 'Phạm Thị D', 
+                        firmware: 'firmware_d.bin',
+                        desc: 'Firmware cho dự án MQTT Gateway',
+                        version: 'v3.0.0'
+                    },
+                    { 
+                        id: 'member5', 
+                        name: 'Hoàng Văn E', 
+                        firmware: 'firmware_e.bin',
+                        desc: 'Firmware cho dự án IoT Smart Home',
+                        version: 'v2.3.1'
+                    }
+                ]
             },
-            { 
-                id: 'fw2', 
-                name: 'ESP32-C3 Pro', 
-                file: 'firmware2.bin', 
+            'fw2': {
+                name: 'ESP32-C3 Pro',
+                file: 'firmware2.bin',
                 desc: 'Firmware tối ưu cho ESP32-C3 với BLE 5.0 và WiFi. Tiết kiệm năng lượng, phù hợp cho các dự án IoT pin.',
                 version: 'v1.8.3',
                 chip: 'ESP32-C3',
@@ -933,12 +1173,12 @@
                     { name: 'Datasheet ESP32-C3', url: 'https://www.espressif.com/sites/default/files/documentation/esp32-c3_datasheet_en.pdf' },
                     { name: 'Schematic', url: 'https://dl.espressif.com/dl/schematics/ESP32-C3-DevKitM-1_sch.pdf' }
                 ],
-                schematic: 'https://docs.espressif.com/projects/esp-idf/en/latest/esp32c3/_images/esp32-c3-devkitm-1-v1-pinout.jpg'
+                schematic: 'https://docs.espressif.com/projects/esp-idf/en/latest/esp32c3/_images/esp32-c3-devkitm-1-v1-pinout.jpg',
+                members: []
             },
-            { 
-                id: 'fw3', 
-                name: 'ESP32-S3 AI', 
-                file: 'firmware3.bin', 
+            'fw3': {
+                name: 'ESP32-S3 AI',
+                file: 'firmware3.bin',
                 desc: 'Firmware AI cho ESP32-S3 với TensorFlow Lite. Hỗ trợ nhận diện hình ảnh, xử lý âm thanh, và các ứng dụng Machine Learning.',
                 version: 'v3.0.1',
                 chip: 'ESP32-S3',
@@ -947,12 +1187,12 @@
                     { name: 'Datasheet ESP32-S3', url: 'https://www.espressif.com/sites/default/files/documentation/esp32-s3_datasheet_en.pdf' },
                     { name: 'TensorFlow Lite Micro', url: 'https://www.tensorflow.org/lite/microcontrollers' }
                 ],
-                schematic: 'https://docs.espressif.com/projects/esp-idf/en/latest/esp32s3/_images/esp32-s3-devkitc-1-v1.0-pinout.jpg'
+                schematic: 'https://docs.espressif.com/projects/esp-idf/en/latest/esp32s3/_images/esp32-s3-devkitc-1-v1.0-pinout.jpg',
+                members: []
             },
-            { 
-                id: 'fw4', 
-                name: 'ESP8266 IoT', 
-                file: 'firmware4.bin', 
+            'fw4': {
+                name: 'ESP8266 IoT',
+                file: 'firmware4.bin',
                 desc: 'Firmware nhẹ cho ESP8266 IoT projects. Tối ưu cho các ứng dụng cảm biến, điều khiển đèn, và thu thập dữ liệu.',
                 version: 'v1.5.0',
                 chip: 'ESP8266',
@@ -961,9 +1201,10 @@
                     { name: 'Datasheet ESP8266', url: 'https://www.espressif.com/sites/default/files/documentation/0a-esp8266ex_datasheet_en.pdf' },
                     { name: 'NodeMCU Documentation', url: 'https://nodemcu.readthedocs.io/' }
                 ],
-                schematic: 'https://raw.githubusercontent.com/nodemcu/nodemcu-devkit-v1.0/master/NODEMCU_DEVKIT_V1.0_PINMAP.png'
+                schematic: 'https://raw.githubusercontent.com/nodemcu/nodemcu-devkit-v1.0/master/NODEMCU_DEVKIT_V1.0_PINMAP.png',
+                members: []
             }
-        ];
+        };
 
         // ======================== PARTICLES ========================
         function createParticles() {
@@ -1016,33 +1257,160 @@
         });
 
         // ======================== RENDER FIRMWARE LIST ========================
+        const firmwareKeys = Object.keys(firmwareData);
         const firmwareListEl = document.getElementById('firmwareList');
-        firmwareListEl.innerHTML = firmwareList.map((fw, index) => `
-            <button class="list-group-item ${index === 0 ? 'active' : ''}" data-id="${fw.id}">
-                <span class="fw-icon"><i class="fas fa-microchip"></i></span>
-                ${fw.name}
-                <span class="fw-badge">${fw.chip}</span>
-            </button>
-        `).join('');
+        firmwareListEl.innerHTML = firmwareKeys.map((key, index) => {
+            const fw = firmwareData[key];
+            const hasMembers = fw.members && fw.members.length > 0;
+            return `
+                <button class="list-group-item ${index === 0 ? 'active' : ''} ${hasMembers ? 'has-members' : ''}" data-id="${key}">
+                    <span class="fw-icon"><i class="fas fa-microchip"></i></span>
+                    ${fw.name}
+                    <span class="fw-badge">${fw.chip}</span>
+                </button>
+            `;
+        }).join('');
+
+        // ======================== RENDER MEMBERS ========================
+        function renderMembers(members, firmwareId) {
+            const container = document.getElementById('membersList');
+            const countEl = document.getElementById('memberCount');
+            
+            if (!members || members.length === 0) {
+                container.innerHTML = `
+                    <div style="padding:16px;text-align:center;color:rgba(255,255,255,0.3);font-size:0.9rem;">
+                        <i class="fas fa-users" style="display:block;font-size:2rem;margin-bottom:8px;"></i>
+                        Chưa có thành viên cho firmware này
+                    </div>
+                `;
+                countEl.textContent = '0';
+                document.querySelector('.members-dropdown-container').style.display = 'none';
+                return;
+            }
+
+            document.querySelector('.members-dropdown-container').style.display = 'block';
+            countEl.textContent = members.length;
+
+            container.innerHTML = members.map((member, index) => `
+                <div class="member-item" data-member-id="${member.id}" data-firmware="${member.firmware}">
+                    <div class="member-info">
+                        <div class="member-avatar">${member.name.charAt(0)}</div>
+                        <div>
+                            <div class="member-name">${member.name}</div>
+                            <div style="font-size:0.7rem;color:rgba(255,255,255,0.3);">${member.desc || ''}</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                        <span class="member-firmware">${member.firmware}</span>
+                        <span class="member-status"></span>
+                        <button class="member-select-btn" onclick="selectMember('${member.id}', '${firmwareId}')">
+                            <i class="fas fa-bolt"></i> Flash
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ======================== SELECT MEMBER ========================
+        window.selectMember = function(memberId, firmwareId) {
+            const fw = firmwareData[firmwareId];
+            const member = fw.members.find(m => m.id === memberId);
+            if (!member) return;
+
+            // Highlight selected member
+            document.querySelectorAll('.member-item').forEach(el => {
+                el.classList.remove('active-member');
+            });
+            const selectedEl = document.querySelector(`.member-item[data-member-id="${memberId}"]`);
+            if (selectedEl) {
+                selectedEl.classList.add('active-member');
+            }
+
+            // Update flash button for specific member firmware
+            const flashBtn = document.querySelector('esp-web-install-button');
+            if (flashBtn) {
+                const btnSlot = flashBtn.querySelector('[slot="button"]');
+                if (btnSlot) {
+                    btnSlot.innerHTML = `<i class="fas fa-bolt"></i> FLASH ${member.name} (${member.firmware})`;
+                }
+            }
+
+            // Show notification
+            showNotification(`Đã chọn firmware của ${member.name}: ${member.firmware}`);
+
+            console.log(`🔧 Chọn firmware của thành viên: ${member.name} -> ${member.firmware}`);
+        };
+
+        // ======================== NOTIFICATION ========================
+        function showNotification(message) {
+            const existing = document.querySelector('.flash-notification');
+            if (existing) existing.remove();
+
+            const notif = document.createElement('div');
+            notif.className = 'flash-notification';
+            notif.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: var(--gradient-main);
+                color: white;
+                padding: 12px 25px;
+                border-radius: 16px;
+                font-weight: 600;
+                font-size: 0.95rem;
+                box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
+                z-index: 9999;
+                animation: slideDown 0.5s ease;
+                font-family: var(--font-body);
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            `;
+            notif.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+            document.body.appendChild(notif);
+
+            setTimeout(() => {
+                notif.style.animation = 'slideUp 0.5s ease forwards';
+                setTimeout(() => notif.remove(), 500);
+            }, 3000);
+        }
+
+        // Add animation styles
+        const styleSheet = document.createElement("style");
+        styleSheet.textContent = `
+            @keyframes slideDown {
+                from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+                to { opacity: 1; transform: translateX(-50%) translateY(0); }
+            }
+            @keyframes slideUp {
+                from { opacity: 1; transform: translateX(-50%) translateY(0); }
+                to { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            }
+        `;
+        document.head.appendChild(styleSheet);
 
         // ======================== RENDER FIRMWARE DETAIL ========================
-        function renderFirmwareDetail(firmware) {
+        function renderFirmwareDetail(firmwareId) {
+            const fw = firmwareData[firmwareId];
+            if (!fw) return;
+
             // Title
-            document.getElementById('fwTitle').textContent = firmware.name;
-            document.getElementById('fwVersion').textContent = firmware.version;
-            document.getElementById('fwChip').textContent = firmware.chip;
-            document.getElementById('fwDesc').textContent = firmware.desc;
+            document.getElementById('fwTitle').textContent = fw.name;
+            document.getElementById('fwVersion').textContent = fw.version;
+            document.getElementById('fwChip').textContent = fw.chip;
+            document.getElementById('fwDesc').textContent = fw.desc;
 
             // Components
             const compContainer = document.getElementById('fwComponents');
-            compContainer.innerHTML = firmware.components.map(comp => 
+            compContainer.innerHTML = fw.components.map(comp => 
                 `<span class="badge-item">${comp}</span>`
             ).join('');
 
             // Links
             const linkContainer = document.getElementById('fwLinks');
-            if (firmware.links && firmware.links.length > 0) {
-                linkContainer.innerHTML = firmware.links.map(link => 
+            if (fw.links && fw.links.length > 0) {
+                linkContainer.innerHTML = fw.links.map(link => 
                     `<a href="${link.url}" target="_blank" class="badge-item" style="color:var(--primary);">
                         <i class="fas fa-external-link-alt" style="font-size:0.6rem;"></i> ${link.name}
                     </a>`
@@ -1053,9 +1421,9 @@
 
             // Schematic Image
             const schematicContainer = document.getElementById('fwSchematic');
-            if (firmware.schematic) {
+            if (fw.schematic) {
                 schematicContainer.innerHTML = `
-                    <img src="${firmware.schematic}" alt="Sơ đồ ${firmware.name}" 
+                    <img src="${fw.schematic}" alt="Sơ đồ ${fw.name}" 
                          onerror="this.parentElement.innerHTML='<div class=\\'no-image\\'><i class=\\'fas fa-image\\'></i><span>Không thể tải ảnh</span></div>'">
                 `;
             } else {
@@ -1067,22 +1435,33 @@
                 `;
             }
 
-            // Update Flash Button
+            // Render Members
+            renderMembers(fw.members, firmwareId);
+
+            // Reset flash button to default
             const flashBtn = document.querySelector('esp-web-install-button');
             if (flashBtn) {
                 const btnSlot = flashBtn.querySelector('[slot="button"]');
                 if (btnSlot) {
-                    btnSlot.innerHTML = `<i class="fas fa-bolt"></i> FLASH ${firmware.name}`;
+                    btnSlot.innerHTML = `<i class="fas fa-bolt"></i> FLASH ${fw.name}`;
                 }
             }
 
             // Reset animation
             document.querySelectorAll('.fw-detail-card').forEach(el => {
                 el.style.animation = 'none';
-                el.offsetHeight; // trigger reflow
+                el.offsetHeight;
                 el.style.animation = 'fadeInUp 0.5s ease forwards';
             });
         }
+
+        // ======================== DROPDOWN TOGGLE ========================
+        document.getElementById('dropdownHeader').addEventListener('click', function() {
+            const list = document.getElementById('membersList');
+            const icon = document.getElementById('toggleIcon');
+            list.classList.toggle('open');
+            icon.classList.toggle('open');
+        });
 
         // ======================== SELECT FIRMWARE ========================
         document.querySelectorAll('#firmwareList .list-group-item').forEach(item => {
@@ -1091,13 +1470,12 @@
                 this.classList.add('active');
                 
                 const fwId = this.dataset.id;
-                const selected = firmwareList.find(f => f.id === fwId) || firmwareList[0];
-                renderFirmwareDetail(selected);
+                renderFirmwareDetail(fwId);
             });
         });
 
         // ======================== INIT ========================
-        renderFirmwareDetail(firmwareList[0]);
+        renderFirmwareDetail(firmwareKeys[0]);
 
         // ======================== KEYBOARD SHORTCUTS ========================
         document.addEventListener('keydown', function(e) {
@@ -1108,11 +1486,17 @@
                     items[index].click();
                 }
             }
+            
+            // Ctrl + D: Toggle dropdown
+            if (e.ctrlKey && e.key === 'd') {
+                e.preventDefault();
+                document.getElementById('dropdownHeader').click();
+            }
         });
 
         console.log('%c🚀 VNK DIY IOT Flasher Pro v2.0', 'font-size: 24px; font-weight: bold; color: #00d4ff;');
-        console.log('%c🔧 Đã tải ' + firmwareList.length + ' firmware', 'font-size: 14px; color: #ff6bff;');
-        console.log('%c💡 Ctrl+1-4 để chọn firmware nhanh', 'font-size: 12px; color: #00ff88;');
+        console.log('%c👥 Hỗ trợ nhiều thành viên với firmware riêng', 'font-size: 14px; color: #ff6bff;');
+        console.log('%c💡 Ctrl+1-4: Chọn firmware | Ctrl+D: Mở danh sách thành viên', 'font-size: 12px; color: #00ff88;');
     </script>
 </body>
 </html>
