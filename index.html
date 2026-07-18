@@ -982,7 +982,7 @@
             'ESP8266': { offset: 0 }
         };
 
-        // ======================== NỘI DUNG CHUNG CHO TẤT CẢ THÀNH VIÊN ========================
+        // ======================== NỘI DUNG CHUNG ========================
         const COMMON_CONTENT = {
             desc: 'Firmware cơ bản cho ESP32 với WiFi & Bluetooth. Hỗ trợ các tính năng IoT cơ bản, kết nối MQTT, HTTP server, và điều khiển GPIO.',
             components: ['ESP32-WROOM-32', 'CP2102 USB-UART', 'AMS1117 3.3V', 'CH340G', 'LED 2x', 'Nút nhấn 2x'],
@@ -994,18 +994,97 @@
             schematic: 'https://raw.githubusercontent.com/espressif/arduino-esp32/master/docs/esp32_pinmap.png'
         };
 
-        // ======================== DANH SÁCH THÀNH VIÊN ========================
-        // TẤT CẢ ĐỀU DÙNG CHUNG NỘI DUNG
-        const members = [];
+        // ======================== DANH SÁCH TÊN THÀNH VIÊN ========================
+        // 🔧 SỬA TÊN THÀNH VIÊN Ở ĐÂY
+        const memberNames = [
+            'Nguyễn Văn A',
+            'Trần Thị B',
+            'Lê Văn C',
+            'Phạm Thị D',
+            'Hoàng Văn E',
+            'Vũ Thị F',
+            'Đặng Văn G',
+            'Bùi Thị H',
+            'Đỗ Văn I',
+            'Hồ Thị K',
+            'Ngô Văn L',
+            'Dương Thị M',
+            'Trương Văn N',
+            'Lý Thị O',
+            'Vương Văn P',
+            'Trịnh Thị Q',
+            'Phùng Văn R',
+            'Mai Thị S',
+            'Chu Văn T',
+            'Lưu Thị U',
+            'Cao Văn V',
+            'Hà Thị X',
+            'Nguyễn Văn Y',
+            'Trần Thị Z',
+            'Lê Văn AA',
+            'Phạm Thị AB',
+            'Hoàng Văn AC',
+            'Vũ Thị AD',
+            'Đặng Văn AE',
+            'Bùi Thị AF',
+            'Đỗ Văn AG',
+            'Hồ Thị AH',
+            'Ngô Văn AI',
+            'Dương Thị AJ',
+            'Trương Văn AK',
+            'Lý Thị AL',
+            'Vương Văn AM',
+            'Trịnh Thị AN',
+            'Phùng Văn AO',
+            'Mai Thị AP',
+            'Chu Văn AQ',
+            'Lưu Thị AR',
+            'Cao Văn AS',
+            'Hà Thị AT',
+            'Nguyễn Văn AU',
+            'Trần Thị AV',
+            'Lê Văn AW',
+            'Phạm Thị AX',
+            'Hoàng Văn AY',
+            'Vũ Thị AZ',
+            // THÊM TÊN TỪ ĐÂY...
+            'Nguyễn Văn BA',
+            'Trần Thị BB',
+            'Lê Văn BC',
+            'Phạm Thị BD',
+            'Hoàng Văn BE',
+            'Vũ Thị BF',
+            'Đặng Văn BG',
+            'Bùi Thị BH',
+            'Đỗ Văn BI',
+            'Hồ Thị BK',
+            'Ngô Văn BL',
+            'Dương Thị BM',
+            'Trương Văn BN',
+            'Lý Thị BO',
+            'Vương Văn BP',
+            'Trịnh Thị BQ',
+            'Phùng Văn BR',
+            'Mai Thị BS',
+            'Chu Văn BT',
+            'Lưu Thị BU',
+            'Cao Văn BV',
+            'Hà Thị BX',
+            'Nguyễn Văn BY',
+            'Trần Thị BZ'
+        ];
+
+        // ======================== TẠO DANH SÁCH THÀNH VIÊN ========================
         const MEMBER_COUNT = 120;
+        const members = [];
 
         for (let i = 1; i <= MEMBER_COUNT; i++) {
+            const nameIndex = i - 1;
             members.push({
                 id: i,
-                name: `Thành viên #${i}`,
+                name: memberNames[nameIndex] || `Thành viên #${i}`,
                 file: i + '.bin',
                 chip: 'ESP32',
-                // Gán nội dung chung
                 desc: COMMON_CONTENT.desc,
                 components: COMMON_CONTENT.components,
                 links: COMMON_CONTENT.links,
@@ -1348,8 +1427,9 @@
         console.log('%c🚀 VNK DIY IOT Flasher Pro v3.0', 'font-size: 24px; font-weight: bold; color: #00d4ff;');
         console.log(`%c📁 Lấy firmware từ: ${GITHUB_RAW}`, 'font-size: 14px; color: #ff6bff;');
         console.log(`%c👥 Số thành viên: ${MEMBER_COUNT}`, 'font-size: 12px; color: #00ff88;');
-        console.log('%c📌 Tất cả thành viên dùng chung nội dung (linh kiện, link, ảnh)', 'font-size: 12px; color: #ffd700;');
+        console.log('%c📌 Tất cả thành viên dùng chung nội dung', 'font-size: 12px; color: #ffd700;');
         console.log('%c💡 Ctrl+1-9: Chọn thành viên nhanh', 'font-size: 12px; color: #00ff88;');
+        console.log('%c🔧 Để đổi tên, sửa mảng memberNames', 'font-size: 12px; color: #ff6bff;');
     </script>
 </body>
 </html>
