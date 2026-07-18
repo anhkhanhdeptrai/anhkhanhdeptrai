@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VNK IOT Flasher - Lấy Firmware từ GitHub</title>
+    <title>VNK IOT Flasher Pro - GitHub</title>
     <link rel="icon" href="logo1.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
@@ -12,8 +12,10 @@
     <style>
         :root {
             --primary: #00d4ff;
+            --primary-dark: #0099cc;
             --accent-1: #ff6bff;
             --accent-2: #00ff88;
+            --accent-3: #ffd700;
             --gradient-main: linear-gradient(135deg, #00d4ff, #ff6bff, #00ff88);
             --glass-bg: rgba(255, 255, 255, 0.1);
             --glass-border: rgba(255, 255, 255, 0.2);
@@ -58,6 +60,40 @@
             50% { transform: scale(1.1); }
         }
 
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: floatParticle linear infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% {
+                transform: translateY(-100vh) scale(1);
+                opacity: 0;
+            }
+        }
+
         .container-fluid {
             position: relative;
             z-index: 1;
@@ -78,11 +114,23 @@
             transition: all 0.3s ease;
         }
 
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
         .sidebar-header {
             text-align: center;
             padding-bottom: 20px;
             margin-bottom: 25px;
             border-bottom: 2px solid var(--glass-border);
+            position: relative;
         }
 
         .sidebar-header .logo {
@@ -103,6 +151,33 @@
             font-weight: 300;
         }
 
+        .sidebar-header .status-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: var(--accent-2);
+            border-radius: 50%;
+            margin-left: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        .firmware-list-container h5 {
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         .list-group-item {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -113,6 +188,8 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             color: rgba(255, 255, 255, 0.7);
             font-weight: 500;
+            position: relative;
+            overflow: hidden;
         }
 
         .list-group-item:hover {
@@ -135,6 +212,31 @@
             font-size: 1.2rem;
         }
 
+        .list-group-item .fw-badge {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.6rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 3px 10px;
+            border-radius: 20px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .list-group-item.active .fw-badge {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .list-group-item .status-icon {
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.7rem;
+        }
+
         .main-content {
             padding: 0 10px;
         }
@@ -147,7 +249,6 @@
             margin-bottom: 25px;
             border: 1px solid var(--glass-border);
             box-shadow: var(--shadow-glow);
-            text-align: center;
             position: relative;
             overflow: hidden;
         }
@@ -175,7 +276,6 @@
         .fw-header {
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 20px;
             margin-bottom: 20px;
             flex-wrap: wrap;
@@ -216,12 +316,78 @@
             margin-top: 5px;
         }
 
+        .fw-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 10px;
+        }
+
+        .fw-body .fw-description {
+            grid-column: 1 / -1;
+        }
+
         .fw-body .fw-description p {
             color: rgba(255, 255, 255, 0.8);
             font-size: 1rem;
             line-height: 1.6;
-            max-width: 600px;
-            margin: 10px auto;
+            margin: 0;
+        }
+
+        .fw-detail-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 18px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .fw-detail-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .fw-detail-card .card-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.3);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .fw-detail-card .card-label i {
+            color: var(--primary);
+        }
+
+        .fw-detail-card .card-content {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+            word-break: break-all;
+        }
+
+        .fw-detail-card .card-content a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .fw-detail-card .card-content a:hover {
+            color: var(--accent-2);
+            text-decoration: underline;
+        }
+
+        .fw-detail-card .card-content .badge-item {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin: 2px 4px 2px 0;
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .flash-container {
@@ -255,12 +421,19 @@
             font-size: 0.9rem;
         }
 
+        .flash-container .alert i {
+            margin-right: 10px;
+        }
+
         .flash-btn-wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 80px;
             padding: 15px 0;
+            position: relative;
+            flex-direction: column;
+            gap: 10px;
         }
 
         esp-web-install-button::part(button) {
@@ -310,6 +483,37 @@
             font-weight: 300;
         }
 
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-4px) scale(1.1);
+            border-color: var(--primary);
+            color: var(--primary);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+        }
+
         .dark-toggle {
             position: fixed;
             bottom: 30px;
@@ -338,6 +542,133 @@
             box-shadow: 0 0 50px rgba(0, 212, 255, 0.5);
         }
 
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-4px);
+            border-color: var(--primary);
+        }
+
+        .feature-card i {
+            font-size: 1.5rem;
+            background: var(--gradient-main);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .feature-card span {
+            display: block;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .flash-progress-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 9998;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .flash-progress-overlay.active {
+            display: flex;
+        }
+
+        .flash-progress-overlay .progress-content {
+            background: rgba(15, 22, 38, 0.95);
+            padding: 40px;
+            border-radius: 24px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 60px rgba(0, 212, 255, 0.3);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+        }
+
+        .flash-progress-overlay .progress-content .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .flash-progress-overlay .progress-content h3 {
+            color: white;
+            font-family: var(--font-title);
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .flash-progress-overlay .progress-content p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .flash-progress-overlay .progress-content .progress-bar-bg {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .flash-progress-overlay .progress-content .progress-bar-fill {
+            height: 100%;
+            background: var(--gradient-main);
+            width: 0%;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .flash-progress-overlay .progress-content .cancel-btn {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+            padding: 8px 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .flash-progress-overlay .progress-content .cancel-btn:hover {
+            background: rgba(255, 0, 0, 0.1);
+            border-color: #ff4444;
+            color: #ff4444;
+        }
+
         .fw-status-ok {
             color: var(--accent-2);
         }
@@ -346,6 +677,12 @@
         }
         .fw-status-loading {
             color: var(--accent-3);
+        }
+
+        @media (max-width: 992px) {
+            .fw-body {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 768px) {
@@ -360,6 +697,11 @@
                 padding: 0;
             }
 
+            .fw-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
             .fw-header .fw-title-group h2 {
                 font-size: 1.5rem;
             }
@@ -367,18 +709,92 @@
             .digital-clock .time {
                 font-size: 2.5rem;
             }
+
+            .firmware-info-container {
+                padding: 20px;
+            }
+
+            .flash-container {
+                padding: 20px;
+            }
+
+            .fw-body .fw-detail-card {
+                padding: 14px 16px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .fw-detail-card .card-content {
+                font-size: 0.85rem;
+            }
+            
+            .flash-progress-overlay .progress-content {
+                padding: 25px;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0e17;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-main);
+            border-radius: 8px;
+        }
+
+        .fw-detail-card {
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .fw-detail-card:nth-child(1) { animation-delay: 0.1s; }
+        .fw-detail-card:nth-child(2) { animation-delay: 0.2s; }
+        .fw-detail-card:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Dark Mode Toggle -->
     <div class="dark-toggle">
         <button class="toggle-btn" id="themeToggle">
             <i class="fas fa-moon"></i>
         </button>
     </div>
 
+    <!-- Progress Overlay -->
+    <div class="flash-progress-overlay" id="progressOverlay">
+        <div class="progress-content">
+            <div class="spinner"></div>
+            <h3 id="progressTitle">Đang nạp firmware...</h3>
+            <p id="progressDesc">Đang kiểm tra file firmware...</p>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressFill"></div>
+            </div>
+            <button class="cancel-btn" onclick="cancelFlash()">
+                <i class="fas fa-times"></i> Hủy bỏ
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
     <div class="container-fluid">
         <div class="row g-4">
+            <!-- Sidebar -->
             <div class="col-md-3">
                 <div class="sidebar">
                     <div class="sidebar-header">
@@ -391,8 +807,9 @@
                     </div>
 
                     <div class="firmware-list-container">
-                        <h5 style="color: var(--primary); font-weight: 700; margin-bottom: 15px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;">
-                            <i class="fas fa-list-ul"></i> Firmware
+                        <h5>
+                            <i class="fas fa-list-ul"></i> Thành Viên
+                            <span style="font-size:0.7rem;color:rgba(255,255,255,0.3);font-weight:300;margin-left:auto;">GitHub</span>
                         </h5>
                         <div class="list-group" id="firmwareList">
                             <!-- Generated by JS -->
@@ -400,61 +817,91 @@
                     </div>
 
                     <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--glass-border);">
-                        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin:15px 0;">
-                            <div style="background:rgba(255,255,255,0.03);border:1px solid var(--glass-border);border-radius:14px;padding:12px;text-align:center;">
-                                <i class="fas fa-bolt" style="font-size:1.5rem;background:var(--gradient-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block;margin-bottom:5px;"></i>
-                                <span style="display:block;font-size:0.7rem;color:rgba(255,255,255,0.4);">Fast Flash</span>
+                        <div class="feature-grid">
+                            <div class="feature-card">
+                                <i class="fas fa-bolt"></i>
+                                <span>Fast Flash</span>
                             </div>
-                            <div style="background:rgba(255,255,255,0.03);border:1px solid var(--glass-border);border-radius:14px;padding:12px;text-align:center;">
-                                <i class="fas fa-shield-alt" style="font-size:1.5rem;background:var(--gradient-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block;margin-bottom:5px;"></i>
-                                <span style="display:block;font-size:0.7rem;color:rgba(255,255,255,0.4);">Secure</span>
+                            <div class="feature-card">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Secure</span>
                             </div>
-                            <div style="background:rgba(255,255,255,0.03);border:1px solid var(--glass-border);border-radius:14px;padding:12px;text-align:center;">
-                                <i class="fas fa-sync" style="font-size:1.5rem;background:var(--gradient-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block;margin-bottom:5px;"></i>
-                                <span style="display:block;font-size:0.7rem;color:rgba(255,255,255,0.4);">Auto Update</span>
+                            <div class="feature-card">
+                                <i class="fas fa-sync"></i>
+                                <span>Auto Update</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Main Content -->
             <div class="col-md-9 main-content">
+                <!-- Firmware Info -->
                 <div class="firmware-info-container" id="firmwareInfo">
                     <div class="fw-header">
                         <div class="chip-icon">
                             <i class="fas fa-microchip"></i>
                         </div>
                         <div class="fw-title-group">
-                            <h2 id="fwTitle">Chọn Firmware</h2>
+                            <h2 id="fwTitle">Chọn Thành Viên</h2>
                             <div>
-                                <span class="fw-version-tag" id="fwVersion">v1.0.0</span>
+                                <span class="fw-version-tag" id="fwVersion">#1</span>
                                 <span class="fw-version-tag" id="fwChip" style="border-color:rgba(0,255,136,0.2);color:var(--accent-2);">ESP32</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="fw-body">
+                    <div class="fw-body" id="fwBody">
                         <div class="fw-description">
-                            <p id="fwDesc">Chào mừng đến với VNK DIY IOT Flasher Pro. Chọn firmware bên trái để bắt đầu.</p>
+                            <p id="fwDesc">Chào mừng đến với VNK DIY IOT Flasher Pro. Chọn thành viên bên trái để bắt đầu nạp firmware.</p>
+                        </div>
+
+                        <div class="fw-detail-card">
+                            <div class="card-label">
+                                <i class="fas fa-microchip"></i> Chip
+                            </div>
+                            <div class="card-content" id="fwChipDetail">
+                                <span class="badge-item">ESP32</span>
+                            </div>
+                        </div>
+
+                        <div class="fw-detail-card">
+                            <div class="card-label">
+                                <i class="fas fa-link"></i> Firmware
+                            </div>
+                            <div class="card-content" id="fwFileDetail">
+                                <span style="color:rgba(255,255,255,0.3);">Chưa chọn</span>
+                            </div>
+                        </div>
+
+                        <div class="fw-detail-card">
+                            <div class="card-label">
+                                <i class="fas fa-cloud-download-alt"></i> Nguồn
+                            </div>
+                            <div class="card-content" id="fwSourceDetail">
+                                <span style="color:rgba(255,255,255,0.3);">GitHub</span>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="social-links" style="display:flex;justify-content:center;gap:12px;margin-top:15px;padding-top:15px;border-top:1px solid var(--glass-border);">
-                        <a href="https://www.tiktok.com/@ZERODIY" target="_blank" style="display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px solid var(--glass-border);color:rgba(255,255,255,0.5);transition:all 0.3s ease;text-decoration:none;font-size:1rem;">
+                    <div class="social-links">
+                        <a href="https://www.tiktok.com/@ZERODIY" target="_blank" title="TikTok">
                             <i class="fab fa-tiktok"></i>
                         </a>
-                        <a href="https://github.com/anhkhanhdeptrai/anhkhanhdeptrai" target="_blank" style="display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px solid var(--glass-border);color:rgba(255,255,255,0.5);transition:all 0.3s ease;text-decoration:none;font-size:1rem;">
+                        <a href="https://github.com/anhkhanhdeptrai/anhkhanhdeptrai" target="_blank" title="GitHub">
                             <i class="fab fa-github"></i>
                         </a>
-                        <a href="#" target="_blank" style="display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px solid var(--glass-border);color:rgba(255,255,255,0.5);transition:all 0.3s ease;text-decoration:none;font-size:1rem;">
+                        <a href="#" target="_blank" title="YouTube">
                             <i class="fab fa-youtube"></i>
                         </a>
-                        <a href="#" target="_blank" style="display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px solid var(--glass-border);color:rgba(255,255,255,0.5);transition:all 0.3s ease;text-decoration:none;font-size:1rem;">
+                        <a href="#" target="_blank" title="Facebook">
                             <i class="fab fa-facebook"></i>
                         </a>
                     </div>
                 </div>
 
+                <!-- Flash Container -->
                 <div class="flash-container">
                     <h3>
                         <i class="fas fa-bolt"></i> Flash Firmware
@@ -466,7 +913,6 @@
                     </div>
 
                     <div class="flash-btn-wrapper" id="espWebToolsContainer">
-                        <!-- Nút flash được tạo động bằng JS -->
                         <div style="text-align:center;color:rgba(255,255,255,0.3);">
                             <i class="fas fa-arrow-left" style="font-size:2rem;display:block;margin-bottom:10px;"></i>
                             Chọn thành viên bên trái để hiển thị nút Flash
@@ -484,143 +930,51 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // ======================== CẤU HÌNH FIRMWARE TỪ GITHUB ========================
-        // URL RAW GitHub: https://raw.githubusercontent.com/anhkhanhdeptrai/anhkhanhdeptrai/main/
+        // ======================== CẤU HÌNH ========================
+        // URL RAW GitHub của bạn
         const GITHUB_RAW = 'https://raw.githubusercontent.com/anhkhanhdeptrai/anhkhanhdeptrai/main/';
+        
+        // Chip config - OFFSET = 0 cho file merged firmware
+        const CHIP_CONFIG = {
+            'ESP32': { offset: 0 },
+            'ESP32-C3': { offset: 0 },
+            'ESP32-S3': { offset: 0 },
+            'ESP8266': { offset: 0 }
+        };
 
-        // Danh sách thành viên
+        // ======================== DANH SÁCH THÀNH VIÊN ========================
+        // THÊM THÀNH VIÊN MỚI VÀO ĐÂY
         const members = [
-            { id: 1, name: 'Nguyễn Văn A', file: '1.bin' },
-            { id: 2, name: 'Trần Thị B', file: '2.bin' },
-            { id: 3, name: 'Lê Văn C', file: '3.bin' },
-            { id: 4, name: 'Phạm Thị D', file: '4.bin' },
-            { id: 5, name: 'Hoàng Văn E', file: '5.bin' },
-            { id: 6, name: 'Vũ Thị F', file: '6.bin' },
-            { id: 7, name: 'Đặng Văn G', file: '7.bin' },
-            { id: 8, name: 'Bùi Thị H', file: '8.bin' },
-            { id: 9, name: 'Đỗ Văn I', file: '9.bin' },
-            { id: 10, name: 'Hồ Thị K', file: '10.bin' },
+            { id: 1, name: 'Nguyễn Văn A', file: '1.bin', chip: 'ESP32' },
+            { id: 2, name: 'Trần Thị B', file: '2.bin', chip: 'ESP32' },
+            { id: 3, name: 'Lê Văn C', file: '3.bin', chip: 'ESP32' },
+            { id: 4, name: 'Phạm Thị D', file: '4.bin', chip: 'ESP32' },
+            { id: 5, name: 'Hoàng Văn E', file: '5.bin', chip: 'ESP32' },
+            { id: 6, name: 'Vũ Thị F', file: '6.bin', chip: 'ESP32' },
+            { id: 7, name: 'Đặng Văn G', file: '7.bin', chip: 'ESP32' },
+            { id: 8, name: 'Bùi Thị H', file: '8.bin', chip: 'ESP32' },
+            { id: 9, name: 'Đỗ Văn I', file: '9.bin', chip: 'ESP32' },
+            { id: 10, name: 'Hồ Thị K', file: '10.bin', chip: 'ESP32' },
+            // THÊM THÀNH VIÊN MỚI:
+            // { id: 11, name: 'Tên Mới', file: '11.bin', chip: 'ESP32' },
         ];
 
-        // ======================== CHECK FIRMWARE EXISTS ========================
-        async function checkFirmwareExists(url) {
-            try {
-                const response = await fetch(url, { method: 'HEAD' });
-                return response.ok;
-            } catch {
-                return false;
+        // ======================== PARTICLES ========================
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = (Math.random() * 4 + 2) + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
+                particle.style.animationDelay = (Math.random() * 10) + 's';
+                particle.style.opacity = Math.random() * 0.3 + 0.1;
+                container.appendChild(particle);
             }
         }
-
-        // ======================== RENDER FIRMWARE LIST ========================
-        const firmwareListEl = document.getElementById('firmwareList');
-        firmwareListEl.innerHTML = members.map((member, index) => `
-            <button class="list-group-item ${index === 0 ? 'active' : ''}" data-id="${member.id}">
-                <span class="fw-icon"><i class="fas fa-user"></i></span>
-                ${member.name}
-                <span class="fw-badge" style="position:absolute;right:15px;top:50%;transform:translateY(-50%);font-size:0.6rem;background:rgba(255,255,255,0.1);padding:3px 10px;border-radius:20px;color:rgba(255,255,255,0.5);">#${member.id}</span>
-            </button>
-        `).join('');
-
-        // ======================== RENDER FLASH BUTTON ========================
-        async function renderFlashButton(member) {
-            const container = document.getElementById('espWebToolsContainer');
-            
-            // Kiểm tra file tồn tại
-            const fileUrl = GITHUB_RAW + member.file;
-            const exists = await checkFirmwareExists(fileUrl);
-
-            if (!exists) {
-                container.innerHTML = `
-                    <div style="text-align:center;color:#ff6b6b;padding:20px;">
-                        <i class="fas fa-exclamation-triangle" style="font-size:2rem;display:block;margin-bottom:10px;"></i>
-                        <span>File firmware ${member.file} chưa có trên server!</span>
-                        <br><small style="color:rgba(255,255,255,0.3);">Vui lòng upload file lên GitHub</small>
-                    </div>
-                `;
-                return;
-            }
-
-            // Tạo manifest với offset = 0
-            const manifestData = {
-                name: `VNK - ${member.name}`,
-                version: '1.0.0',
-                builds: [{
-                    chipFamily: 'ESP32',
-                    parts: [
-                        { 
-                            path: fileUrl, 
-                            offset: 0
-                        }
-                    ]
-                }]
-            };
-
-            // Tạo Blob URL cho manifest
-            const manifestJson = JSON.stringify(manifestData);
-            const blob = new Blob([manifestJson], { type: 'application/json' });
-            const manifestUrl = URL.createObjectURL(blob);
-
-            // Tạo button
-            container.innerHTML = `
-                <esp-web-install-button
-                    manifest="${manifestUrl}"
-                    allow-multiple
-                >
-                    <i class="fas fa-bolt" slot="activate"></i>
-                    <span slot="unsupported">
-                        <i class="fas fa-exclamation-triangle"></i> Trình duyệt không hỗ trợ Web Serial
-                    </span>
-                    <span slot="not-allowed">
-                        <i class="fas fa-lock"></i> Chưa được phép kết nối
-                    </span>
-                    <button slot="button" style="
-                        background: linear-gradient(135deg, #00d4ff, #ff6bff, #00ff88);
-                        color: white;
-                        border: none;
-                        padding: 16px 35px;
-                        font-family: 'Orbitron', sans-serif;
-                        font-weight: 700;
-                        text-transform: uppercase;
-                        border-radius: 16px;
-                        box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
-                        transition: all 0.3s ease;
-                        font-size: 1rem;
-                        letter-spacing: 2px;
-                        cursor: pointer;
-                    ">
-                        <i class="fas fa-bolt"></i> FLASH ${member.name}
-                    </button>
-                </esp-web-install-button>
-                <div style="margin-top:10px;font-size:0.7rem;color:rgba(255,255,255,0.2);">
-                    <i class="fas fa-link"></i> ${fileUrl}
-                </div>
-            `;
-        }
-
-        // ======================== UPDATE UI ========================
-        function updateUI(member) {
-            document.getElementById('fwTitle').textContent = member.name;
-            document.getElementById('fwVersion').textContent = `#${member.id}`;
-            document.getElementById('fwChip').textContent = 'ESP32';
-            document.getElementById('fwDesc').textContent = `Firmware của ${member.name} - File: ${member.file}`;
-            
-            renderFlashButton(member);
-        }
-
-        // ======================== SELECT MEMBER ========================
-        document.querySelectorAll('#firmwareList .list-group-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('#firmwareList .list-group-item').forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-                
-                const id = parseInt(this.dataset.id);
-                const member = members.find(m => m.id === id);
-                if (member) {
-                    updateUI(member);
-                }
-            });
-        });
+        createParticles();
 
         // ======================== CLOCK ========================
         function updateClock() {
@@ -655,14 +1009,264 @@
             }
         });
 
-        // ======================== INIT ========================
-        if (members.length > 0) {
-            updateUI(members[0]);
+        // ======================== CHECK FIRMWARE EXISTS ========================
+        async function checkFirmwareExists(url) {
+            try {
+                const response = await fetch(url, { method: 'HEAD' });
+                return response.ok;
+            } catch {
+                return false;
+            }
         }
 
-        console.log('%c🚀 VNK DIY IOT Flasher Pro', 'font-size: 20px; font-weight: bold; color: #00d4ff;');
-        console.log(`%c📁 Lấy firmware từ: ${GITHUB_RAW}`, 'font-size: 12px; color: #ff6bff;');
+        // ======================== RENDER FIRMWARE LIST ========================
+        async function renderFirmwareList() {
+            const container = document.getElementById('firmwareList');
+            
+            let html = '';
+            for (const member of members) {
+                const fileUrl = GITHUB_RAW + member.file;
+                const exists = await checkFirmwareExists(fileUrl);
+                const statusIcon = exists ? '✅' : '❌';
+                const statusClass = exists ? 'fw-status-ok' : 'fw-status-missing';
+                
+                html += `
+                    <button class="list-group-item ${member.id === 1 ? 'active' : ''}" data-id="${member.id}">
+                        <span class="fw-icon"><i class="fas fa-user"></i></span>
+                        ${member.name}
+                        <span class="status-icon ${statusClass}">${statusIcon}</span>
+                        <span class="fw-badge">#${member.id}</span>
+                    </button>
+                `;
+            }
+            container.innerHTML = html;
+
+            // Event listeners
+            document.querySelectorAll('#firmwareList .list-group-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    document.querySelectorAll('#firmwareList .list-group-item').forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const id = parseInt(this.dataset.id);
+                    const member = members.find(m => m.id === id);
+                    if (member) {
+                        updateUI(member);
+                    }
+                });
+            });
+
+            // Init first member
+            if (members.length > 0) {
+                updateUI(members[0]);
+            }
+        }
+
+        // ======================== UPDATE UI ========================
+        async function updateUI(member) {
+            // Update info
+            document.getElementById('fwTitle').textContent = member.name;
+            document.getElementById('fwVersion').textContent = `#${member.id}`;
+            document.getElementById('fwChip').textContent = member.chip || 'ESP32';
+            document.getElementById('fwDesc').textContent = `Firmware của ${member.name} - File: ${member.file}`;
+            document.getElementById('fwChipDetail').innerHTML = `<span class="badge-item">${member.chip || 'ESP32'}</span>`;
+            document.getElementById('fwFileDetail').innerHTML = `<span class="badge-item">${member.file}</span>`;
+            document.getElementById('fwSourceDetail').innerHTML = `
+                <a href="${GITHUB_RAW}${member.file}" target="_blank" style="color:var(--primary);">
+                    <i class="fas fa-external-link-alt"></i> ${GITHUB_RAW}${member.file}
+                </a>
+            `;
+
+            // Render flash button
+            await renderFlashButton(member);
+        }
+
+        // ======================== RENDER FLASH BUTTON ========================
+        async function renderFlashButton(member) {
+            const container = document.getElementById('espWebToolsContainer');
+            
+            const fileUrl = GITHUB_RAW + member.file;
+            const exists = await checkFirmwareExists(fileUrl);
+
+            if (!exists) {
+                container.innerHTML = `
+                    <div style="text-align:center;color:#ff6b6b;padding:20px;">
+                        <i class="fas fa-exclamation-triangle" style="font-size:2rem;display:block;margin-bottom:10px;"></i>
+                        <span style="font-size:1.1rem;font-weight:600;">File firmware chưa có trên server!</span>
+                        <br><small style="color:rgba(255,255,255,0.3);">Vui lòng upload file <strong>${member.file}</strong> lên GitHub</small>
+                        <br><small style="color:rgba(255,255,255,0.2);">Đường dẫn: ${fileUrl}</small>
+                    </div>
+                `;
+                return;
+            }
+
+            // Lấy offset theo chip
+            const offset = CHIP_CONFIG[member.chip]?.offset || 0;
+
+            // Tạo manifest
+            const manifestData = {
+                name: `VNK - ${member.name}`,
+                version: '1.0.0',
+                builds: [{
+                    chipFamily: member.chip || 'ESP32',
+                    parts: [
+                        { 
+                            path: fileUrl, 
+                            offset: offset
+                        }
+                    ]
+                }]
+            };
+
+            // Tạo Blob URL
+            const manifestJson = JSON.stringify(manifestData);
+            const blob = new Blob([manifestJson], { type: 'application/json' });
+            const manifestUrl = URL.createObjectURL(blob);
+
+            container.innerHTML = `
+                <esp-web-install-button
+                    manifest="${manifestUrl}"
+                    allow-multiple
+                >
+                    <i class="fas fa-bolt" slot="activate"></i>
+                    <span slot="unsupported">
+                        <i class="fas fa-exclamation-triangle"></i> Trình duyệt không hỗ trợ Web Serial
+                    </span>
+                    <span slot="not-allowed">
+                        <i class="fas fa-lock"></i> Chưa được phép kết nối
+                    </span>
+                    <button slot="button" style="
+                        background: linear-gradient(135deg, #00d4ff, #ff6bff, #00ff88);
+                        color: white;
+                        border: none;
+                        padding: 16px 35px;
+                        font-family: 'Orbitron', sans-serif;
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        border-radius: 16px;
+                        box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
+                        transition: all 0.3s ease;
+                        font-size: 1rem;
+                        letter-spacing: 2px;
+                        cursor: pointer;
+                    ">
+                        <i class="fas fa-bolt"></i> FLASH ${member.name}
+                    </button>
+                </esp-web-install-button>
+                <div style="margin-top:8px;font-size:0.65rem;color:rgba(255,255,255,0.15);">
+                    <i class="fas fa-link"></i> ${fileUrl}
+                </div>
+            `;
+        }
+
+        // ======================== PROGRESS ========================
+        let progressInterval = null;
+        let progress = 0;
+
+        function showProgress(name, firmware) {
+            const overlay = document.getElementById('progressOverlay');
+            document.getElementById('progressTitle').textContent = `Đang nạp firmware của ${name}`;
+            document.getElementById('progressDesc').textContent = `File: ${firmware}`;
+            document.getElementById('progressFill').style.width = '0%';
+            overlay.classList.add('active');
+            progress = 0;
+            
+            if (progressInterval) clearInterval(progressInterval);
+            progressInterval = setInterval(() => {
+                progress += Math.random() * 5 + 1;
+                if (progress > 95) progress = 95;
+                document.getElementById('progressFill').style.width = progress + '%';
+                if (progress > 20) document.getElementById('progressDesc').textContent = `File: ${firmware} - Đang tải...`;
+                if (progress > 50) document.getElementById('progressDesc').textContent = `File: ${firmware} - Đang kết nối ESP32...`;
+                if (progress > 75) document.getElementById('progressDesc').textContent = `File: ${firmware} - Đang ghi...`;
+            }, 300);
+        }
+
+        function hideProgress() {
+            const overlay = document.getElementById('progressOverlay');
+            if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
+            document.getElementById('progressFill').style.width = '100%';
+            document.getElementById('progressDesc').textContent = '✅ Hoàn tất!';
+            setTimeout(() => {
+                overlay.classList.remove('active');
+                document.getElementById('progressFill').style.width = '0%';
+            }, 1000);
+        }
+
+        window.cancelFlash = function() {
+            if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
+            hideProgress();
+            showNotification('❌ Đã hủy nạp firmware');
+        };
+
+        // ======================== NOTIFICATION ========================
+        function showNotification(message) {
+            const existing = document.querySelector('.flash-notification');
+            if (existing) existing.remove();
+
+            const notif = document.createElement('div');
+            notif.className = 'flash-notification';
+            notif.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: var(--gradient-main);
+                color: white;
+                padding: 12px 25px;
+                border-radius: 16px;
+                font-weight: 600;
+                font-size: 0.95rem;
+                box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
+                z-index: 9999;
+                animation: slideDown 0.5s ease;
+                font-family: var(--font-body);
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                max-width: 90%;
+            `;
+            notif.innerHTML = `<i class="fas fa-info-circle"></i> ${message}`;
+            document.body.appendChild(notif);
+
+            setTimeout(() => {
+                notif.style.animation = 'slideUp 0.5s ease forwards';
+                setTimeout(() => notif.remove(), 500);
+            }, 4000);
+        }
+
+        // Add animation styles
+        const styleSheet = document.createElement("style");
+        styleSheet.textContent = `
+            @keyframes slideDown {
+                from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+                to { opacity: 1; transform: translateX(-50%) translateY(0); }
+            }
+            @keyframes slideUp {
+                from { opacity: 1; transform: translateX(-50%) translateY(0); }
+                to { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            }
+        `;
+        document.head.appendChild(styleSheet);
+
+        // ======================== KEYBOARD SHORTCUTS ========================
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key >= '1' && e.key <= '9') {
+                const index = parseInt(e.key) - 1;
+                const items = document.querySelectorAll('#firmwareList .list-group-item');
+                if (items[index]) {
+                    items[index].click();
+                }
+            }
+        });
+
+        // ======================== INIT ========================
+        renderFirmwareList();
+
+        console.log('%c🚀 VNK DIY IOT Flasher Pro v3.0', 'font-size: 24px; font-weight: bold; color: #00d4ff;');
+        console.log(`%c📁 Lấy firmware từ: ${GITHUB_RAW}`, 'font-size: 14px; color: #ff6bff;');
         console.log(`%c👥 Số thành viên: ${members.length}`, 'font-size: 12px; color: #00ff88;');
+        console.log('%c💡 Ctrl+1-9: Chọn thành viên nhanh', 'font-size: 12px; color: #ffd700;');
+        console.log('%c🔧 Để thêm thành viên, sửa mảng members trong code', 'font-size: 12px; color: #ff6bff;');
     </script>
 </body>
 </html>
