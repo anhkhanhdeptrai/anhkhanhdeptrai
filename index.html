@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#09090b">
 
-<title>Vietnam TV</title>
+<title>KHANH TV 📺</title>
 
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
@@ -18,7 +18,6 @@
 :root{
     --bg:#09090b;
     --card:#111114;
-    --card2:#17171c;
     --border:#292930;
     --text:#fff;
     --muted:#92929b;
@@ -191,7 +190,7 @@ header{
 }
 
 /* =========================
-   PLAYER AREA
+   PLAYER
 ========================= */
 
 .player-area{
@@ -201,11 +200,9 @@ header{
 
     height:100%;
 
-    overflow-y:auto;
+    overflow:hidden;
 
     padding:20px;
-
-    scrollbar-width:thin;
 }
 
 .player-box{
@@ -363,7 +360,7 @@ video{
 }
 
 /* =========================
-   DESKTOP CHANNEL PANEL
+   CHANNEL PANEL
 ========================= */
 
 .channels-panel{
@@ -408,6 +405,10 @@ video{
     font-size:11px;
 }
 
+/* =========================
+   CHANNEL LIST
+========================= */
+
 .channels{
     flex:1;
 
@@ -428,7 +429,7 @@ video{
 }
 
 /* =========================
-   CHANNEL CARD
+   CHANNEL
 ========================= */
 
 .channel{
@@ -452,8 +453,7 @@ video{
 
     cursor:pointer;
 
-    transition:
-        .18s;
+    transition:.18s;
 }
 
 .channel:hover{
@@ -580,10 +580,6 @@ video{
         overflow:hidden;
     }
 
-    header{
-        height:auto;
-    }
-
     .header{
         padding:
             8px 10px;
@@ -627,8 +623,8 @@ video{
     }
 
     /*
-     * PLAYER CỐ ĐỊNH
-     */
+       PLAYER CỐ ĐỊNH
+    */
 
     .player-area{
         flex:none;
@@ -687,9 +683,8 @@ video{
     }
 
     /*
-     * DANH SÁCH KÊNH
-     * CHỈ PHẦN NÀY CUỘN
-     */
+       CHỈ DANH SÁCH KÊNH CUỘN
+    */
 
     .channels-panel{
         width:100%;
@@ -764,8 +759,7 @@ video{
         font-size:10px;
 
         padding:
-            6px 1px
-            1px;
+            6px 1px 1px;
     }
 
     .channel-live{
@@ -818,7 +812,10 @@ video{
 
     .channels{
         grid-template-columns:
-            repeat(3,minmax(0,1fr));
+            repeat(
+                3,
+                minmax(0,1fr)
+            );
     }
 }
 </style>
@@ -842,7 +839,7 @@ video{
             </div>
 
             <span>
-                Vietnam TV
+                KHANH TV
             </span>
 
         </div>
@@ -876,9 +873,7 @@ video{
 <div class="app">
 
 
-    <!-- =====================
-         PLAYER
-    ====================== -->
+    <!-- PLAYER -->
 
     <section class="player-area">
 
@@ -947,9 +942,7 @@ video{
     </section>
 
 
-    <!-- =====================
-         CHANNEL PANEL
-    ====================== -->
+    <!-- CHANNELS -->
 
     <aside class="channels-panel">
 
@@ -1030,7 +1023,7 @@ let currentChannel = null;
 
 
 /* =========================
-   LOAD M3U
+   LOAD PLAYLIST
 ========================= */
 
 async function loadPlaylist(){
@@ -1040,7 +1033,6 @@ async function loadPlaylist(){
         const response =
             await fetch(PLAYLIST);
 
-
         if(!response.ok){
 
             throw new Error(
@@ -1049,18 +1041,14 @@ async function loadPlaylist(){
 
         }
 
-
         const text =
             await response.text();
-
 
         channels =
             parseM3U(text);
 
-
         statusText.innerText =
             `Đã tải ${channels.length} kênh`;
-
 
         renderChannels(channels);
 
@@ -1070,10 +1058,8 @@ async function loadPlaylist(){
 
         console.error(error);
 
-
         statusText.innerText =
             "❌ Không thể tải playlist";
-
 
         channelsBox.innerHTML = `
 
@@ -1083,7 +1069,7 @@ async function loadPlaylist(){
                     ⚠️
                 </div>
 
-                Không tải được danh sách
+                Không tải được danh sách kênh
 
             </div>
 
@@ -1123,7 +1109,6 @@ function parseM3U(text){
             const nameMatch =
                 line.match(/,(.*)$/);
 
-
             const logoMatch =
                 line.match(
                     /tvg-logo="([^"]*)"/
@@ -1150,7 +1135,6 @@ function parseM3U(text){
 
         }
 
-
         else if(
             info &&
             line &&
@@ -1167,11 +1151,9 @@ function parseM3U(text){
 
             });
 
-
             info = null;
         }
     }
-
 
     return result;
 }
@@ -1302,19 +1284,12 @@ function renderChannels(list){
         `;
 
 
-        /*
-         * Bấm kênh:
-         *
-         * KHÔNG scroll page.
-         *
-         * Chỉ đổi video.
-         */
+        item.onclick =
+            function(){
 
-        item.onclick = function(){
+                playChannel(channel);
 
-            playChannel(channel);
-
-        };
+            };
 
 
         channelsBox.appendChild(item);
@@ -1342,26 +1317,30 @@ function playChannel(channel){
 
 
     /*
-     * Hủy HLS cũ
-     */
+       Lưu vị trí danh sách
+       trước khi render.
+    */
+
+    const oldScroll =
+        channelsBox.scrollTop;
+
+
+    /*
+       Hủy HLS cũ.
+    */
 
     if(hls){
 
         hls.destroy();
 
         hls = null;
+
     }
 
 
-    /*
-     * Reset video
-     */
-
     video.pause();
 
-    video.removeAttribute(
-        "src"
-    );
+    video.removeAttribute("src");
 
     video.load();
 
@@ -1371,8 +1350,8 @@ function playChannel(channel){
 
 
     /*
-     * HLS.JS
-     */
+       HLS
+    */
 
     if(
         Hls.isSupported() &&
@@ -1454,8 +1433,8 @@ function playChannel(channel){
 
 
     /*
-     * Native HLS
-     */
+       Safari / iPhone
+    */
 
     else if(
         video.canPlayType(
@@ -1466,7 +1445,6 @@ function playChannel(channel){
         video.src =
             url;
 
-
         video.play()
             .catch(
                 () => {}
@@ -1476,15 +1454,14 @@ function playChannel(channel){
 
 
     /*
-     * Stream khác
-     */
+       Stream khác
+    */
 
     else{
 
         video.src =
             url;
 
-
         video.play()
             .catch(
                 () => {}
@@ -1494,26 +1471,28 @@ function playChannel(channel){
 
 
     /*
-     * Render active channel
-     *
-     * Không làm thay đổi
-     * scroll của danh sách.
-     */
-
-    const currentScroll =
-        channelsBox.scrollTop;
-
+       Cập nhật active channel.
+    */
 
     renderChannels(
         filterChannels()
     );
 
 
+    /*
+       Giữ nguyên vị trí
+       danh sách.
+    */
+
+    channelsBox.scrollTop =
+        oldScroll;
+
+
     requestAnimationFrame(
         function(){
 
             channelsBox.scrollTop =
-                currentScroll;
+                oldScroll;
 
         }
     );
