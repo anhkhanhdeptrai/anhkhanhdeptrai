@@ -2,143 +2,108 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>HTML → APK</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KHANH HTML → APK</title>
 
 <style>
-*{
-    box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
     margin:0;
     min-height:100vh;
-    background:
-        radial-gradient(circle at top,#252044,#08080b 60%);
+    padding:15px;
+    background:#09090d;
     color:#fff;
     font-family:Arial,sans-serif;
-    padding:20px;
 }
 
-.container{
+.box{
     width:100%;
-    max-width:700px;
+    max-width:800px;
     margin:auto;
-    background:#121217;
-    border:1px solid #30303a;
-    border-radius:22px;
-    padding:22px;
-    box-shadow:0 20px 60px rgba(0,0,0,.5);
-}
-
-.logo{
-    width:65px;
-    height:65px;
-    margin:0 auto 12px;
-    border-radius:18px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:32px;
-    background:linear-gradient(135deg,#796bff,#5141d9);
+    background:#141419;
+    border:1px solid #292930;
+    border-radius:20px;
+    padding:20px;
 }
 
 h1{
     text-align:center;
-    margin:0;
-    font-size:25px;
+    margin:5px 0;
 }
 
-.subtitle{
+.sub{
     text-align:center;
-    color:#9999a3;
+    color:#888;
     font-size:13px;
-    margin:8px 0 22px;
+    margin-bottom:20px;
+}
+
+.row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
 }
 
 label{
     display:block;
-    color:#bbb;
+    color:#aaa;
     font-size:13px;
-    margin:14px 0 7px;
+    margin:12px 0 6px;
 }
 
-input,
-textarea{
+input,textarea{
     width:100%;
-    border:1px solid #34343e;
-    border-radius:11px;
-    background:#0d0d11;
+    border:1px solid #33333c;
+    border-radius:10px;
+    background:#0c0c10;
     color:#fff;
     outline:none;
-    font-size:14px;
 }
 
 input{
-    height:45px;
-    padding:0 13px;
+    height:44px;
+    padding:0 12px;
 }
 
 textarea{
-    min-height:330px;
-    padding:13px;
+    min-height:400px;
+    padding:12px;
     resize:vertical;
-    font-family:
-        Consolas,
-        Monaco,
-        monospace;
-    line-height:1.5;
+    font-family:monospace;
+    font-size:13px;
 }
 
 input:focus,
 textarea:focus{
-    border-color:#7165ff;
-    box-shadow:
-        0 0 0 3px
-        rgba(113,101,255,.12);
+    border-color:#7569ff;
 }
 
-.options{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-}
-
-.button{
+button{
     width:100%;
     height:48px;
-    margin-top:18px;
+    margin-top:12px;
     border:0;
-    border-radius:12px;
-    color:#fff;
+    border-radius:11px;
+    color:white;
     font-size:15px;
     font-weight:bold;
     cursor:pointer;
-    background:
-        linear-gradient(
-            135deg,
-            #796bff,
-            #5141d9
-        );
+    background:linear-gradient(135deg,#796bff,#5141d9);
 }
 
-.button:active{
-    transform:scale(.98);
-}
-
-.button:disabled{
+button:disabled{
     opacity:.5;
-    cursor:not-allowed;
 }
 
 .preview{
-    margin-top:15px;
     width:100%;
     height:300px;
-    border:1px solid #30303a;
-    border-radius:12px;
-    background:#fff;
+    margin-top:12px;
+    border:1px solid #333;
+    border-radius:10px;
+    background:white;
+    display:none;
 }
 
 .progress{
@@ -146,19 +111,17 @@ textarea:focus{
     margin-top:20px;
 }
 
-.progress-bar{
-    width:100%;
+.bar{
     height:7px;
+    background:#292930;
     border-radius:10px;
     overflow:hidden;
-    background:#292930;
 }
 
-.progress-fill{
-    width:0%;
+.fill{
+    width:0;
     height:100%;
-    background:#7165ff;
-    transition:.3s;
+    background:#7569ff;
 }
 
 .status{
@@ -168,54 +131,29 @@ textarea:focus{
     margin-top:8px;
 }
 
-.result{
-    display:none;
-    margin-top:20px;
-    padding:16px;
-    border-radius:12px;
-    background:#101016;
-    border:1px solid #30303a;
-    text-align:center;
-}
-
 .download{
-    display:inline-block;
-    margin-top:10px;
-    padding:11px 20px;
+    display:none;
+    text-align:center;
+    margin-top:20px;
+    padding:13px;
     border-radius:10px;
-    background:#25a55b;
-    color:#fff;
+    background:#22a85a;
+    color:white;
     text-decoration:none;
     font-weight:bold;
 }
 
-.clear{
-    background:#292930;
-}
-
 @media(max-width:600px){
-
-    body{
-        padding:10px;
-    }
-
-    .container{
-        padding:17px;
-        border-radius:18px;
-    }
-
-    .options{
+    .row{
         grid-template-columns:1fr;
-        gap:0;
+    }
+
+    .box{
+        padding:15px;
     }
 
     textarea{
-        min-height:280px;
-        font-size:12px;
-    }
-
-    .preview{
-        height:250px;
+        min-height:300px;
     }
 }
 </style>
@@ -223,232 +161,130 @@ textarea:focus{
 
 <body>
 
-<div class="container">
+<div class="box">
 
-    <div class="logo">
-        📦
-    </div>
+<h1>📦 HTML → APK</h1>
 
-    <h1>
-        HTML → APK
-    </h1>
+<div class="sub">
+Dán mã HTML → Build APK Android
+</div>
 
-    <div class="subtitle">
-        Dán mã HTML và đóng gói thành ứng dụng Android
-    </div>
+<div class="row">
 
+<div>
+<label>Tên ứng dụng</label>
 
-    <div class="options">
+<input
+id="appName"
+value="KHANH TV"
+>
+</div>
 
-        <div>
+<div>
+<label>Package Name</label>
 
-            <label>
-                Tên ứng dụng
-            </label>
+<input
+id="packageName"
+value="com.khanhtv.app"
+>
+</div>
 
-            <input
-                id="appName"
-                value="KHANH TV"
-                placeholder="Tên ứng dụng"
-            >
+</div>
 
-        </div>
+<label>Mã HTML</label>
 
+<textarea
+id="code"
+placeholder="Dán toàn bộ mã HTML vào đây..."
+></textarea>
 
-        <div>
+<button onclick="preview()">
+👁️ XEM TRƯỚC
+</button>
 
-            <label>
-                Package Name
-            </label>
+<iframe
+id="preview"
+class="preview"
+sandbox="allow-scripts allow-forms allow-same-origin">
+</iframe>
 
-            <input
-                id="packageName"
-                value="com.khanhtv.app"
-                placeholder="com.example.app"
-            >
+<button
+id="build"
+onclick="buildAPK()">
+🚀 BUILD APK
+</button>
 
-        </div>
+<div
+id="progress"
+class="progress">
 
-    </div>
+<div class="bar">
+<div
+id="fill"
+class="fill">
+</div>
+</div>
 
+<div
+id="status"
+class="status">
+Đang chuẩn bị...
+</div>
 
-    <label>
-        Mã HTML
-    </label>
+</div>
 
-    <textarea
-        id="htmlCode"
-        spellcheck="false"
-        placeholder="Dán toàn bộ mã HTML của bạn vào đây..."></textarea>
+<a
+id="download"
+class="download">
 
+📥 TẢI APK
 
-    <button
-        class="button"
-        onclick="previewHTML()">
-
-        👁️ Xem trước
-
-    </button>
-
-
-    <iframe
-        id="preview"
-        class="preview"
-        sandbox="allow-scripts allow-forms allow-same-origin"
-        style="display:none">
-    </iframe>
-
-
-    <button
-        id="buildButton"
-        class="button"
-        onclick="buildAPK()">
-
-        🚀 BUILD APK
-
-    </button>
-
-
-    <button
-        class="button clear"
-        onclick="clearCode()">
-
-        🗑️ Xóa mã
-
-    </button>
-
-
-    <div
-        id="progress"
-        class="progress">
-
-        <div class="progress-bar">
-
-            <div
-                id="progressFill"
-                class="progress-fill">
-            </div>
-
-        </div>
-
-        <div
-            id="status"
-            class="status">
-
-            Đang chuẩn bị...
-
-        </div>
-
-    </div>
-
-
-    <div
-        id="result"
-        class="result">
-
-        <div>
-            ✅ Build APK thành công
-        </div>
-
-        <a
-            id="download"
-            class="download"
-            href="#">
-
-            📥 Tải APK
-
-        </a>
-
-    </div>
+</a>
 
 </div>
 
 
 <script>
 
-/* =========================
-   XEM TRƯỚC HTML
-========================= */
+const API = "/api";
 
-function previewHTML(){
+
+function preview(){
 
     const code =
-        document.getElementById(
-            "htmlCode"
-        ).value;
+        document.getElementById("code").value;
 
     if(!code.trim()){
 
-        alert(
-            "Hãy dán mã HTML trước!"
-        );
+        alert("Hãy dán HTML!");
 
         return;
     }
 
-    const preview =
-        document.getElementById(
-            "preview"
-        );
+    const frame =
+        document.getElementById("preview");
 
-    preview.style.display =
-        "block";
+    frame.style.display="block";
 
-    preview.srcdoc =
-        code;
+    frame.srcdoc=code;
 }
 
-
-/* =========================
-   XÓA
-========================= */
-
-function clearCode(){
-
-    document.getElementById(
-        "htmlCode"
-    ).value = "";
-
-    document.getElementById(
-        "preview"
-    ).style.display =
-        "none";
-
-    document.getElementById(
-        "result"
-    ).style.display =
-        "none";
-
-}
-
-
-/* =========================
-   BUILD APK
-========================= */
 
 async function buildAPK(){
 
     const code =
-        document.getElementById(
-            "htmlCode"
-        ).value;
+        document.getElementById("code").value;
 
     const appName =
-        document.getElementById(
-            "appName"
-        ).value.trim();
+        document.getElementById("appName").value.trim();
 
     const packageName =
-        document.getElementById(
-            "packageName"
-        ).value.trim();
+        document.getElementById("packageName").value.trim();
 
 
     if(!code.trim()){
 
-        alert(
-            "Bạn chưa dán mã HTML!"
-        );
+        alert("Bạn chưa dán mã HTML!");
 
         return;
     }
@@ -456,127 +292,78 @@ async function buildAPK(){
 
     if(!appName){
 
-        alert(
-            "Hãy nhập tên ứng dụng!"
-        );
-
-        return;
-    }
-
-
-    if(
-        !/^[a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)+$/
-        .test(packageName)
-    ){
-
-        alert(
-            "Package Name không hợp lệ!"
-        );
+        alert("Chưa nhập tên app!");
 
         return;
     }
 
 
     const button =
-        document.getElementById(
-            "buildButton"
-        );
+        document.getElementById("build");
 
     const progress =
-        document.getElementById(
-            "progress"
-        );
+        document.getElementById("progress");
 
     const fill =
-        document.getElementById(
-            "progressFill"
-        );
+        document.getElementById("fill");
 
     const status =
-        document.getElementById(
-            "status"
-        );
+        document.getElementById("status");
 
-    const result =
-        document.getElementById(
-            "result"
-        );
+    const download =
+        document.getElementById("download");
 
 
-    button.disabled =
-        true;
+    button.disabled=true;
 
-    progress.style.display =
-        "block";
+    progress.style.display="block";
 
-    result.style.display =
-        "none";
-
-
-    /*
-     * Gửi mã HTML tới backend
-     */
-
-    const formData =
-        new FormData();
-
-    formData.append(
-        "html",
-        code
-    );
-
-    formData.append(
-        "appName",
-        appName
-    );
-
-    formData.append(
-        "packageName",
-        packageName
-    );
+    download.style.display="none";
 
 
     try{
 
-        fill.style.width =
-            "20%";
-
-        status.innerText =
+        status.innerText=
             "Đang gửi mã HTML...";
+
+        fill.style.width="15%";
 
 
         /*
-         * API BUILD
-         *
-         * Backend của bạn cần có:
-         *
-         * POST /api/build
-         *
+         * H2APK API
          */
 
         const response =
             await fetch(
-                "/api/build",
+                API + "/build",
                 {
                     method:"POST",
-                    body:formData
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+
+                        mode:"html",
+
+                        appName:appName,
+
+                        packageName:packageName,
+
+                        html:code
+
+                    })
                 }
             );
-
-
-        fill.style.width =
-            "60%";
-
-        status.innerText =
-            "Đang build APK...";
 
 
         if(!response.ok){
 
             throw new Error(
-                "Build thất bại"
+                await response.text()
             );
-
         }
 
 
@@ -584,61 +371,153 @@ async function buildAPK(){
             await response.json();
 
 
-        fill.style.width =
-            "100%";
+        /*
+         * API trả ID build
+         */
+
+        const id =
+            data.id ||
+            data.buildId;
 
 
-        status.innerText =
-            "Build hoàn tất!";
-
-
-        if(data.apk){
-
-            document.getElementById(
-                "download"
-            ).href =
-                data.apk;
-
-
-            result.style.display =
-                "block";
-
-        }
-        else{
+        if(!id){
 
             throw new Error(
-                "Server không trả về APK"
+                "Server không trả build ID"
             );
-
         }
 
-    }
 
+        fill.style.width="30%";
+
+        status.innerText=
+            "Đang build APK...";
+
+
+        await checkStatus(id);
+
+
+    }
     catch(error){
 
         console.error(error);
 
-        status.innerText =
-            "❌ Không thể build APK";
-
+        status.innerText=
+            "❌ Build thất bại";
 
         alert(
-            "Chưa kết nối server build APK.\n\n"
-            +
-            "Cần backend Android SDK/Gradle "
-            +
-            "để tạo file APK thật."
+            "Không thể kết nối server build:\n\n"
+            + error.message
         );
 
+        button.disabled=false;
     }
+}
 
-    finally{
 
-        button.disabled =
-            false;
+async function checkStatus(id){
 
-    }
+    const fill =
+        document.getElementById("fill");
 
+    const status =
+        document.getElementById("status");
+
+    const button =
+        document.getElementById("build");
+
+    const download =
+        document.getElementById("download");
+
+
+    const timer =
+        setInterval(
+            async()=>{
+
+                try{
+
+                    const response =
+                        await fetch(
+                            API +
+                            "/status/" +
+                            id
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    if(
+                        data.status ===
+                        "building"
+                    ){
+
+                        fill.style.width="60%";
+
+                        status.innerText=
+                            "⚙️ Đang tạo APK...";
+
+                    }
+
+
+                    if(
+                        data.status ===
+                        "done"
+                        ||
+                        data.status ===
+                        "completed"
+                    ){
+
+                        clearInterval(timer);
+
+
+                        fill.style.width="100%";
+
+                        status.innerText=
+                            "✅ Build hoàn tất";
+
+
+                        download.href =
+                            API +
+                            "/download/" +
+                            id;
+
+
+                        download.style.display=
+                            "block";
+
+
+                        button.disabled=false;
+
+                    }
+
+
+                    if(
+                        data.status ===
+                        "failed"
+                    ){
+
+                        clearInterval(timer);
+
+                        status.innerText=
+                            "❌ Build thất bại";
+
+
+                        button.disabled=false;
+
+                    }
+
+                }
+                catch(error){
+
+                    console.error(error);
+
+                }
+
+            },
+            1500
+        );
 }
 
 </script>
