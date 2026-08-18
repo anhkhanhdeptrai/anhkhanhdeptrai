@@ -18,25 +18,32 @@
 :root{
     --bg:#09090b;
     --card:#111114;
-    --border:#27272d;
-    --text:#ffffff;
+    --card2:#17171c;
+    --border:#292930;
+    --text:#fff;
     --muted:#92929b;
     --accent:#6d5dfc;
 }
 
-html{
-    scroll-behavior:auto;
+html,
+body{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
 }
 
 body{
-    margin:0;
     background:
         radial-gradient(
             circle at top,
             #17152b 0,
-            #09090b 38%
+            #09090b 40%
         );
+
     color:var(--text);
+
     font-family:
         Inter,
         -apple-system,
@@ -51,33 +58,46 @@ body{
 ========================= */
 
 header{
-    position:sticky;
-    top:0;
+    position:relative;
     z-index:100;
-    backdrop-filter:blur(18px);
-    -webkit-backdrop-filter:blur(18px);
-    background:rgba(9,9,11,.86);
-    border-bottom:1px solid rgba(255,255,255,.07);
+
+    width:100%;
+
+    background:rgba(9,9,11,.96);
+
+    border-bottom:
+        1px solid rgba(255,255,255,.07);
+
+    flex-shrink:0;
 }
 
 .header{
     width:100%;
     max-width:1450px;
+
     margin:auto;
-    padding:13px 20px;
+
+    padding:
+        10px 20px;
 
     display:flex;
+
     align-items:center;
+
     gap:18px;
 }
 
 .logo{
     display:flex;
+
     align-items:center;
+
     gap:9px;
 
     font-size:19px;
+
     font-weight:800;
+
     white-space:nowrap;
 }
 
@@ -88,6 +108,7 @@ header{
     border-radius:11px;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
@@ -105,8 +126,11 @@ header{
 
 .search-wrap{
     position:relative;
+
     flex:1;
+
     max-width:600px;
+
     margin-left:auto;
 }
 
@@ -125,12 +149,14 @@ header{
 
 .search{
     width:100%;
-    height:43px;
+    height:42px;
 
-    border:1px solid var(--border);
+    border:
+        1px solid var(--border);
+
     outline:none;
 
-    border-radius:13px;
+    border-radius:12px;
 
     padding:
         0 15px
@@ -141,16 +167,10 @@ header{
     color:#fff;
 
     font-size:14px;
-
-    transition:.2s;
-}
-
-.search::placeholder{
-    color:#717179;
 }
 
 .search:focus{
-    border-color:#5145d7;
+    border-color:var(--accent);
 
     box-shadow:
         0 0 0 3px
@@ -158,37 +178,42 @@ header{
 }
 
 /* =========================
-   MAIN
+   APP
 ========================= */
 
-.container{
+.app{
     width:100%;
-    max-width:1450px;
-    margin:auto;
+    height:calc(100vh - 56px);
 
-    padding:
-        22px 20px
-        40px;
+    display:flex;
+
+    overflow:hidden;
 }
 
 /* =========================
-   PLAYER
+   PLAYER AREA
 ========================= */
 
-.player-layout{
-    display:grid;
+.player-area{
+    flex:1;
 
-    grid-template-columns:
-        minmax(0,1fr)
-        310px;
+    min-width:0;
 
-    gap:18px;
+    height:100%;
 
-    align-items:start;
+    overflow-y:auto;
+
+    padding:20px;
+
+    scrollbar-width:thin;
 }
 
 .player-box{
-    overflow:hidden;
+    width:100%;
+
+    max-width:1100px;
+
+    margin:0 auto;
 
     background:#000;
 
@@ -197,9 +222,11 @@ header{
 
     border-radius:17px;
 
+    overflow:hidden;
+
     box-shadow:
         0 18px 50px
-        rgba(0,0,0,.3);
+        rgba(0,0,0,.35);
 }
 
 .video-wrap{
@@ -231,6 +258,7 @@ video{
     display:flex;
 
     align-items:center;
+
     justify-content:center;
 
     flex-direction:column;
@@ -251,7 +279,10 @@ video{
 }
 
 .now-playing{
-    padding:13px 16px;
+    min-height:65px;
+
+    padding:
+        12px 15px;
 
     background:#111114;
 
@@ -260,11 +291,11 @@ video{
 
     display:flex;
 
-    justify-content:space-between;
-
     align-items:center;
 
-    gap:10px;
+    justify-content:space-between;
+
+    gap:12px;
 }
 
 .now-title{
@@ -274,9 +305,9 @@ video{
 .now-label{
     color:#777780;
 
-    font-size:11px;
+    font-size:10px;
 
-    margin-bottom:3px;
+    margin-bottom:4px;
 
     text-transform:uppercase;
 
@@ -304,11 +335,8 @@ video{
 
     gap:6px;
 
-    font-size:11px;
-
-    font-weight:700;
-
-    padding:6px 9px;
+    padding:
+        6px 9px;
 
     border-radius:8px;
 
@@ -316,6 +344,10 @@ video{
         rgba(255,55,75,.1);
 
     color:#ff6574;
+
+    font-size:10px;
+
+    font-weight:800;
 }
 
 .live-dot{
@@ -331,86 +363,73 @@ video{
 }
 
 /* =========================
-   SIDE STATUS
+   DESKTOP CHANNEL PANEL
 ========================= */
 
-.side{
-    background:
-        rgba(17,17,20,.8);
+.channels-panel{
+    width:360px;
 
-    border:
-        1px solid var(--border);
+    height:100%;
 
-    border-radius:17px;
+    flex-shrink:0;
 
-    overflow:hidden;
-}
-
-.side-title{
-    padding:15px;
-
-    font-size:14px;
-
-    font-weight:700;
-
-    border-bottom:
-        1px solid var(--border);
-}
-
-.status{
-    padding:11px 15px;
-
-    font-size:12px;
-
-    color:var(--muted);
-
-    border-bottom:
-        1px solid var(--border);
-}
-
-/* =========================
-   CHANNEL SECTION
-========================= */
-
-.channels-section{
-    margin-top:22px;
-}
-
-.section-head{
     display:flex;
 
-    align-items:center;
+    flex-direction:column;
 
-    justify-content:space-between;
+    background:
+        rgba(13,13,16,.96);
 
-    margin-bottom:13px;
+    border-left:
+        1px solid var(--border);
 }
 
-.section-title{
-    font-size:17px;
+.panel-header{
+    flex-shrink:0;
+
+    padding:
+        15px 17px;
+
+    border-bottom:
+        1px solid var(--border);
+}
+
+.panel-title{
+    font-size:15px;
+
     font-weight:800;
+
+    margin-bottom:5px;
 }
 
-.channel-count{
-    font-size:12px;
+.panel-status{
     color:var(--muted);
-}
 
-/* =========================
-   CHANNELS
-========================= */
+    font-size:11px;
+}
 
 .channels{
+    flex:1;
+
+    overflow-y:auto;
+
+    padding:12px;
+
     display:grid;
 
     grid-template-columns:
-        repeat(
-            auto-fill,
-            minmax(165px,1fr)
-        );
+        repeat(2,minmax(0,1fr));
 
-    gap:11px;
+    align-content:start;
+
+    gap:9px;
+
+    scrollbar-width:thin;
 }
+
+/* =========================
+   CHANNEL CARD
+========================= */
 
 .channel{
     position:relative;
@@ -420,40 +439,33 @@ video{
     background:
         linear-gradient(
             145deg,
-            #151519,
+            #17171b,
             #101013
         );
 
     border:
         1px solid var(--border);
 
-    border-radius:14px;
+    border-radius:12px;
 
-    padding:9px;
+    padding:7px;
 
     cursor:pointer;
 
     transition:
-        transform .18s,
-        border-color .18s,
-        background .18s,
-        box-shadow .18s;
+        .18s;
 }
 
 .channel:hover{
-    transform:translateY(-2px);
-
     border-color:#4d46a5;
 
-    background:#18181f;
+    transform:translateY(-1px);
 
-    box-shadow:
-        0 8px 25px
-        rgba(0,0,0,.25);
+    background:#1a1a20;
 }
 
 .channel:active{
-    transform:scale(.98);
+    transform:scale(.97);
 }
 
 .channel.active{
@@ -461,18 +473,20 @@ video{
 
     box-shadow:
         0 0 0 1px
-        var(--accent),
-        0 8px 25px
-        rgba(109,93,252,.14);
+        var(--accent);
+
+    background:
+        rgba(109,93,252,.08);
 }
 
 .channel-logo-wrap{
     position:relative;
 
     width:100%;
-    height:74px;
 
-    border-radius:10px;
+    height:65px;
+
+    border-radius:8px;
 
     background:#0b0b0e;
 
@@ -481,6 +495,7 @@ video{
     display:flex;
 
     align-items:center;
+
     justify-content:center;
 }
 
@@ -488,22 +503,23 @@ video{
     width:100%;
     height:100%;
 
-    padding:8px;
+    padding:6px;
 
     object-fit:contain;
 }
 
 .channel-fallback{
-    font-size:27px;
+    font-size:24px;
+
     opacity:.4;
 }
 
 .channel-name{
     padding:
-        9px 3px
-        2px;
+        7px 2px 2px;
 
-    font-size:13px;
+    font-size:11px;
+
     font-weight:650;
 
     white-space:nowrap;
@@ -516,15 +532,15 @@ video{
 .channel-live{
     position:absolute;
 
-    top:14px;
-    left:14px;
+    top:7px;
+    left:7px;
 
     padding:
-        3px 6px;
+        2px 5px;
 
-    border-radius:5px;
+    border-radius:4px;
 
-    font-size:8px;
+    font-size:7px;
 
     font-weight:800;
 
@@ -534,76 +550,57 @@ video{
 }
 
 /* =========================
-   EMPTY
+   LOADING
 ========================= */
 
-.empty,
-.loading{
+.loading,
+.empty{
     grid-column:1/-1;
 
     text-align:center;
 
-    padding:45px 20px;
-
     color:#777780;
+
+    padding:40px 15px;
 }
 
 .empty-icon{
-    font-size:35px;
+    font-size:32px;
 
-    margin-bottom:10px;
-}
-
-/* =========================
-   TABLET
-========================= */
-
-@media(max-width:900px){
-
-    .player-layout{
-        display:block;
-    }
-
-    .side{
-        margin-top:12px;
-    }
-
-    .side-title{
-        display:none;
-    }
-
-    .status{
-        border:0;
-        padding:9px 3px;
-    }
+    margin-bottom:8px;
 }
 
 /* =========================
    MOBILE
 ========================= */
 
-@media(max-width:600px){
+@media(max-width:800px){
+
+    body{
+        overflow:hidden;
+    }
 
     header{
-        position:sticky;
+        height:auto;
     }
 
     .header{
         padding:
-            10px 12px;
+            8px 10px;
 
-        gap:9px;
+        gap:8px;
 
         flex-wrap:wrap;
     }
 
     .logo{
-        font-size:17px;
+        font-size:16px;
     }
 
     .logo-icon{
-        width:32px;
-        height:32px;
+        width:31px;
+        height:31px;
+
         border-radius:9px;
     }
 
@@ -611,82 +608,201 @@ video{
         order:3;
 
         width:100%;
+
         max-width:none;
     }
 
     .search{
-        height:40px;
-        border-radius:11px;
+        height:38px;
     }
 
-    .container{
-        padding:
-            10px 10px
-            30px;
+    .app{
+        height:calc(100vh - 100px);
+
+        display:flex;
+
+        flex-direction:column;
+
+        overflow:hidden;
+    }
+
+    /*
+     * PLAYER CỐ ĐỊNH
+     */
+
+    .player-area{
+        flex:none;
+
+        width:100%;
+
+        height:auto;
+
+        padding:0;
+
+        overflow:hidden;
+
+        background:#000;
     }
 
     .player-box{
-        border-radius:13px;
+        width:100%;
+
+        max-width:none;
+
+        margin:0;
+
+        border:0;
+
+        border-radius:0;
+
+        box-shadow:none;
     }
 
     .video-wrap{
+        width:100%;
+
         aspect-ratio:16/9;
     }
 
     .now-playing{
+        min-height:52px;
+
         padding:
-            11px 12px;
+            8px 11px;
+    }
+
+    .now-label{
+        font-size:9px;
     }
 
     .now-name{
+        font-size:13px;
+    }
+
+    .live{
+        font-size:9px;
+
+        padding:
+            5px 7px;
+    }
+
+    /*
+     * DANH SÁCH KÊNH
+     * CHỈ PHẦN NÀY CUỘN
+     */
+
+    .channels-panel{
+        width:100%;
+
+        height:auto;
+
+        min-height:0;
+
+        flex:1;
+
+        border-left:0;
+
+        border-top:
+            1px solid var(--border);
+    }
+
+    .panel-header{
+        padding:
+            9px 12px;
+    }
+
+    .panel-title{
         font-size:14px;
+
+        margin-bottom:2px;
     }
 
-    .channels-section{
-        margin-top:16px;
+    .panel-status{
+        font-size:10px;
     }
 
-    .section-title{
-        font-size:16px;
+    .channels{
+        width:100%;
+
+        flex:1;
+
+        overflow-y:auto;
+
+        padding:
+            9px;
+
+        grid-template-columns:
+            repeat(
+                3,
+                minmax(0,1fr)
+            );
+
+        gap:7px;
+
+        align-content:start;
+
+        -webkit-overflow-scrolling:touch;
     }
+
+    .channel{
+        padding:5px;
+
+        border-radius:9px;
+    }
+
+    .channel-logo-wrap{
+        height:53px;
+
+        border-radius:6px;
+    }
+
+    .channel-logo{
+        padding:5px;
+    }
+
+    .channel-name{
+        font-size:10px;
+
+        padding:
+            6px 1px
+            1px;
+    }
+
+    .channel-live{
+        top:5px;
+        left:5px;
+
+        font-size:6px;
+
+        padding:
+            2px 4px;
+    }
+}
+
+/* =========================
+   SMALL PHONE
+========================= */
+
+@media(max-width:380px){
 
     .channels{
         grid-template-columns:
             repeat(
-                2,
+                3,
                 minmax(0,1fr)
             );
 
-        gap:8px;
-    }
+        gap:6px;
 
-    .channel{
         padding:7px;
-        border-radius:11px;
     }
 
     .channel-logo-wrap{
-        height:62px;
-        border-radius:8px;
-    }
-
-    .channel-logo{
-        padding:6px;
+        height:48px;
     }
 
     .channel-name{
-        font-size:12px;
-
-        padding:
-            8px 2px
-            2px;
-    }
-
-    .channel-live{
-        top:11px;
-        left:11px;
-
-        font-size:7px;
+        font-size:9px;
     }
 }
 
@@ -694,14 +810,15 @@ video{
    LARGE PC
 ========================= */
 
-@media(min-width:1400px){
+@media(min-width:1500px){
+
+    .channels-panel{
+        width:390px;
+    }
 
     .channels{
         grid-template-columns:
-            repeat(
-                7,
-                minmax(0,1fr)
-            );
+            repeat(3,minmax(0,1fr));
     }
 }
 </style>
@@ -709,6 +826,10 @@ video{
 
 
 <body>
+
+<!-- =========================
+     HEADER
+========================= -->
 
 <header>
 
@@ -748,11 +869,18 @@ video{
 </header>
 
 
-<main class="container">
+<!-- =========================
+     APP
+========================= -->
 
-    <!-- PLAYER -->
+<div class="app">
 
-    <div class="player-layout">
+
+    <!-- =====================
+         PLAYER
+    ====================== -->
+
+    <section class="player-area">
 
         <div class="player-box">
 
@@ -767,10 +895,12 @@ video{
 
 
                 <div
-                    class="video-placeholder"
-                    id="placeholder">
+                    id="placeholder"
+                    class="video-placeholder">
 
-                    <span>📺</span>
+                    <span>
+                        📺
+                    </span>
 
                     <small>
                         Chọn một kênh để xem
@@ -790,8 +920,8 @@ video{
                     </div>
 
                     <div
-                        class="now-name"
-                        id="nowPlaying">
+                        id="nowPlaying"
+                        class="now-name">
 
                         Chưa chọn kênh
 
@@ -814,43 +944,26 @@ video{
 
         </div>
 
+    </section>
 
-        <!-- STATUS -->
 
-        <div class="side">
+    <!-- =====================
+         CHANNEL PANEL
+    ====================== -->
 
-            <div class="side-title">
-                📡 Trạng thái hệ thống
+    <aside class="channels-panel">
+
+        <div class="panel-header">
+
+            <div class="panel-title">
+                📡 Kênh truyền hình
             </div>
 
             <div
-                class="status"
-                id="status">
+                id="status"
+                class="panel-status">
 
-                Đang tải danh sách kênh...
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- CHANNEL LIST -->
-
-    <section class="channels-section">
-
-        <div class="section-head">
-
-            <div class="section-title">
-                Kênh truyền hình
-            </div>
-
-            <div
-                class="channel-count"
-                id="channelCount">
-
-                0 kênh
+                Đang tải danh sách...
 
             </div>
 
@@ -862,14 +975,14 @@ video{
             class="channels">
 
             <div class="loading">
-                Đang tải danh sách...
+                Đang tải...
             </div>
 
         </div>
 
-    </section>
+    </aside>
 
-</main>
+</div>
 
 
 <script>
@@ -901,9 +1014,6 @@ const nowPlaying =
 const searchInput =
     document.getElementById("search");
 
-const channelCount =
-    document.getElementById("channelCount");
-
 const placeholder =
     document.getElementById("placeholder");
 
@@ -920,7 +1030,7 @@ let currentChannel = null;
 
 
 /* =========================
-   LOAD PLAYLIST
+   LOAD M3U
 ========================= */
 
 async function loadPlaylist(){
@@ -936,6 +1046,7 @@ async function loadPlaylist(){
             throw new Error(
                 "Không thể tải playlist"
             );
+
         }
 
 
@@ -949,10 +1060,6 @@ async function loadPlaylist(){
 
         statusText.innerText =
             `Đã tải ${channels.length} kênh`;
-
-
-        channelCount.innerText =
-            `${channels.length} kênh`;
 
 
         renderChannels(channels);
@@ -976,7 +1083,7 @@ async function loadPlaylist(){
                     ⚠️
                 </div>
 
-                Không tải được danh sách kênh
+                Không tải được danh sách
 
             </div>
 
@@ -993,7 +1100,6 @@ function parseM3U(text){
 
     const lines =
         text.split(/\r?\n/);
-
 
     const result = [];
 
@@ -1033,7 +1139,6 @@ function parseM3U(text){
                     :
                     "Kênh không tên",
 
-
                 logo:
                     logoMatch
                     ?
@@ -1065,7 +1170,6 @@ function parseM3U(text){
 
             info = null;
         }
-
     }
 
 
@@ -1080,10 +1184,6 @@ function parseM3U(text){
 function renderChannels(list){
 
     channelsBox.innerHTML = "";
-
-
-    channelCount.innerText =
-        `${list.length} kênh`;
 
 
     if(!list.length){
@@ -1180,16 +1280,12 @@ function renderChannels(list){
 
         item.innerHTML = `
 
-            <div
-                class="channel-logo-wrap">
+            <div class="channel-logo-wrap">
 
                 ${logoHTML}
 
-                <span
-                    class="channel-live">
-
+                <span class="channel-live">
                     LIVE
-
                 </span>
 
             </div>
@@ -1207,49 +1303,16 @@ function renderChannels(list){
 
 
         /*
-         * QUAN TRỌNG
+         * Bấm kênh:
          *
-         * Lưu vị trí cuộn trước
-         * khi đổi kênh.
+         * KHÔNG scroll page.
+         *
+         * Chỉ đổi video.
          */
 
         item.onclick = function(){
 
-            const oldX =
-                window.scrollX;
-
-            const oldY =
-                window.scrollY;
-
-
             playChannel(channel);
-
-
-            /*
-             * Khôi phục vị trí ngay
-             */
-
-            window.scrollTo(
-                oldX,
-                oldY
-            );
-
-
-            /*
-             * Khôi phục thêm sau
-             * khi trình duyệt render.
-             */
-
-            requestAnimationFrame(
-                function(){
-
-                    window.scrollTo(
-                        oldX,
-                        oldY
-                    );
-
-                }
-            );
 
         };
 
@@ -1266,17 +1329,6 @@ function renderChannels(list){
 
 function playChannel(channel){
 
-    /*
-     * Lưu vị trí trang
-     */
-
-    const oldX =
-        window.scrollX;
-
-    const oldY =
-        window.scrollY;
-
-
     currentChannel =
         channel;
 
@@ -1290,7 +1342,7 @@ function playChannel(channel){
 
 
     /*
-     * HLS cũ
+     * Hủy HLS cũ
      */
 
     if(hls){
@@ -1344,7 +1396,6 @@ function playChannel(channel){
 
         hls.loadSource(url);
 
-
         hls.attachMedia(video);
 
 
@@ -1374,9 +1425,7 @@ function playChannel(channel){
                 );
 
 
-                if(
-                    data.fatal
-                ){
+                if(data.fatal){
 
                     if(
                         data.type ===
@@ -1386,7 +1435,6 @@ function playChannel(channel){
                         hls.startLoad();
 
                     }
-
 
                     else if(
                         data.type ===
@@ -1446,46 +1494,28 @@ function playChannel(channel){
 
 
     /*
-     * Render lại danh sách
+     * Render active channel
+     *
+     * Không làm thay đổi
+     * scroll của danh sách.
      */
+
+    const currentScroll =
+        channelsBox.scrollTop;
+
 
     renderChannels(
         filterChannels()
     );
 
 
-    /*
-     * KHÔNG CHO TRANG NHẢY
-     */
-
-    window.scrollTo(
-        oldX,
-        oldY
-    );
-
-
     requestAnimationFrame(
         function(){
 
-            window.scrollTo(
-                oldX,
-                oldY
-            );
+            channelsBox.scrollTop =
+                currentScroll;
 
         }
-    );
-
-
-    setTimeout(
-        function(){
-
-            window.scrollTo(
-                oldX,
-                oldY
-            );
-
-        },
-        50
     );
 
 }
