@@ -3,977 +3,363 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#09090b">
 
-<title>KHANH TV 📺</title>
-
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<title>HTML → APK</title>
 
 <style>
 *{
     box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
 }
 
-:root{
-    --bg:#09090b;
-    --card:#111114;
-    --border:#292930;
-    --text:#fff;
-    --muted:#92929b;
-    --accent:#6d5dfc;
-}
-
-html,
 body{
     margin:0;
-    padding:0;
-    width:100%;
-    height:100%;
-    overflow:hidden;
-}
-
-body{
+    min-height:100vh;
     background:
-        radial-gradient(
-            circle at top,
-            #17152b 0,
-            #09090b 40%
-        );
-
-    color:var(--text);
-
-    font-family:
-        Inter,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Arial,
-        sans-serif;
+        radial-gradient(circle at top,#252044,#08080b 60%);
+    color:#fff;
+    font-family:Arial,sans-serif;
+    padding:20px;
 }
 
-/* =========================
-   HEADER
-========================= */
-
-header{
-    position:relative;
-    z-index:100;
-
+.container{
     width:100%;
-
-    background:rgba(9,9,11,.96);
-
-    border-bottom:
-        1px solid rgba(255,255,255,.07);
-
-    flex-shrink:0;
-}
-
-.header{
-    width:100%;
-    max-width:1450px;
-
+    max-width:700px;
     margin:auto;
-
-    padding:
-        10px 20px;
-
-    display:flex;
-
-    align-items:center;
-
-    gap:18px;
+    background:#121217;
+    border:1px solid #30303a;
+    border-radius:22px;
+    padding:22px;
+    box-shadow:0 20px 60px rgba(0,0,0,.5);
 }
 
 .logo{
+    width:65px;
+    height:65px;
+    margin:0 auto 12px;
+    border-radius:18px;
     display:flex;
-
-    align-items:center;
-
-    gap:9px;
-
-    font-size:19px;
-
-    font-weight:800;
-
-    white-space:nowrap;
-}
-
-.logo-icon{
-    width:35px;
-    height:35px;
-
-    border-radius:11px;
-
-    display:flex;
-
     align-items:center;
     justify-content:center;
+    font-size:32px;
+    background:linear-gradient(135deg,#796bff,#5141d9);
+}
 
+h1{
+    text-align:center;
+    margin:0;
+    font-size:25px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#9999a3;
+    font-size:13px;
+    margin:8px 0 22px;
+}
+
+label{
+    display:block;
+    color:#bbb;
+    font-size:13px;
+    margin:14px 0 7px;
+}
+
+input,
+textarea{
+    width:100%;
+    border:1px solid #34343e;
+    border-radius:11px;
+    background:#0d0d11;
+    color:#fff;
+    outline:none;
+    font-size:14px;
+}
+
+input{
+    height:45px;
+    padding:0 13px;
+}
+
+textarea{
+    min-height:330px;
+    padding:13px;
+    resize:vertical;
+    font-family:
+        Consolas,
+        Monaco,
+        monospace;
+    line-height:1.5;
+}
+
+input:focus,
+textarea:focus{
+    border-color:#7165ff;
+    box-shadow:
+        0 0 0 3px
+        rgba(113,101,255,.12);
+}
+
+.options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.button{
+    width:100%;
+    height:48px;
+    margin-top:18px;
+    border:0;
+    border-radius:12px;
+    color:#fff;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
     background:
         linear-gradient(
             135deg,
             #796bff,
             #5141d9
         );
-
-    box-shadow:
-        0 6px 22px
-        rgba(109,93,252,.3);
 }
 
-.search-wrap{
-    position:relative;
-
-    flex:1;
-
-    max-width:600px;
-
-    margin-left:auto;
+.button:active{
+    transform:scale(.98);
 }
 
-.search-icon{
-    position:absolute;
-
-    left:14px;
-    top:50%;
-
-    transform:translateY(-50%);
-
-    color:#777780;
-
-    pointer-events:none;
+.button:disabled{
+    opacity:.5;
+    cursor:not-allowed;
 }
 
-.search{
+.preview{
+    margin-top:15px;
     width:100%;
-    height:42px;
-
-    border:
-        1px solid var(--border);
-
-    outline:none;
-
+    height:300px;
+    border:1px solid #30303a;
     border-radius:12px;
-
-    padding:
-        0 15px
-        0 42px;
-
-    background:#151519;
-
-    color:#fff;
-
-    font-size:14px;
+    background:#fff;
 }
 
-.search:focus{
-    border-color:var(--accent);
-
-    box-shadow:
-        0 0 0 3px
-        rgba(109,93,252,.12);
+.progress{
+    display:none;
+    margin-top:20px;
 }
 
-/* =========================
-   APP
-========================= */
-
-.app{
+.progress-bar{
     width:100%;
-    height:calc(100vh - 56px);
-
-    display:flex;
-
+    height:7px;
+    border-radius:10px;
     overflow:hidden;
+    background:#292930;
 }
 
-/* =========================
-   PLAYER
-========================= */
-
-.player-area{
-    flex:1;
-
-    min-width:0;
-
+.progress-fill{
+    width:0%;
     height:100%;
-
-    overflow:hidden;
-
-    padding:20px;
+    background:#7165ff;
+    transition:.3s;
 }
 
-.player-box{
-    width:100%;
-
-    max-width:1100px;
-
-    margin:0 auto;
-
-    background:#000;
-
-    border:
-        1px solid #252529;
-
-    border-radius:17px;
-
-    overflow:hidden;
-
-    box-shadow:
-        0 18px 50px
-        rgba(0,0,0,.35);
-}
-
-.video-wrap{
-    position:relative;
-
-    width:100%;
-
-    aspect-ratio:16/9;
-
-    background:#000;
-}
-
-video{
-    width:100%;
-    height:100%;
-
-    display:block;
-
-    object-fit:contain;
-
-    background:#000;
-}
-
-.video-placeholder{
-    position:absolute;
-
-    inset:0;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    flex-direction:column;
-
-    gap:10px;
-
-    color:#666;
-
-    pointer-events:none;
-}
-
-.video-placeholder span{
-    font-size:42px;
-}
-
-.video-placeholder small{
-    font-size:13px;
-}
-
-.now-playing{
-    min-height:65px;
-
-    padding:
-        12px 15px;
-
-    background:#111114;
-
-    border-top:
-        1px solid #202024;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    gap:12px;
-}
-
-.now-title{
-    min-width:0;
-}
-
-.now-label{
-    color:#777780;
-
-    font-size:10px;
-
-    margin-bottom:4px;
-
-    text-transform:uppercase;
-
-    letter-spacing:.6px;
-}
-
-.now-name{
-    font-size:15px;
-
-    font-weight:700;
-
-    white-space:nowrap;
-
-    overflow:hidden;
-
-    text-overflow:ellipsis;
-}
-
-.live{
-    flex-shrink:0;
-
-    display:flex;
-
-    align-items:center;
-
-    gap:6px;
-
-    padding:
-        6px 9px;
-
-    border-radius:8px;
-
-    background:
-        rgba(255,55,75,.1);
-
-    color:#ff6574;
-
-    font-size:10px;
-
-    font-weight:800;
-}
-
-.live-dot{
-    width:6px;
-    height:6px;
-
-    border-radius:50%;
-
-    background:#ff5264;
-
-    box-shadow:
-        0 0 8px #ff5264;
-}
-
-/* =========================
-   CHANNEL PANEL
-========================= */
-
-.channels-panel{
-    width:360px;
-
-    height:100%;
-
-    flex-shrink:0;
-
-    display:flex;
-
-    flex-direction:column;
-
-    background:
-        rgba(13,13,16,.96);
-
-    border-left:
-        1px solid var(--border);
-}
-
-.panel-header{
-    flex-shrink:0;
-
-    padding:
-        15px 17px;
-
-    border-bottom:
-        1px solid var(--border);
-}
-
-.panel-title{
-    font-size:15px;
-
-    font-weight:800;
-
-    margin-bottom:5px;
-}
-
-.panel-status{
-    color:var(--muted);
-
-    font-size:11px;
-}
-
-/* =========================
-   CHANNEL LIST
-========================= */
-
-.channels{
-    flex:1;
-
-    overflow-y:auto;
-
-    padding:12px;
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(2,minmax(0,1fr));
-
-    align-content:start;
-
-    gap:9px;
-
-    scrollbar-width:thin;
-}
-
-/* =========================
-   CHANNEL
-========================= */
-
-.channel{
-    position:relative;
-
-    min-width:0;
-
-    background:
-        linear-gradient(
-            145deg,
-            #17171b,
-            #101013
-        );
-
-    border:
-        1px solid var(--border);
-
-    border-radius:12px;
-
-    padding:7px;
-
-    cursor:pointer;
-
-    transition:.18s;
-}
-
-.channel:hover{
-    border-color:#4d46a5;
-
-    transform:translateY(-1px);
-
-    background:#1a1a20;
-}
-
-.channel:active{
-    transform:scale(.97);
-}
-
-.channel.active{
-    border-color:var(--accent);
-
-    box-shadow:
-        0 0 0 1px
-        var(--accent);
-
-    background:
-        rgba(109,93,252,.08);
-}
-
-.channel-logo-wrap{
-    position:relative;
-
-    width:100%;
-
-    height:65px;
-
-    border-radius:8px;
-
-    background:#0b0b0e;
-
-    overflow:hidden;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-}
-
-.channel-logo{
-    width:100%;
-    height:100%;
-
-    padding:6px;
-
-    object-fit:contain;
-}
-
-.channel-fallback{
-    font-size:24px;
-
-    opacity:.4;
-}
-
-.channel-name{
-    padding:
-        7px 2px 2px;
-
-    font-size:11px;
-
-    font-weight:650;
-
-    white-space:nowrap;
-
-    overflow:hidden;
-
-    text-overflow:ellipsis;
-}
-
-.channel-live{
-    position:absolute;
-
-    top:7px;
-    left:7px;
-
-    padding:
-        2px 5px;
-
-    border-radius:4px;
-
-    font-size:7px;
-
-    font-weight:800;
-
-    background:#ef4050;
-
-    color:#fff;
-}
-
-/* =========================
-   LOADING
-========================= */
-
-.loading,
-.empty{
-    grid-column:1/-1;
-
+.status{
     text-align:center;
-
-    color:#777780;
-
-    padding:40px 15px;
+    color:#999;
+    font-size:12px;
+    margin-top:8px;
 }
 
-.empty-icon{
-    font-size:32px;
-
-    margin-bottom:8px;
+.result{
+    display:none;
+    margin-top:20px;
+    padding:16px;
+    border-radius:12px;
+    background:#101016;
+    border:1px solid #30303a;
+    text-align:center;
 }
 
-/* =========================
-   MOBILE
-========================= */
+.download{
+    display:inline-block;
+    margin-top:10px;
+    padding:11px 20px;
+    border-radius:10px;
+    background:#25a55b;
+    color:#fff;
+    text-decoration:none;
+    font-weight:bold;
+}
 
-@media(max-width:800px){
+.clear{
+    background:#292930;
+}
+
+@media(max-width:600px){
 
     body{
-        overflow:hidden;
+        padding:10px;
     }
 
-    .header{
-        padding:
-            8px 10px;
-
-        gap:8px;
-
-        flex-wrap:wrap;
+    .container{
+        padding:17px;
+        border-radius:18px;
     }
 
-    .logo{
-        font-size:16px;
+    .options{
+        grid-template-columns:1fr;
+        gap:0;
     }
 
-    .logo-icon{
-        width:31px;
-        height:31px;
-
-        border-radius:9px;
+    textarea{
+        min-height:280px;
+        font-size:12px;
     }
 
-    .search-wrap{
-        order:3;
-
-        width:100%;
-
-        max-width:none;
-    }
-
-    .search{
-        height:38px;
-    }
-
-    .app{
-        height:calc(100vh - 100px);
-
-        display:flex;
-
-        flex-direction:column;
-
-        overflow:hidden;
-    }
-
-    /*
-       PLAYER CỐ ĐỊNH
-    */
-
-    .player-area{
-        flex:none;
-
-        width:100%;
-
-        height:auto;
-
-        padding:0;
-
-        overflow:hidden;
-
-        background:#000;
-    }
-
-    .player-box{
-        width:100%;
-
-        max-width:none;
-
-        margin:0;
-
-        border:0;
-
-        border-radius:0;
-
-        box-shadow:none;
-    }
-
-    .video-wrap{
-        width:100%;
-
-        aspect-ratio:16/9;
-    }
-
-    .now-playing{
-        min-height:52px;
-
-        padding:
-            8px 11px;
-    }
-
-    .now-label{
-        font-size:9px;
-    }
-
-    .now-name{
-        font-size:13px;
-    }
-
-    .live{
-        font-size:9px;
-
-        padding:
-            5px 7px;
-    }
-
-    /*
-       CHỈ DANH SÁCH KÊNH CUỘN
-    */
-
-    .channels-panel{
-        width:100%;
-
-        height:auto;
-
-        min-height:0;
-
-        flex:1;
-
-        border-left:0;
-
-        border-top:
-            1px solid var(--border);
-    }
-
-    .panel-header{
-        padding:
-            9px 12px;
-    }
-
-    .panel-title{
-        font-size:14px;
-
-        margin-bottom:2px;
-    }
-
-    .panel-status{
-        font-size:10px;
-    }
-
-    .channels{
-        width:100%;
-
-        flex:1;
-
-        overflow-y:auto;
-
-        padding:
-            9px;
-
-        grid-template-columns:
-            repeat(
-                3,
-                minmax(0,1fr)
-            );
-
-        gap:7px;
-
-        align-content:start;
-
-        -webkit-overflow-scrolling:touch;
-    }
-
-    .channel{
-        padding:5px;
-
-        border-radius:9px;
-    }
-
-    .channel-logo-wrap{
-        height:53px;
-
-        border-radius:6px;
-    }
-
-    .channel-logo{
-        padding:5px;
-    }
-
-    .channel-name{
-        font-size:10px;
-
-        padding:
-            6px 1px 1px;
-    }
-
-    .channel-live{
-        top:5px;
-        left:5px;
-
-        font-size:6px;
-
-        padding:
-            2px 4px;
-    }
-}
-
-/* =========================
-   SMALL PHONE
-========================= */
-
-@media(max-width:380px){
-
-    .channels{
-        grid-template-columns:
-            repeat(
-                3,
-                minmax(0,1fr)
-            );
-
-        gap:6px;
-
-        padding:7px;
-    }
-
-    .channel-logo-wrap{
-        height:48px;
-    }
-
-    .channel-name{
-        font-size:9px;
-    }
-}
-
-/* =========================
-   LARGE PC
-========================= */
-
-@media(min-width:1500px){
-
-    .channels-panel{
-        width:390px;
-    }
-
-    .channels{
-        grid-template-columns:
-            repeat(
-                3,
-                minmax(0,1fr)
-            );
+    .preview{
+        height:250px;
     }
 }
 </style>
 </head>
 
-
 <body>
 
-<!-- =========================
-     HEADER
-========================= -->
+<div class="container">
 
-<header>
+    <div class="logo">
+        📦
+    </div>
 
-    <div class="header">
+    <h1>
+        HTML → APK
+    </h1>
 
-        <div class="logo">
+    <div class="subtitle">
+        Dán mã HTML và đóng gói thành ứng dụng Android
+    </div>
 
-            <div class="logo-icon">
-                📺
-            </div>
 
-            <span>
-                KHANH TV
-            </span>
+    <div class="options">
+
+        <div>
+
+            <label>
+                Tên ứng dụng
+            </label>
+
+            <input
+                id="appName"
+                value="KHANH TV"
+                placeholder="Tên ứng dụng"
+            >
 
         </div>
 
 
-        <div class="search-wrap">
+        <div>
 
-            <div class="search-icon">
-                🔎
-            </div>
+            <label>
+                Package Name
+            </label>
 
             <input
-                id="search"
-                class="search"
-                type="text"
-                autocomplete="off"
-                placeholder="Tìm kiếm kênh..."
+                id="packageName"
+                value="com.khanhtv.app"
+                placeholder="com.example.app"
             >
 
         </div>
 
     </div>
 
-</header>
+
+    <label>
+        Mã HTML
+    </label>
+
+    <textarea
+        id="htmlCode"
+        spellcheck="false"
+        placeholder="Dán toàn bộ mã HTML của bạn vào đây..."></textarea>
 
 
-<!-- =========================
-     APP
-========================= -->
+    <button
+        class="button"
+        onclick="previewHTML()">
 
-<div class="app">
+        👁️ Xem trước
 
-
-    <!-- PLAYER -->
-
-    <section class="player-area">
-
-        <div class="player-box">
-
-            <div class="video-wrap">
-
-                <video
-                    id="video"
-                    controls
-                    playsinline
-                    preload="metadata">
-                </video>
+    </button>
 
 
-                <div
-                    id="placeholder"
-                    class="video-placeholder">
-
-                    <span>
-                        📺
-                    </span>
-
-                    <small>
-                        Chọn một kênh để xem
-                    </small>
-
-                </div>
-
-            </div>
+    <iframe
+        id="preview"
+        class="preview"
+        sandbox="allow-scripts allow-forms allow-same-origin"
+        style="display:none">
+    </iframe>
 
 
-            <div class="now-playing">
+    <button
+        id="buildButton"
+        class="button"
+        onclick="buildAPK()">
 
-                <div class="now-title">
+        🚀 BUILD APK
 
-                    <div class="now-label">
-                        Đang phát
-                    </div>
-
-                    <div
-                        id="nowPlaying"
-                        class="now-name">
-
-                        Chưa chọn kênh
-
-                    </div>
-
-                </div>
+    </button>
 
 
-                <div class="live">
+    <button
+        class="button clear"
+        onclick="clearCode()">
 
-                    <span
-                        class="live-dot">
-                    </span>
+        🗑️ Xóa mã
 
-                    LIVE
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
+    </button>
 
 
-    <!-- CHANNELS -->
+    <div
+        id="progress"
+        class="progress">
 
-    <aside class="channels-panel">
-
-        <div class="panel-header">
-
-            <div class="panel-title">
-                📡 Kênh truyền hình
-            </div>
+        <div class="progress-bar">
 
             <div
-                id="status"
-                class="panel-status">
-
-                Đang tải danh sách...
-
+                id="progressFill"
+                class="progress-fill">
             </div>
 
         </div>
-
 
         <div
-            id="channels"
-            class="channels">
+            id="status"
+            class="status">
 
-            <div class="loading">
-                Đang tải...
-            </div>
+            Đang chuẩn bị...
 
         </div>
 
-    </aside>
+    </div>
+
+
+    <div
+        id="result"
+        class="result">
+
+        <div>
+            ✅ Build APK thành công
+        </div>
+
+        <a
+            id="download"
+            class="download"
+            href="#">
+
+            📥 Tải APK
+
+        </a>
+
+    </div>
 
 </div>
 
@@ -981,76 +367,250 @@ video{
 <script>
 
 /* =========================
-   PLAYLIST
+   XEM TRƯỚC HTML
 ========================= */
 
-const PLAYLIST =
-    "https://iptv-org.github.io/iptv/languages/vie.m3u";
+function previewHTML(){
+
+    const code =
+        document.getElementById(
+            "htmlCode"
+        ).value;
+
+    if(!code.trim()){
+
+        alert(
+            "Hãy dán mã HTML trước!"
+        );
+
+        return;
+    }
+
+    const preview =
+        document.getElementById(
+            "preview"
+        );
+
+    preview.style.display =
+        "block";
+
+    preview.srcdoc =
+        code;
+}
 
 
 /* =========================
-   ELEMENTS
+   XÓA
 ========================= */
 
-const video =
-    document.getElementById("video");
+function clearCode(){
 
-const channelsBox =
-    document.getElementById("channels");
+    document.getElementById(
+        "htmlCode"
+    ).value = "";
 
-const statusText =
-    document.getElementById("status");
+    document.getElementById(
+        "preview"
+    ).style.display =
+        "none";
 
-const nowPlaying =
-    document.getElementById("nowPlaying");
+    document.getElementById(
+        "result"
+    ).style.display =
+        "none";
 
-const searchInput =
-    document.getElementById("search");
-
-const placeholder =
-    document.getElementById("placeholder");
+}
 
 
 /* =========================
-   VARIABLES
+   BUILD APK
 ========================= */
 
-let channels = [];
+async function buildAPK(){
 
-let hls = null;
+    const code =
+        document.getElementById(
+            "htmlCode"
+        ).value;
 
-let currentChannel = null;
+    const appName =
+        document.getElementById(
+            "appName"
+        ).value.trim();
+
+    const packageName =
+        document.getElementById(
+            "packageName"
+        ).value.trim();
 
 
-/* =========================
-   LOAD PLAYLIST
-========================= */
+    if(!code.trim()){
 
-async function loadPlaylist(){
+        alert(
+            "Bạn chưa dán mã HTML!"
+        );
+
+        return;
+    }
+
+
+    if(!appName){
+
+        alert(
+            "Hãy nhập tên ứng dụng!"
+        );
+
+        return;
+    }
+
+
+    if(
+        !/^[a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)+$/
+        .test(packageName)
+    ){
+
+        alert(
+            "Package Name không hợp lệ!"
+        );
+
+        return;
+    }
+
+
+    const button =
+        document.getElementById(
+            "buildButton"
+        );
+
+    const progress =
+        document.getElementById(
+            "progress"
+        );
+
+    const fill =
+        document.getElementById(
+            "progressFill"
+        );
+
+    const status =
+        document.getElementById(
+            "status"
+        );
+
+    const result =
+        document.getElementById(
+            "result"
+        );
+
+
+    button.disabled =
+        true;
+
+    progress.style.display =
+        "block";
+
+    result.style.display =
+        "none";
+
+
+    /*
+     * Gửi mã HTML tới backend
+     */
+
+    const formData =
+        new FormData();
+
+    formData.append(
+        "html",
+        code
+    );
+
+    formData.append(
+        "appName",
+        appName
+    );
+
+    formData.append(
+        "packageName",
+        packageName
+    );
+
 
     try{
 
+        fill.style.width =
+            "20%";
+
+        status.innerText =
+            "Đang gửi mã HTML...";
+
+
+        /*
+         * API BUILD
+         *
+         * Backend của bạn cần có:
+         *
+         * POST /api/build
+         *
+         */
+
         const response =
-            await fetch(PLAYLIST);
+            await fetch(
+                "/api/build",
+                {
+                    method:"POST",
+                    body:formData
+                }
+            );
+
+
+        fill.style.width =
+            "60%";
+
+        status.innerText =
+            "Đang build APK...";
+
 
         if(!response.ok){
 
             throw new Error(
-                "Không thể tải playlist"
+                "Build thất bại"
             );
 
         }
 
-        const text =
-            await response.text();
 
-        channels =
-            parseM3U(text);
+        const data =
+            await response.json();
 
-        statusText.innerText =
-            `Đã tải ${channels.length} kênh`;
 
-        renderChannels(channels);
+        fill.style.width =
+            "100%";
+
+
+        status.innerText =
+            "Build hoàn tất!";
+
+
+        if(data.apk){
+
+            document.getElementById(
+                "download"
+            ).href =
+                data.apk;
+
+
+            result.style.display =
+                "block";
+
+        }
+        else{
+
+            throw new Error(
+                "Server không trả về APK"
+            );
+
+        }
 
     }
 
@@ -1058,531 +618,28 @@ async function loadPlaylist(){
 
         console.error(error);
 
-        statusText.innerText =
-            "❌ Không thể tải playlist";
-
-        channelsBox.innerHTML = `
-
-            <div class="empty">
-
-                <div class="empty-icon">
-                    ⚠️
-                </div>
-
-                Không tải được danh sách kênh
-
-            </div>
-
-        `;
-    }
-}
-
-
-/* =========================
-   PARSE M3U
-========================= */
-
-function parseM3U(text){
-
-    const lines =
-        text.split(/\r?\n/);
-
-    const result = [];
-
-    let info = null;
-
-
-    for(
-        let i = 0;
-        i < lines.length;
-        i++
-    ){
-
-        const line =
-            lines[i].trim();
-
-
-        if(
-            line.startsWith("#EXTINF")
-        ){
-
-            const nameMatch =
-                line.match(/,(.*)$/);
-
-            const logoMatch =
-                line.match(
-                    /tvg-logo="([^"]*)"/
-                );
-
-
-            info = {
-
-                name:
-                    nameMatch
-                    ?
-                    nameMatch[1].trim()
-                    :
-                    "Kênh không tên",
-
-                logo:
-                    logoMatch
-                    ?
-                    logoMatch[1]
-                    :
-                    ""
-
-            };
-
-        }
-
-        else if(
-            info &&
-            line &&
-            !line.startsWith("#")
-        ){
-
-            result.push({
-
-                name:info.name,
-
-                logo:info.logo,
-
-                url:line
-
-            });
-
-            info = null;
-        }
-    }
-
-    return result;
-}
-
-
-/* =========================
-   RENDER CHANNELS
-========================= */
-
-function renderChannels(list){
-
-    channelsBox.innerHTML = "";
-
-
-    if(!list.length){
-
-        channelsBox.innerHTML = `
-
-            <div class="empty">
-
-                <div class="empty-icon">
-                    🔎
-                </div>
-
-                Không tìm thấy kênh
-
-            </div>
-
-        `;
-
-        return;
-    }
-
-
-    list.forEach(channel => {
-
-        const item =
-            document.createElement("div");
-
-
-        item.className =
-            "channel";
-
-
-        if(
-            currentChannel &&
-            currentChannel.url ===
-            channel.url
-        ){
-
-            item.classList.add(
-                "active"
-            );
-
-        }
-
-
-        let logoHTML;
-
-
-        if(channel.logo){
-
-            logoHTML = `
-
-                <img
-                    class="channel-logo"
-
-                    src="${escapeHtml(
-                        channel.logo
-                    )}"
-
-                    loading="lazy"
-
-                    onerror="
-                        this.style.display='none';
-                        this.nextElementSibling.style.display='block';
-                    "
-                >
-
-                <span
-                    class="channel-fallback"
-                    style="display:none">
-
-                    📺
-
-                </span>
-
-            `;
-
-        }
-
-        else{
-
-            logoHTML = `
-
-                <span
-                    class="channel-fallback">
-
-                    📺
-
-                </span>
-
-            `;
-        }
-
-
-        item.innerHTML = `
-
-            <div class="channel-logo-wrap">
-
-                ${logoHTML}
-
-                <span class="channel-live">
-                    LIVE
-                </span>
-
-            </div>
-
-
-            <div class="channel-name">
-
-                ${escapeHtml(
-                    channel.name
-                )}
-
-            </div>
-
-        `;
-
-
-        item.onclick =
-            function(){
-
-                playChannel(channel);
-
-            };
-
-
-        channelsBox.appendChild(item);
-
-    });
-}
-
-
-/* =========================
-   PLAY CHANNEL
-========================= */
-
-function playChannel(channel){
-
-    currentChannel =
-        channel;
-
-
-    nowPlaying.innerText =
-        channel.name;
-
-
-    placeholder.style.display =
-        "none";
-
-
-    /*
-       Lưu vị trí danh sách
-       trước khi render.
-    */
-
-    const oldScroll =
-        channelsBox.scrollTop;
-
-
-    /*
-       Hủy HLS cũ.
-    */
-
-    if(hls){
-
-        hls.destroy();
-
-        hls = null;
-
-    }
-
-
-    video.pause();
-
-    video.removeAttribute("src");
-
-    video.load();
-
-
-    const url =
-        channel.url;
-
-
-    /*
-       HLS
-    */
-
-    if(
-        Hls.isSupported() &&
-        (
-            url.includes(".m3u8") ||
-            url.includes("m3u8")
-        )
-    ){
-
-        hls =
-            new Hls({
-
-                enableWorker:true,
-
-                lowLatencyMode:true,
-
-                backBufferLength:30
-
-            });
-
-
-        hls.loadSource(url);
-
-        hls.attachMedia(video);
-
-
-        hls.on(
-            Hls.Events.MANIFEST_PARSED,
-            function(){
-
-                video.play()
-                    .catch(
-                        () => {}
-                    );
-
-            }
-        );
-
-
-        hls.on(
-            Hls.Events.ERROR,
-            function(
-                event,
-                data
-            ){
-
-                console.log(
-                    "HLS ERROR:",
-                    data
-                );
-
-
-                if(data.fatal){
-
-                    if(
-                        data.type ===
-                        Hls.ErrorTypes.NETWORK_ERROR
-                    ){
-
-                        hls.startLoad();
-
-                    }
-
-                    else if(
-                        data.type ===
-                        Hls.ErrorTypes.MEDIA_ERROR
-                    ){
-
-                        hls.recoverMediaError();
-
-                    }
-
-                }
-
-            }
+        status.innerText =
+            "❌ Không thể build APK";
+
+
+        alert(
+            "Chưa kết nối server build APK.\n\n"
+            +
+            "Cần backend Android SDK/Gradle "
+            +
+            "để tạo file APK thật."
         );
 
     }
 
+    finally{
 
-    /*
-       Safari / iPhone
-    */
-
-    else if(
-        video.canPlayType(
-            "application/vnd.apple.mpegurl"
-        )
-    ){
-
-        video.src =
-            url;
-
-        video.play()
-            .catch(
-                () => {}
-            );
+        button.disabled =
+            false;
 
     }
-
-
-    /*
-       Stream khác
-    */
-
-    else{
-
-        video.src =
-            url;
-
-        video.play()
-            .catch(
-                () => {}
-            );
-
-    }
-
-
-    /*
-       Cập nhật active channel.
-    */
-
-    renderChannels(
-        filterChannels()
-    );
-
-
-    /*
-       Giữ nguyên vị trí
-       danh sách.
-    */
-
-    channelsBox.scrollTop =
-        oldScroll;
-
-
-    requestAnimationFrame(
-        function(){
-
-            channelsBox.scrollTop =
-                oldScroll;
-
-        }
-    );
 
 }
-
-
-/* =========================
-   SEARCH
-========================= */
-
-searchInput.addEventListener(
-    "input",
-    function(){
-
-        renderChannels(
-            filterChannels()
-        );
-
-    }
-);
-
-
-function filterChannels(){
-
-    const keyword =
-        searchInput.value
-            .toLowerCase()
-            .trim();
-
-
-    if(!keyword){
-
-        return channels;
-
-    }
-
-
-    return channels.filter(
-        channel =>
-
-            channel.name
-                .toLowerCase()
-                .includes(keyword)
-
-    );
-}
-
-
-/* =========================
-   ESCAPE HTML
-========================= */
-
-function escapeHtml(value){
-
-    return String(value)
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
-}
-
-
-/* =========================
-   START
-========================= */
-
-loadPlaylist();
 
 </script>
 
