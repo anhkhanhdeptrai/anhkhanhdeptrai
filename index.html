@@ -1,1469 +1,539 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BEERUSS DIY Flasher Pro</title>
-    <link rel="icon" href="logo1.png" type="image/png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Roboto+Mono:wght@400;700&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <script type="module" src="https://unpkg.com/esp-web-tools@10.0.0/dist/web/install-button.js?module"></script>
-    <style>
-        /* ===== RESET ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* ===== ZOOM 80% ===== */
-        html {
-            zoom: 0.8;
-            -moz-transform: scale(0.8);
-            -moz-transform-origin: 0 0;
-        }
-
-        body {
-            background: #0a0e17;
-            color: #e0e7ff;
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-            margin: 0;
-            padding: 0;
-            width: 100vw;
-            height: 100vh;
-        }
-
-        /* ===== CĂN GIỮA TOÀN BỘ NỘI DUNG ===== */
-        .main-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            width: 125%;
-            min-height: 100vh;
-            margin: 0 auto;
-            padding: 0 20px;
-            transform-origin: center top;
-        }
-
-        .container-fluid {
-            width: 100%;
-            max-width: 1600px;
-            padding: 20px !important;
-            margin: 0 auto !important;
-        }
-
-        /* ===== PHẦN CÒN LẠI GIỮ NGUYÊN CSS ===== */
-        :root {
-            --primary: #00d4ff;
-            --primary-dark: #0099cc;
-            --accent-1: #ff6bff;
-            --accent-2: #00ff88;
-            --accent-3: #ffd700;
-            --gradient-main: linear-gradient(135deg, #00d4ff, #ff6bff, #00ff88);
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --shadow-glow: 0 8px 32px rgba(0, 212, 255, 0.3);
-            --font-title: 'Orbitron', sans-serif;
-            --font-code: 'Roboto Mono', monospace;
-            --font-body: 'Inter', sans-serif;
-        }
-        
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 107, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 50% 80%, rgba(0, 255, 136, 0.05) 0%, transparent 50%);
-            z-index: 0;
-            animation: gradientShift 15s ease-in-out infinite;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--primary);
-            border-radius: 50%;
-            animation: floatParticle linear infinite;
-            opacity: 0.3;
-        }
-
-        @keyframes floatParticle {
-            0% {
-                transform: translateY(100vh) scale(0);
-                opacity: 0;
-            }
-            10% { opacity: 0.3; }
-            90% { opacity: 0.3; }
-            100% {
-                transform: translateY(-100vh) scale(1);
-                opacity: 0;
-            }
-        }
-
-        .sidebar {
-            background: rgba(15, 22, 38, 0.85);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 25px;
-            height: calc(100vh - 40px);
-            position: sticky;
-            top: 20px;
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--shadow-glow);
-            overflow-y: auto;
-            transition: all 0.3s ease;
-        }
-
-        .sidebar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .sidebar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .sidebar::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-
-        .sidebar-header {
-            text-align: center;
-            padding-bottom: 20px;
-            margin-bottom: 25px;
-            border-bottom: 2px solid var(--glass-border);
-            position: relative;
-        }
-
-        .sidebar-header .logo {
-            font-family: var(--font-title);
-            font-size: 1.8rem;
-            font-weight: 900;
-            background: var(--gradient-main);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 2px;
-        }
-
-        .sidebar-header .subtitle {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.5);
-            letter-spacing: 4px;
-            margin-top: 5px;
-            font-weight: 300;
-        }
-
-        .sidebar-header .status-dot {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background: var(--accent-2);
-            border-radius: 50%;
-            margin-left: 8px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.8); }
-        }
-
-        .firmware-list-container h5 {
-            color: var(--primary);
-            font-weight: 700;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .list-group-item {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px !important;
-            padding: 16px 20px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            color: rgba(255, 255, 255, 0.7);
-            font-weight: 500;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .list-group-item:hover {
-            transform: translateX(8px) scale(1.02);
-            border-color: var(--primary);
-            color: white;
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
-        }
-
-        .list-group-item.active {
-            background: var(--gradient-main);
-            color: white;
-            border-color: transparent;
-            box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
-            transform: scale(1.05);
-        }
-
-        .list-group-item .fw-icon {
-            margin-right: 12px;
-            font-size: 1.2rem;
-        }
-
-        .list-group-item .fw-badge {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 0.6rem;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 3px 10px;
-            border-radius: 20px;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .list-group-item.active .fw-badge {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-        }
-
-        .list-group-item .status-icon {
-            position: absolute;
-            right: 60px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 0.7rem;
-        }
-
-        .list-group-item .status-icon.loading {
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            100% { transform: translateY(-50%) rotate(360deg); }
-        }
-
-        .main-content {
-            padding: 0 10px;
-        }
-
-        .firmware-info-container {
-            background: rgba(15, 22, 38, 0.85);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 30px;
-            margin-bottom: 25px;
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--shadow-glow);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .firmware-info-container::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(0, 212, 255, 0.05), transparent, rgba(255, 107, 255, 0.05), transparent);
-            animation: rotate 20s linear infinite;
-        }
-
-        @keyframes rotate {
-            100% { transform: rotate(360deg); }
-        }
-
-        .firmware-info-container > * {
-            position: relative;
-            z-index: 1;
-        }
-
-        .fw-header {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .fw-header .chip-icon {
-            font-size: 3.5rem;
-            background: var(--gradient-main);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        .fw-header .fw-title-group h2 {
-            font-family: var(--font-title);
-            font-size: 2rem;
-            font-weight: 900;
-            background: var(--gradient-main);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 0;
-        }
-
-        .fw-header .fw-title-group .fw-version-tag {
-            display: inline-block;
-            background: rgba(0, 212, 255, 0.1);
-            border: 1px solid rgba(0, 212, 255, 0.2);
-            padding: 3px 15px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            color: var(--primary);
-            font-family: var(--font-code);
-            margin-top: 5px;
-        }
-
-        .fw-body {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            margin-top: 10px;
-        }
-
-        .fw-body .fw-description {
-            grid-column: 1 / -1;
-        }
-
-        .fw-body .fw-description p {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1rem;
-            line-height: 1.6;
-            margin: 0;
-        }
-
-        .fw-detail-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 18px 20px;
-            transition: all 0.3s ease;
-        }
-
-        .fw-detail-card:hover {
-            background: rgba(255, 255, 255, 0.06);
-            border-color: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        .fw-detail-card .card-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: rgba(255, 255, 255, 0.3);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .fw-detail-card .card-label i {
-            color: var(--primary);
-        }
-
-        .fw-detail-card .card-content {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 0.95rem;
-            word-break: break-all;
-        }
-
-        .fw-detail-card .card-content a {
-            color: var(--primary);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .fw-detail-card .card-content a:hover {
-            color: var(--accent-2);
-            text-decoration: underline;
-        }
-
-        .fw-detail-card .card-content .badge-item {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 2px 12px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            margin: 2px 4px 2px 0;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .fw-schematic {
-            grid-column: 1 / -1;
-        }
-
-        .fw-schematic .schematic-image {
-            width: 100%;
-            border-radius: 16px;
-            border: 1px solid var(--glass-border);
-            background: rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-            position: relative;
-            min-height: 150px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .fw-schematic .schematic-image img {
-            width: 100%;
-            height: auto;
-            max-height: 400px;
-            object-fit: contain;
-            transition: all 0.3s ease;
-        }
-
-        .fw-schematic .schematic-image img:hover {
-            transform: scale(1.02);
-        }
-
-        .fw-schematic .schematic-image .no-image {
-            color: rgba(255, 255, 255, 0.2);
-            padding: 40px;
-            text-align: center;
-        }
-
-        .fw-schematic .schematic-image .no-image i {
-            font-size: 3rem;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .flash-container {
-            background: rgba(15, 22, 38, 0.85);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 30px;
-            border: 1px solid var(--glass-border);
-            box-shadow: var(--shadow-glow);
-        }
-
-        .flash-container h3 {
-            font-family: var(--font-title);
-            font-size: 1.5rem;
-            background: var(--gradient-main);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .flash-container .alert {
-            background: rgba(0, 212, 255, 0.05);
-            border: 1px solid rgba(0, 212, 255, 0.2);
-            color: var(--primary);
-            border-radius: 16px;
-            padding: 12px 18px;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        .flash-container .alert i {
-            margin-right: 10px;
-        }
-
-        .flash-btn-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 80px;
-            padding: 15px 0;
-            position: relative;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        esp-web-install-button::part(button) {
-            background: var(--gradient-main) !important;
-            color: white !important;
-            border: none !important;
-            padding: 16px 35px !important;
-            font-family: var(--font-title) !important;
-            font-weight: 700 !important;
-            text-transform: uppercase;
-            border-radius: 16px !important;
-            box-shadow: 0 0 40px rgba(0, 212, 255, 0.4) !important;
-            transition: all 0.3s ease !important;
-            font-size: 1rem !important;
-            letter-spacing: 2px !important;
-            cursor: pointer !important;
-        }
-
-        esp-web-install-button::part(button):hover {
-            transform: scale(1.05) !important;
-            box-shadow: 0 0 60px rgba(0, 212, 255, 0.6) !important;
-        }
-
-        .digital-clock {
-            text-align: center;
-            padding: 20px;
-            background: rgba(0, 212, 255, 0.05);
-            border-radius: 16px;
-            border: 1px solid rgba(0, 212, 255, 0.1);
-            margin-top: 20px;
-        }
-
-        .digital-clock .time {
-            font-family: var(--font-title);
-            font-size: 3.5rem;
-            font-weight: 900;
-            background: var(--gradient-main);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 4px;
-        }
-
-        .digital-clock .date {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.4);
-            margin-top: 5px;
-            font-weight: 300;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid var(--glass-border);
-        }
-
-        .social-links a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            color: rgba(255, 255, 255, 0.5);
-            transition: all 0.3s ease;
-            text-decoration: none;
-            font-size: 1rem;
-        }
-
-        .social-links a:hover {
-            transform: translateY(-4px) scale(1.1);
-            border-color: var(--primary);
-            color: var(--primary);
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
-        }
-
-        .dark-toggle {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 1000;
-        }
-
-        .dark-toggle .toggle-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--gradient-main);
-            border: none;
-            color: white;
-            font-size: 1.3rem;
-            cursor: pointer;
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .dark-toggle .toggle-btn:hover {
-            transform: scale(1.1) rotate(45deg);
-            box-shadow: 0 0 50px rgba(0, 212, 255, 0.5);
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 12px;
-            margin: 15px 0;
-        }
-
-        .feature-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--glass-border);
-            border-radius: 14px;
-            padding: 12px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover {
-            background: rgba(255, 255, 255, 0.06);
-            transform: translateY(-4px);
-            border-color: var(--primary);
-        }
-
-        .feature-card i {
-            font-size: 1.5rem;
-            background: var(--gradient-main);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
-        }
-
-        .feature-card span {
-            display: block;
-            font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        .flash-progress-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            z-index: 9998;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-
-        .flash-progress-overlay.active {
-            display: flex;
-        }
-
-        .flash-progress-overlay .progress-content {
-            background: rgba(15, 22, 38, 0.95);
-            padding: 40px;
-            border-radius: 24px;
-            border: 2px solid var(--primary);
-            box-shadow: 0 0 60px rgba(0, 212, 255, 0.3);
-            text-align: center;
-            max-width: 450px;
-            width: 90%;
-        }
-
-        .flash-progress-overlay .progress-content .spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        .flash-progress-overlay .progress-content h3 {
-            color: white;
-            font-family: var(--font-title);
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-        }
-
-        .flash-progress-overlay .progress-content p {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-        }
-
-        .flash-progress-overlay .progress-content .progress-bar-bg {
-            width: 100%;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-
-        .flash-progress-overlay .progress-content .progress-bar-fill {
-            height: 100%;
-            background: var(--gradient-main);
-            width: 0%;
-            border-radius: 3px;
-            transition: width 0.3s ease;
-        }
-
-        .flash-progress-overlay .progress-content .cancel-btn {
-            margin-top: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.6);
-            padding: 8px 30px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .flash-progress-overlay .progress-content .cancel-btn:hover {
-            background: rgba(255, 0, 0, 0.1);
-            border-color: #ff4444;
-            color: #ff4444;
-        }
-
-        .fw-status-ok {
-            color: var(--accent-2);
-        }
-        .fw-status-missing {
-            color: #ff6b6b;
-        }
-        .fw-status-loading {
-            color: var(--accent-3);
-        }
-
-        @media (max-width: 992px) {
-            .fw-body {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                height: auto;
-                position: relative;
-                top: 0;
-                margin-bottom: 20px;
-            }
-            
-            .main-content {
-                padding: 0;
-            }
-
-            .fw-header {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .fw-header .fw-title-group h2 {
-                font-size: 1.5rem;
-            }
-
-            .digital-clock .time {
-                font-size: 2.5rem;
-            }
-
-            .firmware-info-container {
-                padding: 20px;
-            }
-
-            .flash-container {
-                padding: 20px;
-            }
-
-            .fw-body .fw-detail-card {
-                padding: 14px 16px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .fw-detail-card .card-content {
-                font-size: 0.85rem;
-            }
-            
-            .flash-progress-overlay .progress-content {
-                padding: 25px;
-            }
-        }
-
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.03);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-
-        .fw-detail-card {
-            animation: fadeInUp 0.5s ease forwards;
-            opacity: 0;
-        }
-
-        .fw-detail-card:nth-child(1) { animation-delay: 0.1s; }
-        .fw-detail-card:nth-child(2) { animation-delay: 0.2s; }
-        .fw-detail-card:nth-child(3) { animation-delay: 0.3s; }
-        .fw-detail-card:nth-child(4) { animation-delay: 0.4s; }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vietnam TV</title>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #0b0b0f;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #111116;
+    padding: 14px;
+    border-bottom: 1px solid #292932;
+}
+
+.header {
+    max-width: 1400px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.search {
+    flex: 1;
+    background: #1c1c24;
+    border: 1px solid #33333e;
+    border-radius: 12px;
+    padding: 12px 15px;
+    color: white;
+    outline: none;
+    font-size: 15px;
+}
+
+.search:focus {
+    border-color: #7777ff;
+}
+
+.container {
+    max-width: 1400px;
+    margin: auto;
+    padding: 18px;
+}
+
+.player-box {
+    background: #000;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid #292929;
+    margin-bottom: 20px;
+}
+
+video {
+    width: 100%;
+    height: auto;
+    min-height: 250px;
+    max-height: 75vh;
+    display: block;
+    background: #000;
+}
+
+.now-playing {
+    background: #15151b;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.status {
+    color: #aaa;
+    margin-bottom: 15px;
+}
+
+.channels {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+}
+
+.channel {
+    background: #15151b;
+    border: 1px solid #292932;
+    border-radius: 13px;
+    padding: 12px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.channel:hover {
+    transform: translateY(-2px);
+    border-color: #6666ff;
+    background: #1b1b24;
+}
+
+.channel.active {
+    border-color: #7777ff;
+    box-shadow: 0 0 15px rgba(100,100,255,.25);
+}
+
+.channel-logo {
+    width: 100%;
+    height: 80px;
+    object-fit: contain;
+    background: #0d0d11;
+    border-radius: 9px;
+    margin-bottom: 10px;
+}
+
+.channel-name {
+    font-weight: bold;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.empty {
+    text-align: center;
+    padding: 40px;
+    color: #888;
+}
+
+.loading {
+    text-align: center;
+    padding: 30px;
+    color: #aaa;
+}
+
+@media(max-width:600px) {
+    .header {
+        flex-wrap: wrap;
+    }
+
+    .logo {
+        width: 100%;
+    }
+
+    .container {
+        padding: 10px;
+    }
+
+    video {
+        min-height: 210px;
+    }
+
+    .channels {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .channel {
+        padding: 8px;
+    }
+
+    .channel-logo {
+        height: 65px;
+    }
+}
+</style>
 </head>
+
 <body>
-    <div class="particles" id="particles"></div>
 
-    <div class="dark-toggle">
-        <button class="toggle-btn" id="themeToggle">
-            <i class="fas fa-moon"></i>
-        </button>
+<header>
+    <div class="header">
+        <div class="logo">📺 Vietnam TV</div>
+
+        <input
+            id="search"
+            class="search"
+            type="text"
+            placeholder="🔎 Tìm kiếm kênh..."
+        >
     </div>
+</header>
 
-    <div class="flash-progress-overlay" id="progressOverlay">
-        <div class="progress-content">
-            <div class="spinner"></div>
-            <h3 id="progressTitle">Đang nạp firmware...</h3>
-            <p id="progressDesc">Đang kiểm tra file firmware...</p>
-            <div class="progress-bar-bg">
-                <div class="progress-bar-fill" id="progressFill"></div>
-            </div>
-            <button class="cancel-btn" onclick="cancelFlash()">
-                <i class="fas fa-times"></i> Hủy bỏ
-            </button>
+<div class="container">
+
+    <div class="player-box">
+        <video id="video" controls playsinline></video>
+        <div class="now-playing" id="nowPlaying">
+            Chưa chọn kênh
         </div>
     </div>
 
-    <div class="main-wrapper">
-        <div class="container-fluid">
-            <div class="row g-4">
-                <div class="col-md-3">
-                    <div class="sidebar">
-                        <div class="sidebar-header">
-                            <div class="logo">
-                                <i class="fas fa-microchip"></i> BEERUSS DIY
-                            </div>
-                            <div class="subtitle">
-                                IOT FLASHER <span class="status-dot"></span>
-                            </div>
-                        </div>
-
-                        <div class="firmware-list-container">
-                            <h5>
-                                <i class="fas fa-list-ul"></i> Thành Viên
-                                <span style="font-size:0.7rem;color:rgba(255,255,255,0.3);font-weight:300;margin-left:auto;">BEERUSS DIY</span>
-                            </h5>
-                            <div class="list-group" id="firmwareList">
-                                <!-- Generated by JS -->
-                            </div>
-                        </div>
-
-                        <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--glass-border);">
-                            <div class="feature-grid">
-                                <div class="feature-card">
-                                    <i class="fas fa-bolt"></i>
-                                    <span>Fast Flash</span>
-                                </div>
-                                <div class="feature-card">
-                                    <i class="fas fa-shield-alt"></i>
-                                    <span>Secure</span>
-                                </div>
-                                <div class="feature-card">
-                                    <i class="fas fa-sync"></i>
-                                    <span>Auto Update</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-9 main-content">
-                    <div class="firmware-info-container" id="firmwareInfo">
-                        <div class="fw-header">
-                            <div class="chip-icon">
-                                <i class="fas fa-microchip"></i>
-                            </div>
-                            <div class="fw-title-group">
-                                <h2 id="fwTitle">Chọn Thành Viên</h2>
-                                <div>
-                                    <span class="fw-version-tag" id="fwVersion">v1.0.0</span>
-                                    <span class="fw-version-tag" id="fwChip" style="border-color:rgba(0,255,136,0.2);color:var(--accent-2);">ESP32</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="fw-body" id="fwBody">
-                            <div class="fw-description">
-                                <p id="fwDesc">Chọn thành viên bên trái để xem thông tin chi tiết và nạp firmware.</p>
-                            </div>
-
-                            <div class="fw-detail-card">
-                                <div class="card-label">
-                                    <i class="fas fa-microchip"></i> Linh Kiện
-                                </div>
-                                <div class="card-content" id="fwComponents">
-                                    <span class="badge-item">ESP32-WROOM-32</span>
-                                    <span class="badge-item">CP2102 USB-UART</span>
-                                    <span class="badge-item">AMS1117 3.3V</span>
-                                    <span class="badge-item">CH340G</span>
-                                    <span class="badge-item">LED 2x</span>
-                                    <span class="badge-item">Nút nhấn 2x</span>
-                                </div>
-                            </div>
-
-                            <div class="fw-detail-card">
-                                <div class="card-label">
-                                    <i class="fas fa-link"></i> Link Tham Khảo
-                                </div>
-                                <div class="card-content" id="fwLinks">
-                                    <a href="https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf" target="_blank" class="badge-item" style="color:var(--primary);">
-                                        <i class="fas fa-external-link-alt" style="font-size:0.6rem;"></i> Datasheet ESP32
-                                    </a>
-                                    <a href="https://dl.espressif.com/dl/schematics/ESP32-CORE-BOARD-V2_sch.pdf" target="_blank" class="badge-item" style="color:var(--primary);">
-                                        <i class="fas fa-external-link-alt" style="font-size:0.6rem;"></i> Schematic
-                                    </a>
-                                    <a href="https://github.com/espressif/esp-idf" target="_blank" class="badge-item" style="color:var(--primary);">
-                                        <i class="fas fa-external-link-alt" style="font-size:0.6rem;"></i> GitHub Project
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="fw-schematic">
-                                <div class="schematic-image" id="fwSchematic">
-                                    <img src="https://raw.githubusercontent.com/espressif/arduino-esp32/master/docs/esp32_pinmap.png" 
-                                         alt="Sơ đồ ESP32"
-                                         onerror="this.parentElement.innerHTML='<div class=\\'no-image\\'><i class=\\'fas fa-image\\'></i><span>Không thể tải ảnh</span></div>'">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="social-links">
-                            <a href="https://www.tiktok.com/@ZERODIY" target="_blank" title="TikTok">
-                                <i class="fab fa-tiktok"></i>
-                            </a>
-                            <a href="https://github.com/anhkhanhdeptrai/anhkhanhdeptrai" target="_blank" title="GitHub">
-                                <i class="fab fa-github"></i>
-                            </a>
-                            <a href="#" target="_blank" title="YouTube">
-                                <i class="fab fa-youtube"></i>
-                            </a>
-                            <a href="#" target="_blank" title="Facebook">
-                                <i class="fab fa-facebook"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="flash-container">
-                        <h3>
-                            <i class="fas fa-bolt"></i> Flash Firmware
-                        </h3>
-                        
-                        <div class="alert">
-                            <i class="fas fa-plug"></i>
-                            Kết nối ESP32 qua USB → Chọn thành viên → Bấm nút Flash → Chọn cổng COM → Đợi hoàn tất
-                        </div>
-
-                        <div class="flash-btn-wrapper" id="espWebToolsContainer">
-                            <div style="text-align:center;color:rgba(255,255,255,0.3);">
-                                <i class="fas fa-arrow-left" style="font-size:2rem;display:block;margin-bottom:10px;"></i>
-                                Chọn thành viên bên trái để hiển thị nút Flash
-                            </div>
-                        </div>
-
-                        <div class="digital-clock">
-                            <div class="time" id="time">00:00:00</div>
-                            <div class="date" id="date">Thứ Hai, 15 Tháng 11, 2025</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="status" id="status">
+        Đang tải danh sách kênh...
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // ======================== CẤU HÌNH ========================
-        const GITHUB_RAW = 'https://raw.githubusercontent.com/anhkhanhdeptrai/anhkhanhdeptrai/main/';
-        const CHIP_CONFIG = {
-            'ESP32': { offset: 0 },
-            'ESP32-C3': { offset: 0 },
-            'ESP32-S3': { offset: 0 },
-            'ESP8266': { offset: 0 }
-        };
+    <div id="channels" class="channels">
+        <div class="loading">Đang tải...</div>
+    </div>
 
-        // ======================== NỘI DUNG CHUNG ========================
-        const COMMON_CONTENT = {
-            desc: 'Firmware cơ bản cho ESP32 với WiFi & Bluetooth. Hỗ trợ các tính năng IoT cơ bản, kết nối MQTT, HTTP server, và điều khiển GPIO.',
-            components: ['ESP32-WROOM-32', 'CP2102 USB-UART', 'AMS1117 3.3V', 'CH340G', 'LED 2x', 'Nút nhấn 2x'],
-            links: [
-                { name: 'Datasheet ESP32', url: 'https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf' },
-                { name: 'Schematic tham khảo', url: 'https://dl.espressif.com/dl/schematics/ESP32-CORE-BOARD-V2_sch.pdf' },
-                { name: 'GitHub Project', url: 'https://github.com/espressif/esp-idf' }
-            ],
-            schematic: 'https://raw.githubusercontent.com/espressif/arduino-esp32/master/docs/esp32_pinmap.png'
-        };
+</div>
 
-        // ======================== DANH SÁCH TÊN THÀNH VIÊN ========================
-        const memberNames = [
-            'Nguyễn Văn A', 'Trần Thị B', 'Lê Văn C', 'Phạm Thị D', 'Hoàng Văn E',
-            'Vũ Thị F', 'Đặng Văn G', 'Bùi Thị H', 'Đỗ Văn I', 'Hồ Thị K',
-            'Ngô Văn L', 'Dương Thị M', 'Trương Văn N', 'Lý Thị O', 'Vương Văn P',
-            'Trịnh Thị Q', 'Phùng Văn R', 'Mai Thị S', 'Chu Văn T', 'Lưu Thị U',
-            'Cao Văn V', 'Hà Thị X', 'Nguyễn Văn Y', 'Trần Thị Z', 'Lê Văn AA',
-            'Phạm Thị AB', 'Hoàng Văn AC', 'Vũ Thị AD', 'Đặng Văn AE', 'Bùi Thị AF',
-            'Đỗ Văn AG', 'Hồ Thị AH', 'Ngô Văn AI', 'Dương Thị AJ', 'Trương Văn AK',
-            'Lý Thị AL', 'Vương Văn AM', 'Trịnh Thị AN', 'Phùng Văn AO', 'Mai Thị AP',
-            'Chu Văn AQ', 'Lưu Thị AR', 'Cao Văn AS', 'Hà Thị AT', 'Nguyễn Văn AU',
-            'Trần Thị AV', 'Lê Văn AW', 'Phạm Thị AX', 'Hoàng Văn AY', 'Vũ Thị AZ'
-        ];
+<script>
 
-        // ======================== TẠO DANH SÁCH THÀNH VIÊN ========================
-        const MEMBER_COUNT = 120;
-        const members = [];
+const PLAYLIST =
+    "https://iptv-org.github.io/iptv/languages/vie.m3u";
 
-        for (let i = 1; i <= MEMBER_COUNT; i++) {
-            const nameIndex = i - 1;
-            members.push({
-                id: i,
-                name: memberNames[nameIndex] || `Thành viên #${i}`,
-                file: i + '.bin',
-                chip: 'ESP32',
-                desc: COMMON_CONTENT.desc,
-                components: COMMON_CONTENT.components,
-                links: COMMON_CONTENT.links,
-                schematic: COMMON_CONTENT.schematic,
-                exists: null
-            });
+const video = document.getElementById("video");
+const channelsBox = document.getElementById("channels");
+const statusText = document.getElementById("status");
+const nowPlaying = document.getElementById("nowPlaying");
+const searchInput = document.getElementById("search");
+
+let channels = [];
+let hls = null;
+let currentChannel = null;
+
+
+/* =========================
+   LOAD M3U
+========================= */
+
+async function loadPlaylist() {
+
+    try {
+
+        const response = await fetch(PLAYLIST);
+
+        if (!response.ok) {
+            throw new Error("Không thể tải playlist");
         }
 
-        // ======================== PARTICLES ========================
-        function createParticles() {
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 50; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.width = (Math.random() * 4 + 2) + 'px';
-                particle.style.height = particle.style.width;
-                particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
-                particle.style.animationDelay = (Math.random() * 10) + 's';
-                particle.style.opacity = Math.random() * 0.3 + 0.1;
-                container.appendChild(particle);
-            }
-        }
-        createParticles();
+        const text = await response.text();
 
-        // ======================== CLOCK ========================
-        function updateClock() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            
-            document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
-            document.getElementById('date').textContent = now.toLocaleDateString('vi-VN', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            });
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
+        channels = parseM3U(text);
 
-        // ======================== THEME TOGGLE ========================
-        let isDark = true;
-        document.getElementById('themeToggle').addEventListener('click', function() {
-            isDark = !isDark;
-            if (isDark) {
-                document.body.style.background = '#0a0e17';
-                document.body.style.color = '#e0e7ff';
-                this.innerHTML = '<i class="fas fa-moon"></i>';
-            } else {
-                document.body.style.background = '#f0f4ff';
-                document.body.style.color = '#1a1a2e';
-                this.innerHTML = '<i class="fas fa-sun"></i>';
-            }
-        });
+        statusText.innerText =
+            `Đã tải ${channels.length} kênh`;
 
-        // ======================== CHECK FIRMWARE EXISTS ========================
-        async function checkFirmwareExists(url) {
-            try {
-                const response = await fetch(url, { method: 'HEAD' });
-                return response.ok;
-            } catch {
-                return false;
-            }
-        }
+        renderChannels(channels);
 
-        // ======================== KIỂM TRA TẤT CẢ THÀNH VIÊN ========================
-        async function checkAllMembers() {
-            const items = document.querySelectorAll('#firmwareList .list-group-item');
-            
-            for (let i = 0; i < members.length; i++) {
-                const member = members[i];
-                const fileUrl = GITHUB_RAW + member.file;
-                
-                const item = items[i];
-                const statusIcon = item.querySelector('.status-icon');
-                statusIcon.textContent = '⏳';
-                statusIcon.className = 'status-icon loading';
-                
-                const exists = await checkFirmwareExists(fileUrl);
-                member.exists = exists;
-                
-                statusIcon.className = 'status-icon';
-                if (exists) {
-                    statusIcon.textContent = '✅';
-                    statusIcon.style.color = 'var(--accent-2)';
-                } else {
-                    statusIcon.textContent = '❌';
-                    statusIcon.style.color = '#ff6b6b';
-                }
-                
-                const activeId = parseInt(document.querySelector('#firmwareList .list-group-item.active')?.dataset?.id);
-                if (activeId === member.id) {
-                    renderFlashButton(member);
-                }
-            }
-        }
+    } catch (error) {
 
-        // ======================== RENDER FIRMWARE LIST ========================
-        function renderFirmwareList() {
-            const container = document.getElementById('firmwareList');
-            
-            let html = '';
-            for (const member of members) {
-                html += `
-                    <button class="list-group-item ${member.id === 1 ? 'active' : ''}" data-id="${member.id}">
-                        <span class="fw-icon"><i class="fas fa-user"></i></span>
-                        ${member.name}
-                        <span class="status-icon">⏳</span>
-                        <span class="fw-badge">#${member.id}</span>
-                    </button>
-                `;
-            }
-            container.innerHTML = html;
+        console.error(error);
 
-            document.querySelectorAll('#firmwareList .list-group-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    document.querySelectorAll('#firmwareList .list-group-item').forEach(i => i.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    const id = parseInt(this.dataset.id);
-                    const member = members.find(m => m.id === id);
-                    if (member) {
-                        updateUI(member);
-                        if (member.exists === null) {
-                            checkMemberExists(member);
-                        }
-                    }
-                });
-            });
+        statusText.innerText =
+            "❌ Không thể tải danh sách kênh";
 
-            if (members.length > 0) {
-                updateUI(members[0]);
-            }
+        channelsBox.innerHTML = `
+            <div class="empty">
+                Không tải được playlist IPTV.
+            </div>
+        `;
+    }
+}
 
-            setTimeout(() => {
-                checkAllMembers();
-            }, 100);
-        }
 
-        // ======================== KIỂM TRA 1 THÀNH VIÊN ========================
-        async function checkMemberExists(member) {
-            const fileUrl = GITHUB_RAW + member.file;
-            const items = document.querySelectorAll('#firmwareList .list-group-item');
-            const index = members.indexOf(member);
-            const item = items[index];
-            const statusIcon = item?.querySelector('.status-icon');
-            
-            if (statusIcon) {
-                statusIcon.textContent = '⏳';
-                statusIcon.className = 'status-icon loading';
-            }
-            
-            const exists = await checkFirmwareExists(fileUrl);
-            member.exists = exists;
-            
-            if (statusIcon) {
-                statusIcon.className = 'status-icon';
-                if (exists) {
-                    statusIcon.textContent = '✅';
-                    statusIcon.style.color = 'var(--accent-2)';
-                } else {
-                    statusIcon.textContent = '❌';
-                    statusIcon.style.color = '#ff6b6b';
-                }
-            }
-            
-            const activeId = parseInt(document.querySelector('#firmwareList .list-group-item.active')?.dataset?.id);
-            if (activeId === member.id) {
-                renderFlashButton(member);
-            }
-        }
+/* =========================
+   PARSE M3U
+========================= */
 
-        // ======================== UPDATE UI ========================
-        function updateUI(member) {
-            document.getElementById('fwTitle').textContent = member.name;
-            document.getElementById('fwVersion').textContent = `#${member.id}`;
-            document.getElementById('fwChip').textContent = member.chip || 'ESP32';
-            document.getElementById('fwDesc').textContent = member.desc;
+function parseM3U(text) {
 
-            const compContainer = document.getElementById('fwComponents');
-            compContainer.innerHTML = member.components.map(comp => 
-                `<span class="badge-item">${comp}</span>`
-            ).join('');
+    const lines = text.split(/\r?\n/);
 
-            const linkContainer = document.getElementById('fwLinks');
-            if (member.links && member.links.length > 0) {
-                linkContainer.innerHTML = member.links.map(link => 
-                    `<a href="${link.url}" target="_blank" class="badge-item" style="color:var(--primary);">
-                        <i class="fas fa-external-link-alt" style="font-size:0.6rem;"></i> ${link.name}
-                    </a>`
-                ).join(' ');
-            } else {
-                linkContainer.innerHTML = '<span style="color:rgba(255,255,255,0.3);">Chưa có link</span>';
-            }
+    const result = [];
 
-            const schematicContainer = document.getElementById('fwSchematic');
-            if (member.schematic) {
-                schematicContainer.innerHTML = `
-                    <img src="${member.schematic}" alt="Sơ đồ ${member.name}" 
-                         onerror="this.parentElement.innerHTML='<div class=\\'no-image\\'><i class=\\'fas fa-image\\'></i><span>Không thể tải ảnh</span></div>'">
-                `;
-            } else {
-                schematicContainer.innerHTML = `
-                    <div class="no-image">
-                        <i class="fas fa-image"></i>
-                        <span>Chưa có sơ đồ</span>
-                    </div>
-                `;
-            }
+    let info = null;
 
-            renderFlashButton(member);
+    for (let i = 0; i < lines.length; i++) {
 
-            document.querySelectorAll('.fw-detail-card').forEach(el => {
-                el.style.animation = 'none';
-                el.offsetHeight;
-                el.style.animation = 'fadeInUp 0.5s ease forwards';
-            });
-        }
+        const line = lines[i].trim();
 
-        // ======================== RENDER FLASH BUTTON ========================
-        async function renderFlashButton(member) {
-            const container = document.getElementById('espWebToolsContainer');
-            
-            if (member.exists === null) {
-                container.innerHTML = `
-                    <div style="text-align:center;color:var(--accent-3);padding:20px;">
-                        <i class="fas fa-spinner fa-spin" style="font-size:2rem;display:block;margin-bottom:10px;"></i>
-                        <span>Đang kiểm tra file firmware...</span>
-                    </div>
-                `;
-                return;
-            }
+        if (line.startsWith("#EXTINF")) {
 
-            if (!member.exists) {
-                container.innerHTML = `
-                    <div style="text-align:center;color:#ff6b6b;padding:20px;">
-                        <i class="fas fa-exclamation-triangle" style="font-size:2rem;display:block;margin-bottom:10px;"></i>
-                        <span style="font-size:1.1rem;font-weight:600;">File firmware chưa có trên server!</span>
-                        <br><small style="color:rgba(255,255,255,0.3);">Vui lòng upload file <strong>${member.file}</strong> lên GitHub</small>
-                    </div>
-                `;
-                return;
-            }
+            const nameMatch =
+                line.match(/,(.*)$/);
 
-            const fileUrl = GITHUB_RAW + member.file;
-            const offset = CHIP_CONFIG[member.chip]?.offset || 0;
+            const logoMatch =
+                line.match(/tvg-logo="([^"]*)"/);
 
-            const manifestData = {
-                name: `VNK - ${member.name}`,
-                version: '1.0.0',
-                builds: [{
-                    chipFamily: member.chip || 'ESP32',
-                    parts: [
-                        { 
-                            path: fileUrl, 
-                            offset: offset
-                        }
-                    ]
-                }]
+            info = {
+                name: nameMatch
+                    ? nameMatch[1].trim()
+                    : "Kênh không tên",
+
+                logo: logoMatch
+                    ? logoMatch[1]
+                    : ""
             };
 
-            const manifestJson = JSON.stringify(manifestData);
-            const blob = new Blob([manifestJson], { type: 'application/json' });
-            const manifestUrl = URL.createObjectURL(blob);
+        } else if (
+            info &&
+            line &&
+            !line.startsWith("#")
+        ) {
 
-            container.innerHTML = `
-                <esp-web-install-button
-                    manifest="${manifestUrl}"
-                    allow-multiple
-                >
-                    <i class="fas fa-bolt" slot="activate"></i>
-                    <span slot="unsupported">
-                        <i class="fas fa-exclamation-triangle"></i> Trình duyệt không hỗ trợ Web Serial
-                    </span>
-                    <span slot="not-allowed">
-                        <i class="fas fa-lock"></i> Chưa được phép kết nối
-                    </span>
-                    <button slot="button" style="
-                        background: linear-gradient(135deg, #00d4ff, #ff6bff, #00ff88);
-                        color: white;
-                        border: none;
-                        padding: 16px 35px;
-                        font-family: 'Orbitron', sans-serif;
-                        font-weight: 700;
-                        text-transform: uppercase;
-                        border-radius: 16px;
-                        box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
-                        transition: all 0.3s ease;
-                        font-size: 1rem;
-                        letter-spacing: 2px;
-                        cursor: pointer;
-                    ">
-                        <i class="fas fa-bolt"></i> FLASH ${member.name}
-                    </button>
-                </esp-web-install-button>
-            `;
+            result.push({
+                name: info.name,
+                logo: info.logo,
+                url: line
+            });
+
+            info = null;
+        }
+    }
+
+    return result;
+}
+
+
+/* =========================
+   DISPLAY CHANNELS
+========================= */
+
+function renderChannels(list) {
+
+    channelsBox.innerHTML = "";
+
+    if (list.length === 0) {
+
+        channelsBox.innerHTML = `
+            <div class="empty">
+                Không tìm thấy kênh
+            </div>
+        `;
+
+        return;
+    }
+
+    list.forEach(channel => {
+
+        const item =
+            document.createElement("div");
+
+        item.className = "channel";
+
+        if (
+            currentChannel &&
+            currentChannel.url === channel.url
+        ) {
+            item.classList.add("active");
         }
 
-        // ======================== PROGRESS ========================
-        let progressInterval = null;
-        let progress = 0;
+        item.innerHTML = `
 
-        function showProgress(name, firmware) {
-            const overlay = document.getElementById('progressOverlay');
-            document.getElementById('progressTitle').textContent = `Đang nạp firmware của ${name}`;
-            document.getElementById('progressDesc').textContent = `File: ${firmware}`;
-            document.getElementById('progressFill').style.width = '0%';
-            overlay.classList.add('active');
-            progress = 0;
-            
-            if (progressInterval) clearInterval(progressInterval);
-            progressInterval = setInterval(() => {
-                progress += Math.random() * 5 + 1;
-                if (progress > 95) progress = 95;
-                document.getElementById('progressFill').style.width = progress + '%';
-                if (progress > 20) document.getElementById('progressDesc').textContent = `File: ${firmware} - Đang tải...`;
-                if (progress > 50) document.getElementById('progressDesc').textContent = `File: ${firmware} - Đang kết nối ESP32...`;
-                if (progress > 75) document.getElementById('progressDesc').textContent = `File: ${firmware} - Đang ghi...`;
-            }, 300);
-        }
+            ${
+                channel.logo
+                ?
+                `<img
+                    class="channel-logo"
+                    src="${escapeHtml(channel.logo)}"
+                    loading="lazy"
+                    onerror="this.style.display='none'"
+                >`
+                :
+                `<div class="channel-logo"></div>`
+            }
 
-        function hideProgress() {
-            const overlay = document.getElementById('progressOverlay');
-            if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
-            document.getElementById('progressFill').style.width = '100%';
-            document.getElementById('progressDesc').textContent = '✅ Hoàn tất!';
-            setTimeout(() => {
-                overlay.classList.remove('active');
-                document.getElementById('progressFill').style.width = '0%';
-            }, 1000);
-        }
+            <div class="channel-name">
+                ${escapeHtml(channel.name)}
+            </div>
+        `;
 
-        window.cancelFlash = function() {
-            if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
-            hideProgress();
-            showNotification('❌ Đã hủy nạp firmware');
+        item.onclick = () => {
+            playChannel(channel);
         };
 
-        // ======================== NOTIFICATION ========================
-        function showNotification(message) {
-            const existing = document.querySelector('.flash-notification');
-            if (existing) existing.remove();
+        channelsBox.appendChild(item);
+    });
+}
 
-            const notif = document.createElement('div');
-            notif.className = 'flash-notification';
-            notif.style.cssText = `
-                position: fixed;
-                top: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: var(--gradient-main);
-                color: white;
-                padding: 12px 25px;
-                border-radius: 16px;
-                font-weight: 600;
-                font-size: 0.95rem;
-                box-shadow: 0 0 40px rgba(0, 212, 255, 0.4);
-                z-index: 9999;
-                animation: slideDown 0.5s ease;
-                font-family: var(--font-body);
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                max-width: 90%;
-            `;
-            notif.innerHTML = `<i class="fas fa-info-circle"></i> ${message}`;
-            document.body.appendChild(notif);
 
-            setTimeout(() => {
-                notif.style.animation = 'slideUp 0.5s ease forwards';
-                setTimeout(() => notif.remove(), 500);
-            }, 4000);
-        }
+/* =========================
+   PLAY CHANNEL
+========================= */
 
-        const styleSheet = document.createElement("style");
-        styleSheet.textContent = `
-            @keyframes slideDown {
-                from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
-                to { opacity: 1; transform: translateX(-50%) translateY(0); }
-            }
-            @keyframes slideUp {
-                from { opacity: 1; transform: translateX(-50%) translateY(0); }
-                to { opacity: 0; transform: translateX(-50%) translateY(-20px); }
-            }
-        `;
-        document.head.appendChild(styleSheet);
+function playChannel(channel) {
 
-        // ======================== KEYBOARD SHORTCUTS ========================
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey && e.key >= '1' && e.key <= '9') {
-                const index = parseInt(e.key) - 1;
-                const items = document.querySelectorAll('#firmwareList .list-group-item');
-                if (items[index]) {
-                    items[index].click();
-                }
-            }
+    currentChannel = channel;
+
+    nowPlaying.innerText =
+        "📺 " + channel.name;
+
+    const url = channel.url;
+
+    if (hls) {
+        hls.destroy();
+        hls = null;
+    }
+
+    video.pause();
+
+    /*
+     * HLS.js
+     */
+
+    if (
+        url.includes(".m3u8") &&
+        Hls.isSupported()
+    ) {
+
+        hls = new Hls({
+            enableWorker: true,
+            lowLatencyMode: true
         });
 
-        // ======================== INIT ========================
-        renderFirmwareList();
+        hls.loadSource(url);
 
-        console.log('%c🚀 VNK DIY IOT Flasher Pro v3.0 (Zoom 80% - Full màn)', 'font-size: 24px; font-weight: bold; color: #00d4ff;');
-        console.log('%c🔍 Hiển thị full màn hình, không bị cắt bên phải', 'font-size: 14px; color: #ffd700;');
-        console.log(`%c📁 Lấy firmware từ: ${GITHUB_RAW}`, 'font-size: 12px; color: #ff6bff;');
-        console.log(`%c👥 Số thành viên: ${MEMBER_COUNT}`, 'font-size: 12px; color: #00ff88;');
-        console.log('%c💡 Ctrl+1-9: Chọn thành viên nhanh', 'font-size: 12px; color: #00ff88;');
-    </script>
+        hls.attachMedia(video);
+
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+
+            video.play().catch(() => {});
+
+        });
+
+        hls.on(
+            Hls.Events.ERROR,
+            function(event, data) {
+
+                console.log(
+                    "HLS error:",
+                    data
+                );
+
+            }
+        );
+
+    }
+
+    /*
+     * Native HLS
+     * Safari / iPhone
+     */
+
+    else if (
+        video.canPlayType(
+            "application/vnd.apple.mpegurl"
+        )
+    ) {
+
+        video.src = url;
+
+        video.play().catch(() => {});
+
+    }
+
+    /*
+     * Other stream
+     */
+
+    else {
+
+        video.src = url;
+
+        video.play().catch(() => {});
+    }
+
+    renderChannels(
+        filterChannels()
+    );
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+searchInput.addEventListener(
+    "input",
+    function() {
+
+        const list =
+            filterChannels();
+
+        renderChannels(list);
+    }
+);
+
+
+function filterChannels() {
+
+    const keyword =
+        searchInput.value
+            .toLowerCase()
+            .trim();
+
+    if (!keyword) {
+        return channels;
+    }
+
+    return channels.filter(channel =>
+        channel.name
+            .toLowerCase()
+            .includes(keyword)
+    );
+}
+
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =========================
+   START
+========================= */
+
+loadPlaylist();
+
+</script>
+
 </body>
 </html>
