@@ -2,14 +2,20 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
+
 <meta name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-<title>KHANH TV 📺</title>
+<title>KHANH TV</title>
 
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
 <style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
 * {
     box-sizing: border-box;
 }
@@ -21,10 +27,20 @@ html {
 body {
     margin: 0;
     background:
-        radial-gradient(circle at top left, #17172b 0%, transparent 35%),
-        radial-gradient(circle at top right, #111c2d 0%, transparent 30%),
+        radial-gradient(
+            circle at 10% 0%,
+            rgba(86, 71, 255, .15),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 0%,
+            rgba(0, 153, 255, .10),
+            transparent 30%
+        ),
         #08090d;
+
     color: #fff;
+
     font-family:
         Inter,
         -apple-system,
@@ -34,211 +50,368 @@ body {
         sans-serif;
 }
 
-/* =========================
+
+/* =====================================================
    HEADER
-========================= */
+===================================================== */
 
 header {
     position: sticky;
     top: 0;
+
     z-index: 1000;
 
-    background: rgba(8, 9, 13, .88);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    background:
+        rgba(8, 9, 13, .86);
 
-    border-bottom: 1px solid rgba(255,255,255,.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    border-bottom:
+        1px solid rgba(255,255,255,.08);
 }
 
 .header {
     width: min(1450px, 100%);
+
     margin: auto;
 
-    padding: 12px 18px;
+    min-height: 68px;
+
+    padding:
+        10px 18px;
 
     display: flex;
+
     align-items: center;
+
     gap: 18px;
 }
 
-/* LOGO */
+
+/* =====================================================
+   KHANH TV LOGO
+===================================================== */
 
 .brand {
     display: flex;
+
     align-items: center;
-    gap: 10px;
+
+    gap: 11px;
 
     min-width: max-content;
 }
 
-.brand-icon {
-    width: 43px;
-    height: 43px;
+
+/* LOGO ICON */
+
+.logo-symbol {
+    position: relative;
+
+    width: 44px;
+    height: 44px;
 
     border-radius: 13px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
-    font-size: 23px;
-
     background:
-        linear-gradient(135deg,
-        #7c3cff,
-        #2563eb);
+        linear-gradient(
+            145deg,
+            #7267ff,
+            #4236d8
+        );
 
     box-shadow:
-        0 0 25px rgba(89, 70, 255, .35);
+        0 8px 25px rgba(83,72,255,.30);
 
-    border: 1px solid rgba(255,255,255,.15);
+    overflow: hidden;
+
+    border:
+        1px solid rgba(255,255,255,.18);
 }
+
+
+/* Chữ K */
+
+.logo-k {
+    position: relative;
+
+    z-index: 2;
+
+    font-size: 24px;
+
+    font-weight: 950;
+
+    font-style: italic;
+
+    letter-spacing: -2px;
+
+    color: white;
+
+    text-shadow:
+        0 2px 8px rgba(0,0,0,.25);
+}
+
+
+/* Vòng sóng */
+
+.logo-wave {
+    position: absolute;
+
+    right: -8px;
+
+    width: 27px;
+    height: 27px;
+
+    border:
+        2px solid rgba(255,255,255,.55);
+
+    border-left-color:
+        transparent;
+
+    border-bottom-color:
+        transparent;
+
+    border-radius: 50%;
+
+    transform:
+        rotate(45deg);
+}
+
+.logo-wave.two {
+    right: -14px;
+
+    width: 38px;
+    height: 38px;
+
+    border-color:
+        rgba(255,255,255,.25);
+
+    border-left-color:
+        transparent;
+
+    border-bottom-color:
+        transparent;
+}
+
+
+/* LOGO TEXT */
 
 .brand-text {
     display: flex;
+
     flex-direction: column;
+
     line-height: 1;
 }
 
 .brand-name {
     font-size: 21px;
-    font-weight: 900;
-    letter-spacing: .8px;
+
+    font-weight: 950;
+
+    letter-spacing: 1px;
 
     background:
-        linear-gradient(90deg,#fff,#9fa9ff);
+        linear-gradient(
+            90deg,
+            #ffffff,
+            #a8adff
+        );
 
     -webkit-background-clip: text;
+
     background-clip: text;
+
     color: transparent;
 }
 
 .brand-sub {
     margin-top: 5px;
 
-    font-size: 9px;
-    letter-spacing: 2.5px;
-    color: #777d91;
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+
+    color: #74798c;
 }
 
-/* SEARCH */
+
+/* =====================================================
+   SEARCH
+===================================================== */
 
 .search-box {
     position: relative;
+
     flex: 1;
 
-    max-width: 600px;
+    max-width: 620px;
+
     margin-left: auto;
-}
-
-.search-icon {
-    position: absolute;
-
-    left: 15px;
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    color: #85899b;
-    font-size: 17px;
-
-    pointer-events: none;
 }
 
 .search {
     width: 100%;
 
-    height: 45px;
+    height: 44px;
 
     padding:
-        0 45px;
+        0 45px 0 44px;
+
+    border:
+        1px solid rgba(255,255,255,.09);
 
     border-radius: 14px;
 
-    border: 1px solid rgba(255,255,255,.09);
-
-    background:
-        rgba(255,255,255,.055);
+    outline: none;
 
     color: white;
 
-    outline: none;
-
     font-size: 14px;
+
+    background:
+        rgba(255,255,255,.055);
 
     transition: .25s;
 }
 
 .search::placeholder {
-    color: #777b8b;
+    color: #777c8d;
 }
 
 .search:focus {
-    border-color: rgba(112,105,255,.8);
+    border-color:
+        rgba(112,105,255,.8);
 
     background:
         rgba(255,255,255,.08);
 
     box-shadow:
-        0 0 0 3px rgba(88,80,255,.10),
-        0 0 25px rgba(88,80,255,.12);
+        0 0 0 3px
+        rgba(95,85,255,.10);
 }
+
+
+/* SEARCH ICON */
+
+.search-icon {
+    position: absolute;
+
+    left: 15px;
+
+    top: 50%;
+
+    transform:
+        translateY(-50%);
+
+    width: 16px;
+    height: 16px;
+
+    border:
+        2px solid #777d91;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+}
+
+.search-icon::after {
+    content: "";
+
+    position: absolute;
+
+    width: 7px;
+    height: 2px;
+
+    background: #777d91;
+
+    right: -5px;
+    bottom: -3px;
+
+    transform: rotate(45deg);
+
+    border-radius: 2px;
+}
+
+
+/* CLEAR */
 
 .clear-search {
     position: absolute;
 
-    right: 12px;
+    right: 10px;
+
     top: 50%;
 
-    transform: translateY(-50%);
+    transform:
+        translateY(-50%);
 
-    width: 26px;
-    height: 26px;
+    width: 25px;
+    height: 25px;
 
-    border: 0;
+    border: none;
+
     border-radius: 50%;
 
-    background: rgba(255,255,255,.08);
+    background:
+        rgba(255,255,255,.08);
+
     color: #aaa;
 
     cursor: pointer;
 
     display: none;
+
+    font-size: 17px;
+
+    line-height: 25px;
 }
 
 .clear-search:hover {
-    background: rgba(255,255,255,.15);
     color: white;
+
+    background:
+        rgba(255,255,255,.16);
 }
 
-/* =========================
-   MAIN
-========================= */
+
+/* =====================================================
+   CONTAINER
+===================================================== */
 
 .container {
     width: min(1450px, 100%);
+
     margin: auto;
 
-    padding:
-        18px;
+    padding: 18px;
 }
 
-/* =========================
+
+/* =====================================================
    PLAYER
-========================= */
+===================================================== */
 
 .player-box {
     position: sticky;
 
-    top: 76px;
+    top: 86px;
 
     z-index: 500;
 
     background: #000;
 
-    border-radius: 17px;
-
     overflow: hidden;
+
+    border-radius: 17px;
 
     border:
         1px solid rgba(255,255,255,.10);
@@ -246,7 +419,7 @@ header {
     margin-bottom: 18px;
 
     box-shadow:
-        0 15px 45px rgba(0,0,0,.35);
+        0 18px 50px rgba(0,0,0,.35);
 }
 
 .video-wrapper {
@@ -254,9 +427,9 @@ header {
 
     width: 100%;
 
-    background: #000;
-
     aspect-ratio: 16 / 9;
+
+    background: #000;
 }
 
 video {
@@ -270,45 +443,51 @@ video {
     object-fit: contain;
 }
 
-.now-playing {
-    min-height: 53px;
 
-    padding: 14px 16px;
+/* NOW PLAYING */
+
+.now-playing {
+    min-height: 52px;
+
+    padding:
+        13px 16px;
 
     display: flex;
+
     align-items: center;
 
     background:
         linear-gradient(
             90deg,
             #12131a,
-            #0e0f14
+            #0d0e13
         );
 
     border-top:
         1px solid rgba(255,255,255,.07);
 
     font-size: 15px;
+
     font-weight: 700;
 }
 
-/* =========================
+
+/* =====================================================
    STATUS
-========================= */
+===================================================== */
 
 .status-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 10px;
-
     margin:
-        4px 0 14px;
+        3px 0 14px;
+
+    display: flex;
+
+    align-items: center;
 }
 
 .status {
-    color: #8c91a2;
+    color: #858b9d;
+
     font-size: 13px;
 }
 
@@ -318,33 +497,42 @@ video {
     width: 7px;
     height: 7px;
 
-    margin-right: 6px;
+    margin-right: 7px;
 
     border-radius: 50%;
 
-    background: #36e58b;
+    background: #39e58b;
 
     box-shadow:
-        0 0 10px #36e58b;
+        0 0 10px #39e58b;
 }
 
-/* =========================
-   CHANNEL GRID
-========================= */
+
+/* =====================================================
+   CHANNELS
+===================================================== */
 
 .channels {
     display: grid;
 
     grid-template-columns:
-        repeat(auto-fill, minmax(180px, 1fr));
+        repeat(
+            auto-fill,
+            minmax(180px, 1fr)
+        );
 
     gap: 12px;
 }
+
 
 /* CHANNEL */
 
 .channel {
     position: relative;
+
+    padding: 10px;
+
+    border-radius: 15px;
 
     background:
         linear-gradient(
@@ -356,23 +544,17 @@ video {
     border:
         1px solid rgba(255,255,255,.08);
 
-    border-radius: 15px;
-
-    padding: 10px;
-
     cursor: pointer;
 
-    transition:
-        transform .2s,
-        border-color .2s,
-        background .2s,
-        box-shadow .2s;
-
     overflow: hidden;
+
+    transition:
+        .2s;
 }
 
 .channel:hover {
-    transform: translateY(-3px);
+    transform:
+        translateY(-3px);
 
     border-color:
         rgba(112,105,255,.7);
@@ -381,37 +563,51 @@ video {
         rgba(255,255,255,.075);
 
     box-shadow:
-        0 10px 30px rgba(0,0,0,.25);
+        0 12px 30px
+        rgba(0,0,0,.25);
 }
 
 .channel.active {
-    border-color: #716aff;
+    border-color:
+        #716aff;
 
     box-shadow:
-        0 0 0 1px rgba(113,106,255,.2),
-        0 0 25px rgba(93,83,255,.18);
+        0 0 0 1px
+        rgba(113,106,255,.18),
+
+        0 0 25px
+        rgba(93,83,255,.18);
 }
 
+
+/* ACTIVE LABEL */
+
 .channel.active::after {
-    content: "ĐANG XEM";
+    content:
+        "ĐANG XEM";
 
     position: absolute;
 
     top: 8px;
     right: 8px;
 
-    padding: 4px 7px;
+    padding:
+        4px 7px;
 
-    border-radius: 7px;
+    border-radius: 6px;
+
+    background:
+        #655cff;
+
+    color: white;
 
     font-size: 8px;
-    font-weight: 800;
 
-    background: #655cff;
-    color: white;
+    font-weight: 800;
 }
 
-/* LOGO CHANNEL */
+
+/* CHANNEL LOGO */
 
 .channel-logo {
     width: 100%;
@@ -438,6 +634,7 @@ video {
     height: 82px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -452,12 +649,13 @@ video {
             #0b0c11
         );
 
-    color: #5e6375;
+    color: #555b6e;
 
-    font-size: 25px;
+    font-size: 28px;
 }
 
-/* CHANNEL NAME */
+
+/* NAME */
 
 .channel-name {
     font-size: 13px;
@@ -473,8 +671,6 @@ video {
     color: #e9eaf0;
 }
 
-/* QUALITY */
-
 .channel-quality {
     margin-top: 5px;
 
@@ -483,9 +679,10 @@ video {
     font-size: 10px;
 }
 
-/* =========================
+
+/* =====================================================
    LOADING
-========================= */
+===================================================== */
 
 .loading,
 .empty {
@@ -510,29 +707,25 @@ video {
     border:
         3px solid rgba(255,255,255,.1);
 
-    border-top-color: #7068ff;
+    border-top-color:
+        #7068ff;
 
     animation:
         spin .8s linear infinite;
 }
 
 @keyframes spin {
+
     to {
         transform: rotate(360deg);
     }
+
 }
 
-/* =========================
+
+/* =====================================================
    FULLSCREEN
-========================= */
-
-video:fullscreen {
-    background: #000;
-}
-
-video:-webkit-full-screen {
-    background: #000;
-}
+===================================================== */
 
 .video-wrapper:fullscreen {
     width: 100vw;
@@ -548,32 +741,45 @@ video:-webkit-full-screen {
     background: #000;
 }
 
-/* =========================
+video:fullscreen {
+    background: #000;
+}
+
+video:-webkit-full-screen {
+    background: #000;
+}
+
+
+/* =====================================================
    MOBILE
-========================= */
+===================================================== */
 
 @media (max-width: 700px) {
 
     .header {
-        padding:
-            10px 11px;
+        min-height: auto;
 
-        gap: 10px;
+        padding:
+            9px 11px;
+
+        gap: 9px;
 
         flex-wrap: wrap;
     }
 
     .brand {
-        width: auto;
+        gap: 9px;
     }
 
-    .brand-icon {
+    .logo-symbol {
         width: 38px;
         height: 38px;
 
         border-radius: 11px;
+    }
 
-        font-size: 20px;
+    .logo-k {
+        font-size: 21px;
     }
 
     .brand-name {
@@ -582,13 +788,15 @@ video:-webkit-full-screen {
 
     .brand-sub {
         font-size: 7px;
-        letter-spacing: 2px;
+
+        letter-spacing: 2.2px;
     }
 
     .search-box {
         order: 3;
 
         width: 100%;
+
         max-width: none;
 
         margin: 0;
@@ -599,12 +807,11 @@ video:-webkit-full-screen {
     }
 
     .container {
-        padding:
-            10px;
+        padding: 10px;
     }
 
     .player-box {
-        top: 111px;
+        top: 106px;
 
         border-radius: 13px;
 
@@ -618,14 +825,15 @@ video:-webkit-full-screen {
     .now-playing {
         min-height: 47px;
 
-        padding: 12px;
+        padding:
+            11px 12px;
 
         font-size: 13px;
     }
 
     .channels {
         grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+            repeat(2, minmax(0,1fr));
 
         gap: 8px;
     }
@@ -652,21 +860,27 @@ video:-webkit-full-screen {
     }
 
     .channel.active::after {
-        font-size: 7px;
-
         top: 6px;
         right: 6px;
+
+        font-size: 7px;
     }
+
 }
 
-/* =========================
-   VERY SMALL PHONE
-========================= */
+
+/* =====================================================
+   SMALL PHONE
+===================================================== */
 
 @media (max-width: 380px) {
 
     .brand-name {
         font-size: 16px;
+    }
+
+    .brand-sub {
+        font-size: 6px;
     }
 
     .channels {
@@ -677,23 +891,41 @@ video:-webkit-full-screen {
     .channel-logo-placeholder {
         height: 58px;
     }
+
 }
+
 </style>
 </head>
 
+
 <body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
 <header>
 
     <div class="header">
 
-        <!-- KHANH TV LOGO -->
+
+        <!-- KHANH TV -->
 
         <div class="brand">
 
-            <div class="brand-icon">
-                📺
+            <div class="logo-symbol">
+
+                <span class="logo-k">
+                    K
+                </span>
+
+                <span class="logo-wave"></span>
+
+                <span class="logo-wave two"></span>
+
             </div>
+
 
             <div class="brand-text">
 
@@ -709,13 +941,12 @@ video:-webkit-full-screen {
 
         </div>
 
+
         <!-- SEARCH -->
 
         <div class="search-box">
 
-            <span class="search-icon">
-                🔎
-            </span>
+            <span class="search-icon"></span>
 
             <input
                 id="search"
@@ -734,18 +965,31 @@ video:-webkit-full-screen {
 
         </div>
 
+
     </div>
 
 </header>
 
 
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
 <main class="container">
+
 
     <!-- PLAYER -->
 
-    <div class="player-box" id="playerBox">
+    <div
+        class="player-box"
+        id="playerBox">
 
-        <div class="video-wrapper" id="videoWrapper">
+
+        <div
+            class="video-wrapper"
+            id="videoWrapper">
+
 
             <video
                 id="video"
@@ -754,17 +998,21 @@ video:-webkit-full-screen {
                 preload="metadata">
             </video>
 
+
         </div>
+
 
         <div
             class="now-playing"
             id="nowPlaying">
 
-            📺 Chưa chọn kênh
+            Chưa chọn kênh
 
         </div>
 
+
     </div>
+
 
 
     <!-- STATUS -->
@@ -776,6 +1024,7 @@ video:-webkit-full-screen {
             id="status">
 
             <span class="live-dot"></span>
+
             Đang tải danh sách kênh...
 
         </div>
@@ -783,11 +1032,13 @@ video:-webkit-full-screen {
     </div>
 
 
-    <!-- CHANNELS -->
+
+    <!-- CHANNEL LIST -->
 
     <div
         id="channels"
         class="channels">
+
 
         <div class="loading">
 
@@ -797,9 +1048,12 @@ video:-webkit-full-screen {
 
         </div>
 
+
     </div>
 
+
 </main>
+
 
 
 <script>
@@ -821,9 +1075,6 @@ const video =
 
 const videoWrapper =
     document.getElementById("videoWrapper");
-
-const playerBox =
-    document.getElementById("playerBox");
 
 const channelsBox =
     document.getElementById("channels");
@@ -851,19 +1102,12 @@ let hls = null;
 
 let currentChannel = null;
 
-
-/* =====================================================
-   KEEP SCREEN AWAKE
-===================================================== */
-
-/*
-   Wake Lock API.
-
-   Khi đang phát video sẽ cố giữ màn hình sáng.
-*/
-
 let wakeLock = null;
 
+
+/* =====================================================
+   WAKE LOCK
+===================================================== */
 
 async function requestWakeLock() {
 
@@ -882,9 +1126,12 @@ async function requestWakeLock() {
             wakeLock.addEventListener(
                 "release",
                 () => {
+
                     wakeLock = null;
+
                 }
             );
+
         }
 
     } catch (error) {
@@ -895,6 +1142,7 @@ async function requestWakeLock() {
         );
 
     }
+
 }
 
 
@@ -907,6 +1155,7 @@ async function releaseWakeLock() {
             await wakeLock.release();
 
             wakeLock = null;
+
         }
 
     } catch (error) {
@@ -914,30 +1163,8 @@ async function releaseWakeLock() {
         console.log(error);
 
     }
+
 }
-
-
-/*
-   Khi quay lại tab/app,
-   xin Wake Lock lại.
-*/
-
-document.addEventListener(
-    "visibilitychange",
-    async () => {
-
-        if (
-            document.visibilityState ===
-            "visible" &&
-            !video.paused
-        ) {
-
-            await requestWakeLock();
-
-        }
-
-    }
-);
 
 
 /* =====================================================
@@ -975,6 +1202,28 @@ video.addEventListener(
 
 
 /* =====================================================
+   VISIBILITY
+===================================================== */
+
+document.addEventListener(
+    "visibilitychange",
+    () => {
+
+        if (
+            document.visibilityState ===
+            "visible" &&
+            !video.paused
+        ) {
+
+            requestWakeLock();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
    LOAD PLAYLIST
 ===================================================== */
 
@@ -994,7 +1243,7 @@ async function loadPlaylist() {
         if (!response.ok) {
 
             throw new Error(
-                "HTTP " + response.status
+                "Không tải được playlist"
             );
 
         }
@@ -1009,12 +1258,11 @@ async function loadPlaylist() {
 
 
         /*
-           Đưa VTV lên đầu.
-           Các kênh khác giữ nguyên thứ tự.
-        */
+         * Đưa toàn bộ VTV lên đầu
+         */
 
         channels.sort(
-            (a, b) => {
+            (a,b) => {
 
                 const aVTV =
                     isVTV(a) ? 0 : 1;
@@ -1033,7 +1281,9 @@ async function loadPlaylist() {
             `Đã tải ${channels.length} kênh`;
 
 
-        renderChannels(channels);
+        renderChannels(
+            channels
+        );
 
 
     } catch (error) {
@@ -1042,18 +1292,18 @@ async function loadPlaylist() {
 
 
         statusText.innerHTML =
-            "❌ Không thể tải danh sách kênh";
+            "Không thể tải danh sách kênh";
 
 
         channelsBox.innerHTML = `
 
             <div class="empty">
 
-                ❌ Không tải được playlist IPTV.
+                Không tải được playlist IPTV.
 
                 <br><br>
 
-                Hãy kiểm tra kết nối Internet.
+                Kiểm tra kết nối Internet.
 
             </div>
 
@@ -1065,18 +1315,23 @@ async function loadPlaylist() {
 
 
 /* =====================================================
-   CHECK VTV
+   VTV CHECK
 ===================================================== */
 
 function isVTV(channel) {
 
     return (
+
         channel.name
             .toLowerCase()
-            .includes("vtv") ||
+            .includes("vtv")
+
+        ||
+
         channel.id
             .toLowerCase()
             .includes("vtv")
+
     );
 
 }
@@ -1109,6 +1364,7 @@ function parseM3U(text) {
         if (
             line.startsWith("#EXTINF")
         ) {
+
 
             const nameMatch =
                 line.match(/,(.*)$/);
@@ -1165,6 +1421,7 @@ function parseM3U(text) {
 
         ) {
 
+
             result.push({
 
                 name: info.name,
@@ -1193,7 +1450,7 @@ function parseM3U(text) {
 
 
 /* =====================================================
-   RENDER CHANNELS
+   RENDER
 ===================================================== */
 
 function renderChannels(list) {
@@ -1209,7 +1466,7 @@ function renderChannels(list) {
 
             <div class="empty">
 
-                🔎 Không tìm thấy kênh
+                Không tìm thấy kênh
 
             </div>
 
@@ -1227,8 +1484,11 @@ function renderChannels(list) {
     list.forEach(
         channel => {
 
+
             const item =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
 
             item.className =
@@ -1251,7 +1511,9 @@ function renderChannels(list) {
             let logoHTML;
 
 
-            if (channel.logo) {
+            if (
+                channel.logo
+            ) {
 
                 logoHTML = `
 
@@ -1272,7 +1534,7 @@ function renderChannels(list) {
                 logoHTML = `
 
                     <div class="channel-logo-placeholder">
-                        📺
+                        K
                     </div>
 
                 `;
@@ -1285,38 +1547,50 @@ function renderChannels(list) {
                 ${logoHTML}
 
                 <div class="channel-name">
-                    ${escapeHtml(channel.name)}
+
+                    ${escapeHtml(
+                        channel.name
+                    )}
+
                 </div>
 
-                ${
-                    channel.group
-                    ?
-                    `<div class="channel-quality">
-                        ${escapeHtml(channel.group)}
-                    </div>`
-                    :
-                    `<div class="channel-quality">
-                        LIVE
-                    </div>`
-                }
+                <div class="channel-quality">
+
+                    ${
+                        channel.group
+                        ?
+                        escapeHtml(
+                            channel.group
+                        )
+                        :
+                        "LIVE"
+                    }
+
+                </div>
 
             `;
 
 
             item.onclick = () => {
 
-                playChannel(channel);
+                playChannel(
+                    channel
+                );
 
             };
 
 
-            fragment.appendChild(item);
+            fragment.appendChild(
+                item
+            );
 
         }
     );
 
 
-    channelsBox.appendChild(fragment);
+    channelsBox.appendChild(
+        fragment
+    );
 
 }
 
@@ -1332,14 +1606,12 @@ function playChannel(channel) {
 
 
     nowPlaying.innerText =
-        "📺  " + channel.name;
+        channel.name;
 
 
     /*
-       Không scroll xuống danh sách.
-       Player đang sticky nên luôn giữ ở trên.
-    */
-
+     * Hủy HLS cũ
+     */
 
     if (hls) {
 
@@ -1356,7 +1628,9 @@ function playChannel(channel) {
 
     video.pause();
 
-    video.removeAttribute("src");
+    video.removeAttribute(
+        "src"
+    );
 
     video.load();
 
@@ -1365,14 +1639,19 @@ function playChannel(channel) {
         channel.url;
 
 
-    /*
+    /* =================================================
        HLS.JS
-    */
+    ================================================= */
 
     if (
-        url.toLowerCase().includes(".m3u8") &&
+
+        url.toLowerCase()
+            .includes(".m3u8") &&
+
         Hls.isSupported()
+
     ) {
+
 
         hls =
             new Hls({
@@ -1390,10 +1669,14 @@ function playChannel(channel) {
             });
 
 
-        hls.loadSource(url);
+        hls.loadSource(
+            url
+        );
 
 
-        hls.attachMedia(video);
+        hls.attachMedia(
+            video
+        );
 
 
         hls.on(
@@ -1401,20 +1684,15 @@ function playChannel(channel) {
             () => {
 
                 video.play()
-                    .then(() => {
+                    .then(
+                        () => {
 
-                        requestWakeLock();
-
-                    })
-                    .catch(
-                        error => {
-
-                            console.log(
-                                "Autoplay:",
-                                error
-                            );
+                            requestWakeLock();
 
                         }
+                    )
+                    .catch(
+                        () => {}
                     );
 
             }
@@ -1428,8 +1706,9 @@ function playChannel(channel) {
                 data
             ) => {
 
+
                 console.log(
-                    "HLS ERROR:",
+                    "HLS:",
                     data
                 );
 
@@ -1438,39 +1717,32 @@ function playChannel(channel) {
                     data.fatal
                 ) {
 
-                    switch (
-                        data.type
+
+                    if (
+                        data.type ===
+                        Hls.ErrorTypes.NETWORK_ERROR
                     ) {
 
-                        case Hls.ErrorTypes.NETWORK_ERROR:
+                        hls.startLoad();
 
-                            console.log(
-                                "Network error, retry..."
-                            );
-
-                            hls.startLoad();
-
-                            break;
+                    }
 
 
-                        case Hls.ErrorTypes.MEDIA_ERROR:
+                    else if (
+                        data.type ===
+                        Hls.ErrorTypes.MEDIA_ERROR
+                    ) {
 
-                            console.log(
-                                "Media error, recover..."
-                            );
+                        hls.recoverMediaError();
 
-                            hls.recoverMediaError();
-
-                            break;
+                    }
 
 
-                        default:
+                    else {
 
-                            hls.destroy();
+                        hls.destroy();
 
-                            break;
-
-                        }
+                    }
 
                 }
 
@@ -1480,9 +1752,10 @@ function playChannel(channel) {
 
     }
 
-    /*
-       Native HLS
-    */
+
+    /* =================================================
+       NATIVE HLS
+    ================================================= */
 
     else if (
 
@@ -1492,16 +1765,19 @@ function playChannel(channel) {
 
     ) {
 
+
         video.src =
             url;
 
 
         video.play()
-            .then(() => {
+            .then(
+                () => {
 
-                requestWakeLock();
+                    requestWakeLock();
 
-            })
+                }
+            )
             .catch(
                 () => {}
             );
@@ -1509,22 +1785,25 @@ function playChannel(channel) {
     }
 
 
-    /*
-       Other stream
-    */
+    /* =================================================
+       OTHER
+    ================================================= */
 
     else {
 
+
         video.src =
             url;
 
 
         video.play()
-            .then(() => {
+            .then(
+                () => {
 
-                requestWakeLock();
+                    requestWakeLock();
 
-            })
+                }
+            )
             .catch(
                 () => {}
             );
@@ -1533,9 +1812,10 @@ function playChannel(channel) {
 
 
     /*
-       Chỉ cập nhật trạng thái active.
-       KHÔNG gọi scrollIntoView.
-    */
+     * Chỉ render lại trạng thái active.
+     *
+     * KHÔNG scrollIntoView.
+     */
 
     renderChannels(
         filterChannels()
@@ -1552,6 +1832,7 @@ searchInput.addEventListener(
     "input",
     () => {
 
+
         const keyword =
             searchInput.value.trim();
 
@@ -1566,6 +1847,7 @@ searchInput.addEventListener(
             filterChannels()
         );
 
+
     }
 );
 
@@ -1578,14 +1860,19 @@ clearSearch.addEventListener(
     "click",
     () => {
 
-        searchInput.value = "";
+
+        searchInput.value =
+            "";
+
 
         clearSearch.style.display =
             "none";
 
+
         renderChannels(
             channels
         );
+
 
         searchInput.focus();
 
@@ -1615,23 +1902,30 @@ function filterChannels() {
     return channels.filter(
         channel => {
 
+
             return (
 
                 channel.name
                     .toLowerCase()
-                    .includes(keyword)
+                    .includes(
+                        keyword
+                    )
 
                 ||
 
                 channel.id
                     .toLowerCase()
-                    .includes(keyword)
+                    .includes(
+                        keyword
+                    )
 
                 ||
 
                 channel.group
                     .toLowerCase()
-                    .includes(keyword)
+                    .includes(
+                        keyword
+                    )
 
             );
 
