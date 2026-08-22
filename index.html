@@ -2,1070 +2,1011 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+>
+
+<meta name="theme-color" content="#07070b">
 
 <title>KHANH TV</title>
 
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
 <style>
-* {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
+
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
 }
 
 html,
-body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-
-    background: #07080d;
-    color: #fff;
-
+body{
+    margin:0;
+    padding:0;
+    width:100%;
+    min-height:100%;
+    background:#07070b;
+    color:#fff;
     font-family:
         Inter,
         system-ui,
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
-        Arial,
         sans-serif;
 }
 
-/* =====================================================
+/* =========================
+   BODY
+========================= */
+
+body{
+    overflow-x:hidden;
+}
+
+body.no-scroll{
+    overflow:hidden;
+}
+
+/* =========================
    HEADER
-===================================================== */
+========================= */
 
-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-
-    height: 68px;
-
-    z-index: 1000;
+header{
+    position:sticky;
+    top:0;
+    z-index:1000;
 
     background:
         linear-gradient(
-            135deg,
-            rgba(10,11,20,.97),
-            rgba(22,12,35,.97)
+            180deg,
+            rgba(11,11,18,.98),
+            rgba(8,8,13,.96)
         );
 
-    border-bottom:
-        1px solid rgba(255,255,255,.08);
+    border-bottom:1px solid rgba(255,255,255,.08);
 
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
 }
 
-.header-inner {
-    height: 100%;
-    max-width: 1450px;
-    margin: auto;
+.header-inner{
+    width:min(1400px,100%);
+    margin:auto;
 
-    padding: 0 18px;
+    padding:12px 16px;
 
-    display: flex;
-    align-items: center;
-
-    gap: 18px;
+    display:flex;
+    align-items:center;
+    gap:18px;
 }
 
-/* =====================================================
-   KHANH TV LOGO
-===================================================== */
+/* =========================
+   LOGO
+========================= */
 
-.brand {
-    display: flex;
-    align-items: center;
+.brand{
+    position:relative;
 
-    gap: 11px;
+    min-width:max-content;
 
-    min-width: max-content;
-}
-
-/* Logo */
-
-.brand-logo {
-    width: 43px;
-    height: 43px;
-
-    border-radius: 14px;
-
-    position: relative;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background:
-        linear-gradient(
-            135deg,
-            #6d5dfc,
-            #9b5cff,
-            #e84cff,
-            #ff4f91,
-            #6d5dfc
-        );
-
-    background-size: 300% 300%;
-
-    animation:
-        logoGradient 5s ease infinite,
-        logoGlow 2.5s ease-in-out infinite;
-
-    box-shadow:
-        0 0 15px rgba(124,92,255,.45),
-        0 0 35px rgba(236,72,153,.18);
-
-    overflow: hidden;
-}
-
-/* Ánh sáng chạy qua logo */
-
-.brand-logo::before {
-    content: "";
-
-    position: absolute;
-
-    width: 70px;
-    height: 8px;
-
-    left: -70px;
-    top: 50%;
-
-    transform:
-        translateY(-50%)
-        rotate(-35deg);
+    font-size:25px;
+    font-weight:900;
+    letter-spacing:-1.3px;
 
     background:
         linear-gradient(
             90deg,
-            transparent,
-            rgba(255,255,255,.9),
+            #ffffff,
+            #8b7cff,
+            #00e5ff,
+            #ff4fd8,
+            #ffffff
+        );
+
+    background-size:300% auto;
+
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+
+    animation:logoColor 7s linear infinite;
+}
+
+@keyframes logoColor{
+
+    0%{
+        background-position:0% center;
+    }
+
+    50%{
+        background-position:100% center;
+    }
+
+    100%{
+        background-position:0% center;
+    }
+
+}
+
+.brand::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    bottom:-4px;
+
+    width:42%;
+
+    height:3px;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #7c5cff,
+            #00e5ff,
+            #ff4fd8
+        );
+
+    box-shadow:
+        0 0 12px rgba(124,92,255,.7);
+}
+
+/* =========================
+   SEARCH
+========================= */
+
+.search-wrap{
+    position:relative;
+    flex:1;
+
+    max-width:650px;
+    margin-left:auto;
+}
+
+.search-icon{
+    position:absolute;
+
+    left:15px;
+    top:50%;
+
+    transform:translateY(-50%);
+
+    width:17px;
+    height:17px;
+
+    border:2px solid #777;
+    border-radius:50%;
+
+    pointer-events:none;
+}
+
+.search-icon::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:7px;
+    height:2px;
+
+    background:#777;
+
+    right:-5px;
+    bottom:-3px;
+
+    transform:rotate(45deg);
+
+    border-radius:3px;
+}
+
+.search{
+
+    width:100%;
+
+    padding:
+        13px
+        16px
+        13px
+        45px;
+
+    border-radius:15px;
+
+    border:1px solid rgba(255,255,255,.09);
+
+    outline:none;
+
+    color:#fff;
+
+    font-size:15px;
+
+    background:
+        rgba(255,255,255,.055);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.03);
+
+    transition:.25s;
+}
+
+.search::placeholder{
+    color:#777;
+}
+
+.search:focus{
+
+    border-color:
+        rgba(125,100,255,.7);
+
+    background:
+        rgba(255,255,255,.075);
+
+    box-shadow:
+        0 0 0 3px rgba(124,92,255,.10),
+        0 0 25px rgba(124,92,255,.10);
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.container{
+
+    width:min(1400px,100%);
+
+    margin:auto;
+
+    padding:16px;
+}
+
+/* =========================
+   PLAYER AREA
+========================= */
+
+.player-area{
+
+    position:sticky;
+
+    top:70px;
+
+    z-index:900;
+
+    margin-bottom:16px;
+}
+
+/* =========================
+   PLAYER
+========================= */
+
+.player-box{
+
+    position:relative;
+
+    width:100%;
+
+    background:#000;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    border:1px solid rgba(255,255,255,.09);
+
+    box-shadow:
+        0 15px 45px rgba(0,0,0,.45);
+
+    isolation:isolate;
+}
+
+/* =========================
+   VIDEO
+========================= */
+
+video{
+
+    display:block;
+
+    width:100%;
+
+    aspect-ratio:16 / 9;
+
+    background:#000;
+
+    object-fit:contain;
+
+    outline:none;
+
+    /*
+       KHÔNG dùng controls.
+       Chỉ dùng nút riêng bên dưới.
+    */
+
+}
+
+/* =========================
+   PLAYER EMPTY
+========================= */
+
+.player-empty{
+
+    position:absolute;
+
+    inset:0;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-direction:column;
+
+    gap:8px;
+
+    color:#777;
+
+    pointer-events:none;
+}
+
+.player-empty-title{
+
+    font-size:17px;
+    font-weight:700;
+    color:#aaa;
+}
+
+.player-empty-text{
+
+    font-size:13px;
+    color:#666;
+}
+
+/* =========================
+   PLAYER TOP GRADIENT
+========================= */
+
+.player-gradient{
+
+    position:absolute;
+
+    left:0;
+    right:0;
+    top:0;
+
+    height:90px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(0,0,0,.7),
             transparent
         );
 
-    filter: blur(2px);
+    pointer-events:none;
 
-    animation:
-        logoShine 3s ease-in-out infinite;
+    opacity:0;
 
-    z-index: 2;
+    transition:.3s;
 }
 
-/* Màn hình TV */
-
-.brand-logo::after {
-    content: "";
-
-    width: 22px;
-    height: 16px;
-
-    border:
-        2px solid #fff;
-
-    border-radius: 5px;
-
-    position: absolute;
-
-    top: 12px;
-    left: 10px;
-
-    box-shadow:
-        0 0 8px rgba(255,255,255,.55);
-
-    z-index: 3;
+.player-box.controls-visible .player-gradient{
+    opacity:1;
 }
 
-/* Chấm sáng */
+/* =========================
+   CUSTOM CONTROLS
+========================= */
 
-.brand-logo span {
-    position: absolute;
+.custom-controls{
 
-    width: 5px;
-    height: 5px;
+    position:absolute;
 
-    border-radius: 50%;
+    top:12px;
+    right:12px;
 
-    background: #fff;
+    display:flex;
 
-    box-shadow:
-        0 0 8px #fff;
+    gap:8px;
 
-    z-index: 5;
-}
+    opacity:0;
 
-
-/* =====================================================
-   KHANH TV TEXT
-===================================================== */
-
-.brand-name {
-    font-size: 21px;
-
-    font-weight: 950;
-
-    letter-spacing: .7px;
-
-    position: relative;
-
-    background:
-        linear-gradient(
-            90deg,
-            #fff,
-            #a78bfa,
-            #d946ef,
-            #f472b6,
-            #fff
-        );
-
-    background-size: 300% auto;
-
-    -webkit-background-clip: text;
-    background-clip: text;
-
-    color: transparent;
-
-    animation:
-        titleGradient 5s linear infinite;
-
-    filter:
-        drop-shadow(
-            0 0 7px
-            rgba(168,85,247,.3)
-        );
-}
-
-
-/* LIVE TV */
-
-.brand-name::after {
-    content: "LIVE TV";
-
-    display: block;
-
-    font-size: 7px;
-
-    letter-spacing: 2.5px;
-
-    margin-top: -1px;
-
-    font-weight: 700;
-
-    background:
-        linear-gradient(
-            90deg,
-            #8b5cf6,
-            #ec4899,
-            #8b5cf6
-        );
-
-    background-size: 200% auto;
-
-    -webkit-background-clip: text;
-    background-clip: text;
-
-    color: transparent;
-
-    animation:
-        smallGradient 3s linear infinite;
-}
-
-
-/* =====================================================
-   LOGO ANIMATION
-===================================================== */
-
-@keyframes logoGradient {
-
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
-@keyframes titleGradient {
-
-    0% {
-        background-position: 0% center;
-    }
-
-    50% {
-        background-position: 100% center;
-    }
-
-    100% {
-        background-position: 0% center;
-    }
-}
-
-@keyframes smallGradient {
-
-    0% {
-        background-position: 0% center;
-    }
-
-    100% {
-        background-position: 200% center;
-    }
-}
-
-@keyframes logoShine {
-
-    0% {
-        left: -80px;
-    }
-
-    55%,
-    100% {
-        left: 90px;
-    }
-}
-
-@keyframes logoGlow {
-
-    0%,
-    100% {
-        box-shadow:
-            0 0 13px rgba(124,92,255,.35),
-            0 0 28px rgba(236,72,153,.12);
-    }
-
-    50% {
-        box-shadow:
-            0 0 20px rgba(124,92,255,.65),
-            0 0 42px rgba(236,72,153,.25);
-    }
-}
-
-
-/* =====================================================
-   SEARCH
-===================================================== */
-
-.search-box {
-    flex: 1;
-
-    max-width: 600px;
-
-    margin-left: auto;
-
-    position: relative;
-}
-
-.search-icon {
-    position: absolute;
-
-    left: 15px;
-    top: 50%;
-
-    transform:
-        translateY(-50%);
-
-    color: #9293a7;
-
-    font-size: 18px;
-
-    pointer-events: none;
-}
-
-.search {
-    width: 100%;
-    height: 43px;
-
-    padding:
-        0 16px 0 43px;
-
-    border:
-        1px solid rgba(255,255,255,.09);
-
-    border-radius: 13px;
-
-    outline: none;
-
-    background:
-        rgba(255,255,255,.06);
-
-    color: #fff;
-
-    font-size: 14px;
-
-    transition: .2s;
-}
-
-.search::placeholder {
-    color: #858696;
-}
-
-.search:focus {
-    border-color:
-        rgba(139,92,246,.8);
-
-    background:
-        rgba(255,255,255,.08);
-
-    box-shadow:
-        0 0 0 3px
-        rgba(124,92,255,.12);
-}
-
-
-/* =====================================================
-   MAIN
-===================================================== */
-
-.main {
-    position: fixed;
-
-    top: 68px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-
-    display: flex;
-    flex-direction: column;
-
-    overflow: hidden;
-}
-
-
-/* =====================================================
-   PLAYER
-===================================================== */
-
-.player-section {
-    flex-shrink: 0;
-
-    background: #000;
-
-    border-bottom:
-        1px solid rgba(255,255,255,.08);
-
-    position: relative;
-
-    z-index: 50;
-}
-
-.player {
-    width: 100%;
-    max-width: 1450px;
-
-    margin: auto;
-
-    position: relative;
-
-    background: #000;
-
-    overflow: hidden;
-
-    aspect-ratio: 16 / 9;
-
-    max-height:
-        calc(100vh - 150px);
-}
-
-
-/* VIDEO */
-
-video {
-    position: absolute;
-
-    inset: 0;
-
-    width: 100%;
-    height: 100%;
-
-    object-fit: contain;
-
-    background: #000;
-
-    outline: none;
-}
-
-
-/* =====================================================
-   CUSTOM BUTTONS
-===================================================== */
-
-.custom-controls {
-    position: absolute;
-
-    top: 15px;
-    right: 15px;
-
-    display: flex;
-
-    gap: 8px;
-
-    z-index: 100;
-
-    opacity: 1;
+    transform:translateY(-5px);
 
     transition:
-        opacity .3s,
-        transform .3s;
+        opacity .25s,
+        transform .25s;
+
+    z-index:20;
 }
 
-.custom-controls.hidden {
-    opacity: 0;
+.player-box.controls-visible .custom-controls{
 
-    pointer-events: none;
+    opacity:1;
 
-    transform:
-        translateY(-8px);
+    transform:translateY(0);
+
 }
 
-.control-btn {
-    width: 42px;
-    height: 42px;
+/* =========================
+   CONTROL BUTTON
+========================= */
 
-    border:
-        1px solid rgba(255,255,255,.16);
+.control-btn{
 
-    border-radius: 12px;
+    width:42px;
+    height:42px;
+
+    border-radius:13px;
+
+    border:1px solid rgba(255,255,255,.15);
 
     background:
-        rgba(10,10,16,.7);
+        rgba(12,12,18,.72);
 
-    color: #fff;
+    color:white;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display:flex;
 
-    font-size: 21px;
+    align-items:center;
+    justify-content:center;
 
-    cursor: pointer;
+    font-size:22px;
 
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    cursor:pointer;
 
-    transition: .2s;
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,.35);
+
+    transition:.2s;
 }
 
-.control-btn:hover {
+.control-btn:hover{
+
     background:
-        rgba(124,92,255,.8);
+        rgba(80,70,130,.85);
 
-    transform:
-        scale(1.05);
+    transform:scale(1.05);
 }
 
-.control-btn:active {
-    transform:
-        scale(.94);
+.control-btn:active{
+
+    transform:scale(.93);
+
 }
 
+/* =========================
+   FULLSCREEN PLAYER
+========================= */
 
-/* =====================================================
+.player-box.is-fullscreen{
+
+    position:fixed !important;
+
+    inset:0 !important;
+
+    z-index:999999 !important;
+
+    width:100vw !important;
+    height:100vh !important;
+
+    max-width:none !important;
+
+    margin:0 !important;
+
+    border-radius:0 !important;
+
+    background:#000 !important;
+}
+
+.player-box.is-fullscreen video{
+
+    width:100vw;
+    height:100vh;
+
+    aspect-ratio:auto;
+
+    object-fit:contain;
+
+}
+
+/* =========================
    NOW PLAYING
-===================================================== */
+========================= */
 
-.now-playing {
-    max-width: 1450px;
+.now-playing{
 
-    margin: auto;
+    margin-top:10px;
 
-    min-height: 54px;
+    padding:12px 15px;
 
-    display: flex;
-    align-items: center;
+    border-radius:13px;
 
-    padding: 0 18px;
+    border:1px solid rgba(255,255,255,.07);
 
     background:
         linear-gradient(
-            90deg,
-            #10111a,
-            #151225
+            135deg,
+            rgba(124,92,255,.10),
+            rgba(0,229,255,.04)
         );
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    min-height:48px;
 }
 
-.now-content {
-    min-width: 0;
-}
+.live-dot{
 
-.now-label {
-    font-size: 10px;
+    width:9px;
+    height:9px;
 
-    color: #8e8fa5;
+    flex:none;
 
-    text-transform: uppercase;
+    border-radius:50%;
 
-    letter-spacing: 1.2px;
-
-    margin-bottom: 3px;
-}
-
-.live-dot {
-    width: 7px;
-    height: 7px;
-
-    display: inline-block;
-
-    border-radius: 50%;
-
-    background: #22c55e;
-
-    margin-right: 7px;
+    background:#ff315d;
 
     box-shadow:
-        0 0 10px #22c55e;
+        0 0 0 4px rgba(255,49,93,.12),
+        0 0 14px rgba(255,49,93,.8);
+
+    animation:pulse 1.5s infinite;
 }
 
-.now-title {
-    font-size: 15px;
+@keyframes pulse{
 
-    font-weight: 800;
+    0%,100%{
+        opacity:1;
+        transform:scale(1);
+    }
 
-    white-space: nowrap;
+    50%{
+        opacity:.45;
+        transform:scale(.8);
+    }
 
-    overflow: hidden;
-
-    text-overflow: ellipsis;
 }
 
-
-/* =====================================================
-   CHANNEL AREA
-===================================================== */
-
-.channel-area {
-    flex: 1;
-
-    min-height: 0;
-
-    overflow-y: auto;
-    overflow-x: hidden;
-
-    padding:
-        16px 18px 40px;
-
-    overscroll-behavior: contain;
-
-    scrollbar-width: thin;
-
-    scrollbar-color:
-        #363747
-        transparent;
+.now-text{
+    overflow:hidden;
 }
 
-.channel-inner {
-    max-width: 1450px;
+.now-label{
 
-    margin: auto;
+    font-size:11px;
+
+    color:#888;
+
+    text-transform:uppercase;
+
+    letter-spacing:.8px;
+
 }
 
-.status {
-    margin-bottom: 13px;
+.now-name{
 
-    color: #9293a4;
+    margin-top:2px;
 
-    font-size: 13px;
+    font-size:15px;
+
+    font-weight:800;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
 }
 
+/* =========================
+   STATUS
+========================= */
 
-/* =====================================================
+.status{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:10px;
+
+    margin:18px 2px 12px;
+
+    color:#888;
+
+    font-size:13px;
+}
+
+.channel-count{
+    color:#777;
+}
+
+/* =========================
    CHANNEL GRID
-===================================================== */
+========================= */
 
-.channels {
-    display: grid;
+.channels{
+
+    display:grid;
 
     grid-template-columns:
         repeat(
             auto-fill,
-            minmax(170px, 1fr)
+            minmax(180px,1fr)
         );
 
-    gap: 12px;
+    gap:12px;
+
+    padding-bottom:30px;
 }
 
-.channel {
-    position: relative;
+/* =========================
+   CHANNEL
+========================= */
+
+.channel{
+
+    position:relative;
 
     background:
         linear-gradient(
             145deg,
-            #12131b,
-            #0e0f16
+            #14141c,
+            #101016
         );
 
-    border:
-        1px solid rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.07);
 
-    border-radius: 15px;
+    border-radius:15px;
 
-    padding: 9px;
+    padding:10px;
 
-    cursor: pointer;
+    cursor:pointer;
 
-    overflow: hidden;
+    overflow:hidden;
 
     transition:
-        transform .18s,
-        border-color .18s,
-        background .18s,
-        box-shadow .18s;
+        transform .2s,
+        border-color .2s,
+        box-shadow .2s,
+        background .2s;
 }
 
-.channel:hover {
-    transform:
-        translateY(-2px);
+.channel:hover{
+
+    transform:translateY(-3px);
 
     border-color:
-        rgba(139,92,246,.65);
+        rgba(124,92,255,.55);
 
     box-shadow:
-        0 8px 25px
-        rgba(0,0,0,.25);
+        0 10px 30px rgba(0,0,0,.3);
 }
 
-.channel.active {
+.channel:active{
+
+    transform:scale(.98);
+
+}
+
+.channel.active{
+
     border-color:
-        #8b5cf6;
+        rgba(124,92,255,.9);
 
     box-shadow:
-        0 0 0 1px #8b5cf6,
-        0 8px 30px
-        rgba(124,92,255,.2);
+        0 0 0 1px rgba(124,92,255,.25),
+        0 10px 35px rgba(124,92,255,.13);
 }
 
-.channel-logo {
-    width: 100%;
-    height: 82px;
+/* active bar */
 
-    display: block;
+.channel.active::before{
 
-    object-fit: contain;
+    content:"";
 
-    border-radius: 10px;
+    position:absolute;
 
-    background: #090a0f;
+    top:0;
+    left:15px;
+    right:15px;
 
-    margin-bottom: 9px;
-}
-
-.no-logo {
-    width: 100%;
-    height: 82px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 10px;
+    height:2px;
 
     background:
         linear-gradient(
-            135deg,
-            #171827,
-            #0b0c12
+            90deg,
+            #7c5cff,
+            #00e5ff,
+            #ff4fd8
         );
 
-    color: #77798b;
-
-    font-size: 24px;
+    border-radius:0 0 10px 10px;
 }
 
-.channel-name {
-    font-size: 13px;
+/* =========================
+   CHANNEL LOGO
+========================= */
 
-    font-weight: 750;
+.channel-logo{
 
-    white-space: nowrap;
+    width:100%;
 
-    overflow: hidden;
+    height:82px;
 
-    text-overflow: ellipsis;
+    object-fit:contain;
 
-    padding:
-        2px 3px 4px;
+    background:#09090d;
+
+    border-radius:10px;
+
+    display:block;
+
+    margin-bottom:9px;
 }
 
-.channel-quality {
-    color: #77798b;
+.channel-name{
 
-    font-size: 10px;
+    font-size:14px;
 
-    padding: 0 3px;
+    font-weight:750;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+    color:#eee;
 }
 
+.channel-sub{
 
-/* =====================================================
-   LOADING
-===================================================== */
+    margin-top:4px;
 
-.loading,
-.empty {
-    padding: 50px 20px;
+    color:#666;
 
-    text-align: center;
+    font-size:11px;
 
-    color: #858696;
 }
 
-.loading::before {
-    content: "";
+/* =========================
+   EMPTY / LOADING
+========================= */
 
-    width: 24px;
-    height: 24px;
+.empty,
+.loading{
 
-    display: block;
+    grid-column:1/-1;
 
-    margin:
-        0 auto 12px;
+    text-align:center;
 
-    border:
-        3px solid #292a37;
+    padding:50px 20px;
 
-    border-top-color:
-        #8b5cf6;
-
-    border-radius: 50%;
-
-    animation:
-        spin .8s linear infinite;
+    color:#666;
 }
 
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-
-/* =====================================================
-   FULLSCREEN
-===================================================== */
-
-.player:fullscreen {
-    width: 100vw;
-    height: 100vh;
-
-    max-width: none;
-    max-height: none;
-
-    aspect-ratio: auto;
-
-    background: #000;
-}
-
-.player:-webkit-full-screen {
-    width: 100vw;
-    height: 100vh;
-
-    max-width: none;
-    max-height: none;
-
-    aspect-ratio: auto;
-
-    background: #000;
-}
-
-.player:fullscreen video,
-.player:-webkit-full-screen video {
-    width: 100%;
-    height: 100%;
-
-    object-fit: contain;
-}
-
-.player:fullscreen .custom-controls,
-.player:-webkit-full-screen .custom-controls {
-    position: fixed;
-
-    top: 15px;
-    right: 15px;
-}
-
-
-/* =====================================================
+/* =========================
    MOBILE
-===================================================== */
+========================= */
 
-@media (max-width:700px) {
+@media(max-width:700px){
 
-    header {
-        height: 60px;
+    .header-inner{
+
+        padding:10px 12px;
+
+        gap:10px;
+
+        flex-wrap:wrap;
     }
 
-    .header-inner {
-        padding: 0 10px;
+    .brand{
 
-        gap: 9px;
+        font-size:22px;
+
+        width:auto;
     }
 
-    .brand-logo {
-        width: 39px;
-        height: 39px;
+    .search-wrap{
 
-        border-radius: 12px;
+        order:3;
+
+        width:100%;
+
+        max-width:none;
     }
 
-    .brand-logo::after {
-        width: 20px;
-        height: 14px;
+    .container{
 
-        top: 11px;
-        left: 9px;
+        padding:10px;
     }
 
-    .brand-name {
-        font-size: 18px;
+    .player-area{
+
+        top:92px;
+
+        margin-left:-10px;
+        margin-right:-10px;
+
+        margin-bottom:12px;
     }
 
-    .brand-name::after {
-        font-size: 6px;
+    .player-box{
 
-        letter-spacing: 2px;
+        border-radius:0;
+
+        border-left:0;
+        border-right:0;
     }
 
-    .search {
-        height: 39px;
+    video{
 
-        font-size: 13px;
+        aspect-ratio:16/9;
 
-        padding-left: 38px;
     }
 
-    .main {
-        top: 60px;
+    .now-playing{
+
+        margin:8px 0 0;
+
+        border-radius:12px;
     }
 
-    .player {
-        aspect-ratio: 16 / 9;
+    .channels{
 
-        max-height: none;
-    }
-
-    .now-playing {
-        min-height: 48px;
-
-        padding: 0 12px;
-    }
-
-    .now-title {
-        font-size: 14px;
-    }
-
-    .channel-area {
-        padding: 10px;
-    }
-
-    .channels {
         grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+            repeat(2, minmax(0,1fr));
 
-        gap: 8px;
+        gap:8px;
     }
 
-    .channel {
-        padding: 7px;
+    .channel{
 
-        border-radius: 12px;
+        padding:8px;
+
+        border-radius:12px;
     }
 
-    .channel-logo,
-    .no-logo {
-        height: 65px;
+    .channel-logo{
 
-        border-radius: 8px;
+        height:65px;
+
+        border-radius:8px;
     }
 
-    .channel-name {
-        font-size: 12px;
+    .channel-name{
+
+        font-size:13px;
     }
 
-    .custom-controls {
-        top: 9px;
-        right: 9px;
-    }
-
-    .control-btn {
-        width: 38px;
-        height: 38px;
-
-        border-radius: 10px;
-
-        font-size: 19px;
-    }
 }
 
-
-/* =====================================================
+/* =========================
    LANDSCAPE PHONE
-===================================================== */
+========================= */
 
-@media (orientation: landscape) and (max-height:600px) {
+@media(max-height:600px) and (orientation:landscape){
 
-    .player:fullscreen,
-    .player:-webkit-full-screen {
-        width: 100vw;
-        height: 100vh;
+    .player-area{
+
+        position:fixed;
+
+        inset:0;
+
+        top:0;
+
+        z-index:99999;
+
+        background:#000;
+
+        margin:0;
+
     }
 
-    .player:fullscreen video,
-    .player:-webkit-full-screen video {
-        width: 100vw;
-        height: 100vh;
+    .player-box{
 
-        object-fit: contain;
+        width:100vw;
+        height:100vh;
+
+        border:0;
+
+        border-radius:0;
+
     }
+
+    .player-box video{
+
+        width:100vw;
+        height:100vh;
+
+        aspect-ratio:auto;
+
+        object-fit:contain;
+
+    }
+
+    .now-playing{
+
+        display:none;
+    }
+
 }
+
+/* =========================
+   SAFE AREA
+========================= */
+
+@supports(padding:max(0px)){
+
+    .header-inner{
+
+        padding-left:
+            max(12px,env(safe-area-inset-left));
+
+        padding-right:
+            max(12px,env(safe-area-inset-right));
+    }
+
+}
+
+/* =========================
+   HIDE SCROLLBAR
+========================= */
+
+::-webkit-scrollbar{
+    width:7px;
+}
+
+::-webkit-scrollbar-track{
+    background:#08080c;
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#292932;
+
+    border-radius:10px;
+}
+
 </style>
 </head>
 
-
 <body>
-
-<!-- =====================================================
-     HEADER
-===================================================== -->
 
 <header>
 
     <div class="header-inner">
 
         <div class="brand">
-
-            <div class="brand-logo">
-                <span></span>
-            </div>
-
-            <div class="brand-name">
-                KHANH TV
-            </div>
-
+            KHANH TV
         </div>
 
+        <div class="search-wrap">
 
-        <div class="search-box">
-
-            <span class="search-icon">
-                ⌕
-            </span>
+            <span class="search-icon"></span>
 
             <input
                 id="search"
                 class="search"
                 type="text"
-                placeholder="Tìm kiếm kênh..."
                 autocomplete="off"
+                placeholder="Tìm kiếm kênh..."
             >
 
         </div>
@@ -1075,56 +1016,68 @@ video {
 </header>
 
 
-<!-- =====================================================
-     MAIN
-===================================================== -->
-
-<main class="main">
+<main class="container">
 
 
-    <!-- =================================================
+    <!-- =========================
          PLAYER
-    ================================================== -->
+    ========================== -->
 
-    <section class="player-section">
+    <div class="player-area">
 
         <div
-            class="player"
-            id="player"
+            id="playerBox"
+            class="player-box"
         >
 
-            <!-- Không có controls -->
+            <div class="player-gradient"></div>
+
             <video
                 id="video"
                 playsinline
                 webkit-playsinline
-                preload="metadata"
+                preload="none"
+                disablepictureinpicture
             ></video>
 
 
-            <!-- CHỈ 2 NÚT TỰ THIẾT KẾ -->
+            <div
+                id="playerEmpty"
+                class="player-empty"
+            >
+
+                <div class="player-empty-title">
+                    KHANH TV
+                </div>
+
+                <div class="player-empty-text">
+                    Chọn một kênh để bắt đầu xem
+                </div>
+
+            </div>
+
+
+            <!-- CHỈ 2 NÚT RIÊNG -->
 
             <div
-                class="custom-controls"
                 id="customControls"
+                class="custom-controls"
             >
 
                 <button
-                    class="control-btn"
                     id="fullscreenBtn"
+                    class="control-btn"
                     type="button"
                     aria-label="Toàn màn hình"
                 >
                     ⛶
                 </button>
 
-
                 <button
+                    id="closeBtn"
                     class="control-btn"
-                    id="exitFullscreenBtn"
                     type="button"
                     aria-label="Thoát toàn màn hình"
-                    style="display:none"
                 >
                     ×
                 </button>
@@ -1134,23 +1087,19 @@ video {
         </div>
 
 
-        <!-- ĐANG PHÁT -->
-
         <div class="now-playing">
 
-            <div class="now-content">
+            <span class="live-dot"></span>
+
+            <div class="now-text">
 
                 <div class="now-label">
-
-                    <span class="live-dot"></span>
-
                     ĐANG PHÁT
-
                 </div>
 
                 <div
-                    class="now-title"
                     id="nowPlaying"
+                    class="now-name"
                 >
                     Chưa chọn kênh
                 </div>
@@ -1159,62 +1108,69 @@ video {
 
         </div>
 
-    </section>
+    </div>
 
 
-    <!-- =================================================
-         CHANNEL LIST
-    ================================================== -->
+    <!-- STATUS -->
 
-    <section class="channel-area">
+    <div class="status">
 
-        <div class="channel-inner">
+        <span id="status">
+            Đang tải danh sách...
+        </span>
 
-            <div
-                class="status"
-                id="status"
-            >
-                Đang tải danh sách kênh...
-            </div>
+        <span
+            id="channelCount"
+            class="channel-count"
+        ></span>
+
+    </div>
 
 
-            <div
-                id="channels"
-                class="channels"
-            >
+    <!-- CHANNELS -->
 
-                <div class="loading">
-                    Đang tải...
-                </div>
+    <div
+        id="channels"
+        class="channels"
+    >
 
-            </div>
-
+        <div class="loading">
+            Đang tải kênh...
         </div>
 
-    </section>
+    </div>
 
 </main>
 
 
 <script>
 
-/* =====================================================
+/* =========================================================
+   KHANH TV
+   IPTV PLAYER
+========================================================= */
+
+
+/* =========================
    PLAYLIST
-===================================================== */
+========================= */
 
 const PLAYLIST =
     "https://iptv-org.github.io/iptv/languages/vie.m3u";
 
 
-/* =====================================================
+/* =========================
    ELEMENTS
-===================================================== */
+========================= */
 
 const video =
     document.getElementById("video");
 
-const player =
-    document.getElementById("player");
+const playerBox =
+    document.getElementById("playerBox");
+
+const playerEmpty =
+    document.getElementById("playerEmpty");
 
 const channelsBox =
     document.getElementById("channels");
@@ -1222,25 +1178,25 @@ const channelsBox =
 const statusText =
     document.getElementById("status");
 
+const channelCount =
+    document.getElementById("channelCount");
+
 const nowPlaying =
     document.getElementById("nowPlaying");
 
 const searchInput =
     document.getElementById("search");
 
-const customControls =
-    document.getElementById("customControls");
-
 const fullscreenBtn =
     document.getElementById("fullscreenBtn");
 
-const exitFullscreenBtn =
-    document.getElementById("exitFullscreenBtn");
+const closeBtn =
+    document.getElementById("closeBtn");
 
 
-/* =====================================================
+/* =========================
    VARIABLES
-===================================================== */
+========================= */
 
 let channels = [];
 
@@ -1248,80 +1204,136 @@ let hls = null;
 
 let currentChannel = null;
 
-let controlsTimer = null;
-
 let wakeLock = null;
 
+let controlsTimer = null;
 
-/* =====================================================
+
+/* =========================================================
    WAKE LOCK
-   GIỮ MÀN HÌNH SÁNG
-===================================================== */
+   GIỮ MÀN HÌNH KHÔNG TẮT
+========================================================= */
 
-async function requestWakeLock() {
+async function requestWakeLock(){
 
-    try {
+    try{
 
-        if (
-            "wakeLock" in navigator &&
-            document.visibilityState ===
-            "visible"
-        ) {
-
-            if (wakeLock) {
-                return;
-            }
-
-            wakeLock =
-                await navigator.wakeLock.request(
-                    "screen"
-                );
+        if(
+            !("wakeLock" in navigator)
+        ){
 
             console.log(
-                "Wake Lock: ON"
+                "Thiết bị/trình duyệt không hỗ trợ Wake Lock"
             );
 
-            wakeLock.addEventListener(
-                "release",
-                () => {
+            return;
 
-                    wakeLock = null;
-
-                }
-            );
         }
 
-    } catch (error) {
+        if(
+            document.visibilityState !== "visible"
+        ){
+
+            return;
+
+        }
+
+        if(wakeLock){
+
+            if(!wakeLock.released){
+
+                return;
+
+            }
+
+        }
+
+        wakeLock =
+            await navigator.wakeLock.request("screen");
 
         console.log(
-            "Wake Lock:",
+            "Wake Lock: ON"
+        );
+
+
+        wakeLock.addEventListener(
+            "release",
+            () => {
+
+                console.log(
+                    "Wake Lock đã bị release"
+                );
+
+                wakeLock = null;
+
+            }
+        );
+
+    }
+    catch(error){
+
+        console.log(
+            "Wake Lock error:",
             error
         );
+
     }
+
 }
 
 
-/* =====================================================
-   KHI QUAY LẠI APP
-===================================================== */
+/* =========================
+   RELEASE WAKE LOCK
+========================= */
+
+async function releaseWakeLock(){
+
+    try{
+
+        if(wakeLock){
+
+            await wakeLock.release();
+
+            wakeLock = null;
+
+        }
+
+    }
+    catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+/* =========================================================
+   QUAN TRỌNG:
+   KHI QUAY LẠI APP / QUAY MÀN HÌNH / FULLSCREEN
+   GỌI LẠI WAKE LOCK
+========================================================= */
 
 document.addEventListener(
     "visibilitychange",
     async () => {
 
-        if (
-            document.visibilityState ===
-            "visible"
-        ) {
+        if(
+            document.visibilityState === "visible"
+            &&
+            currentChannel
+            &&
+            !video.paused
+        ){
 
-            if (
-                !video.paused &&
-                video.src
-            ) {
+            setTimeout(
+                () => {
 
-                await requestWakeLock();
+                    requestWakeLock();
 
-            }
+                },
+                300
+            );
 
         }
 
@@ -1329,22 +1341,80 @@ document.addEventListener(
 );
 
 
-/* =====================================================
+/* =========================
+   FULLSCREEN CHANGE
+========================= */
+
+document.addEventListener(
+    "fullscreenchange",
+    () => {
+
+        updateFullscreenUI();
+
+        setTimeout(
+            () => {
+
+                if(
+                    currentChannel
+                ){
+
+                    requestWakeLock();
+
+                }
+
+            },
+            300
+        );
+
+    }
+);
+
+
+/* =========================
+   WEBKIT FULLSCREEN
+========================= */
+
+document.addEventListener(
+    "webkitfullscreenchange",
+    () => {
+
+        updateFullscreenUI();
+
+        setTimeout(
+            () => {
+
+                requestWakeLock();
+
+            },
+            300
+        );
+
+    }
+);
+
+
+/* =========================================================
    LOAD PLAYLIST
-===================================================== */
+========================================================= */
 
-async function loadPlaylist() {
+async function loadPlaylist(){
 
-    try {
+    try{
+
+        statusText.innerText =
+            "Đang tải danh sách kênh...";
+
 
         const response =
             await fetch(PLAYLIST);
 
-        if (!response.ok) {
+
+        if(!response.ok){
 
             throw new Error(
-                "Playlist error"
+                "Không tải được playlist"
             );
+
         }
 
 
@@ -1361,31 +1431,35 @@ async function loadPlaylist() {
          */
 
         channels.sort(
-            (a, b) => {
+            (a,b) => {
 
                 const av =
-                    /^VTV/i.test(
-                        a.name
-                    );
+                    getVTVNumber(a.name);
 
                 const bv =
-                    /^VTV/i.test(
-                        b.name
-                    );
+                    getVTVNumber(b.name);
 
-                if (
-                    av &&
-                    !bv
-                ) {
+
+                if(av !== null && bv !== null){
+
+                    return av - bv;
+
+                }
+
+
+                if(av !== null){
+
                     return -1;
+
                 }
 
-                if (
-                    !av &&
-                    bv
-                ) {
+
+                if(bv !== null){
+
                     return 1;
+
                 }
+
 
                 return 0;
 
@@ -1394,63 +1468,89 @@ async function loadPlaylist() {
 
 
         statusText.innerText =
-            `Đã tải ${channels.length} kênh`;
+            "Danh sách kênh";
 
 
-        renderChannels(
-            channels
-        );
+        channelCount.innerText =
+            `${channels.length} kênh`;
 
 
-    } catch (error) {
+        renderChannels(channels);
+
+    }
+    catch(error){
 
         console.error(error);
 
-
         statusText.innerText =
-            "❌ Không thể tải danh sách kênh";
-
+            "Không thể tải danh sách";
 
         channelsBox.innerHTML = `
-
             <div class="empty">
-                Không tải được playlist IPTV.
+                Không tải được playlist IPTV
             </div>
-
         `;
+
     }
+
 }
 
 
-/* =====================================================
-   PARSE M3U
-===================================================== */
+/* =========================================================
+   LẤY SỐ VTV
+========================================================= */
 
-function parseM3U(text) {
+function getVTVNumber(name){
+
+    const match =
+        name.match(
+            /^VTV(\d+)\b/i
+        );
+
+
+    if(!match){
+
+        return null;
+
+    }
+
+
+    return parseInt(
+        match[1],
+        10
+    );
+
+}
+
+
+/* =========================================================
+   PARSE M3U
+========================================================= */
+
+function parseM3U(text){
 
     const lines =
         text.split(/\r?\n/);
+
 
     const result = [];
 
     let info = null;
 
 
-    for (
+    for(
         let i = 0;
         i < lines.length;
         i++
-    ) {
+    ){
 
         const line =
             lines[i].trim();
 
 
-        if (
-            line.startsWith(
-                "#EXTINF"
-            )
-        ) {
+        if(
+            line.startsWith("#EXTINF")
+        ){
 
             const nameMatch =
                 line.match(
@@ -1495,61 +1595,59 @@ function parseM3U(text) {
 
             };
 
-
-        } else if (
-
-            info &&
-            line &&
+        }
+        else if(
+            info
+            &&
+            line
+            &&
             !line.startsWith("#")
-
-        ) {
+        ){
 
             result.push({
 
-                name:
-                    info.name,
+                name:info.name,
 
-                logo:
-                    info.logo,
+                logo:info.logo,
 
-                id:
-                    info.id,
+                id:info.id,
 
-                url:
-                    line
+                url:line
 
             });
 
 
             info = null;
+
         }
+
     }
 
 
     return result;
+
 }
 
 
-/* =====================================================
-   RENDER
-===================================================== */
+/* =========================================================
+   RENDER CHANNELS
+========================================================= */
 
-function renderChannels(list) {
+function renderChannels(list){
 
     channelsBox.innerHTML = "";
 
 
-    if (!list.length) {
+    if(!list.length){
 
         channelsBox.innerHTML = `
-
             <div class="empty">
                 Không tìm thấy kênh
             </div>
-
         `;
 
         return;
+
     }
 
 
@@ -1561,67 +1659,56 @@ function renderChannels(list) {
         channel => {
 
             const item =
-                document.createElement(
-                    "div"
-                );
+                document.createElement("div");
 
 
             item.className =
                 "channel";
 
 
-            if (
-                currentChannel &&
-                currentChannel.url ===
-                channel.url
-            ) {
+            if(
+                currentChannel
+                &&
+                currentChannel.url === channel.url
+            ){
 
                 item.classList.add(
                     "active"
                 );
+
             }
 
 
-            let logoHTML;
-
-
-            if (channel.logo) {
-
-                logoHTML = `
-
-                    <img
-                        class="channel-logo"
-                        src="${escapeHtml(channel.logo)}"
-                        loading="lazy"
-                        onerror="
-                            this.style.display='none';
-                        "
-                    >
-
+            const logo =
+                channel.logo
+                ?
+                `
+                <img
+                    class="channel-logo"
+                    src="${escapeHtml(channel.logo)}"
+                    loading="lazy"
+                    referrerpolicy="no-referrer"
+                    onerror="this.style.display='none'"
+                >
+                `
+                :
+                `
+                <div
+                    class="channel-logo"
+                ></div>
                 `;
-
-            } else {
-
-                logoHTML = `
-
-                    <div class="no-logo">
-                        TV
-                    </div>
-
-                `;
-            }
 
 
             item.innerHTML = `
 
-                ${logoHTML}
+                ${logo}
 
                 <div class="channel-name">
                     ${escapeHtml(channel.name)}
                 </div>
 
-                <div class="channel-quality">
-                    LIVE
+                <div class="channel-sub">
+                    Truyền hình trực tiếp
                 </div>
 
             `;
@@ -1631,17 +1718,13 @@ function renderChannels(list) {
                 "click",
                 () => {
 
-                    playChannel(
-                        channel
-                    );
+                    playChannel(channel);
 
                 }
             );
 
 
-            fragment.appendChild(
-                item
-            );
+            fragment.appendChild(item);
 
         }
     );
@@ -1650,48 +1733,51 @@ function renderChannels(list) {
     channelsBox.appendChild(
         fragment
     );
+
 }
 
 
-/* =====================================================
+/* =========================================================
    PLAY CHANNEL
-===================================================== */
+========================================================= */
 
-async function playChannel(
-    channel
-) {
+async function playChannel(channel){
 
     currentChannel =
         channel;
+
+
+    playerEmpty.style.display =
+        "none";
 
 
     nowPlaying.innerText =
         channel.name;
 
 
-    /*
-     * Destroy HLS cũ
-     */
+    /* =========================
+       WAKE LOCK NGAY KHI CHỌN
+    ========================= */
 
-    if (hls) {
+    await requestWakeLock();
 
-        try {
-            hls.destroy();
-        } catch (e) {}
+
+    /* =========================
+       DESTROY HLS CŨ
+    ========================= */
+
+    if(hls){
+
+        hls.destroy();
 
         hls = null;
+
     }
 
 
-    /*
-     * Dừng video cũ
-     */
-
     video.pause();
 
-    video.removeAttribute(
-        "src"
-    );
+    video.removeAttribute("src");
 
     video.load();
 
@@ -1700,52 +1786,47 @@ async function playChannel(
         channel.url;
 
 
-    /*
-     * HLS.JS
-     */
+    /* =========================
+       HLS.JS
+    ========================= */
 
-    if (
-        url.includes(".m3u8") &&
+    if(
+        url.includes(".m3u8")
+        &&
         Hls.isSupported()
-    ) {
+    ){
 
         hls =
             new Hls({
 
-                enableWorker: true,
+                enableWorker:true,
 
-                lowLatencyMode: false,
+                lowLatencyMode:true,
 
-                backBufferLength: 30,
+                backBufferLength:30,
 
-                maxBufferLength: 20,
+                maxBufferLength:30,
 
-                maxMaxBufferLength: 30
+                liveSyncDurationCount:3
 
             });
 
 
-        hls.loadSource(
-            url
-        );
+        hls.loadSource(url);
 
-
-        hls.attachMedia(
-            video
-        );
+        hls.attachMedia(video);
 
 
         hls.on(
             Hls.Events.MANIFEST_PARSED,
             async () => {
 
-                try {
+                try{
 
                     await video.play();
 
-                    await requestWakeLock();
-
-                } catch (error) {
+                }
+                catch(error){
 
                     console.log(
                         "Autoplay:",
@@ -1753,6 +1834,11 @@ async function playChannel(
                     );
 
                 }
+
+
+                await requestWakeLock();
+
+                showControlsTemporarily();
 
             }
         );
@@ -1766,28 +1852,42 @@ async function playChannel(
             ) => {
 
                 console.log(
-                    "HLS:",
+                    "HLS ERROR:",
                     data
                 );
 
 
-                if (
+                if(
                     data.fatal
-                ) {
+                ){
 
-                    if (
-                        data.type ===
-                        Hls.ErrorTypes.NETWORK_ERROR
-                    ) {
+                    switch(
+                        data.type
+                    ){
 
-                        hls.startLoad();
+                        case Hls.ErrorTypes.NETWORK_ERROR:
 
-                    } else if (
-                        data.type ===
-                        Hls.ErrorTypes.MEDIA_ERROR
-                    ) {
+                            console.log(
+                                "Retry network..."
+                            );
 
-                        hls.recoverMediaError();
+                            hls.startLoad();
+
+                            break;
+
+
+                        case Hls.ErrorTypes.MEDIA_ERROR:
+
+                            hls.recoverMediaError();
+
+                            break;
+
+
+                        default:
+
+                            hls.destroy();
+
+                            break;
 
                     }
 
@@ -1796,18 +1896,17 @@ async function playChannel(
             }
         );
 
-
     }
 
-    /*
-     * Native HLS
-     */
+    /* =========================
+       NATIVE HLS
+    ========================= */
 
-    else if (
+    else if(
         video.canPlayType(
             "application/vnd.apple.mpegurl"
         )
-    ) {
+    ){
 
         video.src =
             url;
@@ -1815,45 +1914,56 @@ async function playChannel(
 
         video.addEventListener(
             "loadedmetadata",
-            async function onLoaded() {
+            async function nativePlay(){
 
                 video.removeEventListener(
                     "loadedmetadata",
-                    onLoaded
+                    nativePlay
                 );
 
 
-                try {
+                try{
 
                     await video.play();
 
-                    await requestWakeLock();
+                }
+                catch(error){
 
-                } catch (error) {}
+                    console.log(error);
+
+                }
+
+
+                await requestWakeLock();
 
             }
         );
 
-
     }
 
-    /*
-     * Other
-     */
+    /* =========================
+       OTHER STREAM
+    ========================= */
 
-    else {
+    else{
 
         video.src =
             url;
 
 
-        try {
+        try{
 
             await video.play();
 
-            await requestWakeLock();
+        }
+        catch(error){
 
-        } catch (error) {}
+            console.log(error);
+
+        }
+
+
+        await requestWakeLock();
 
     }
 
@@ -1863,18 +1973,83 @@ async function playChannel(
     );
 
 
-    showControls();
+    /*
+     * KHÔNG scroll xuống danh sách
+     */
+
+    window.scrollTo({
+        top:window.scrollY,
+        behavior:"instant"
+    });
+
 }
 
 
-/* =====================================================
-   CUSTOM CONTROLS
-===================================================== */
+/* =========================================================
+   VIDEO PLAY
+========================================================= */
 
-function showControls() {
+video.addEventListener(
+    "play",
+    () => {
 
-    customControls.classList.remove(
-        "hidden"
+        requestWakeLock();
+
+        showControlsTemporarily();
+
+    }
+);
+
+
+/* =========================================================
+   VIDEO PAUSE
+========================================================= */
+
+video.addEventListener(
+    "pause",
+    () => {
+
+        /*
+         * Nếu đang fullscreen
+         * vẫn giữ sáng
+         */
+
+        if(
+            playerBox.classList.contains(
+                "is-fullscreen"
+            )
+        ){
+
+            requestWakeLock();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   USER INTERACTION
+========================================================= */
+
+playerBox.addEventListener(
+    "click",
+    () => {
+
+        showControlsTemporarily();
+
+    }
+);
+
+
+/* =========================================================
+   SHOW CONTROLS
+========================================================= */
+
+function showControlsTemporarily(){
+
+    playerBox.classList.add(
+        "controls-visible"
     );
 
 
@@ -1887,234 +2062,348 @@ function showControls() {
         setTimeout(
             () => {
 
-                customControls.classList.add(
-                    "hidden"
-                );
+                /*
+                 * Chỉ ẩn khi đang xem
+                 */
+
+                if(
+                    !video.paused
+                ){
+
+                    playerBox.classList.remove(
+                        "controls-visible"
+                    );
+
+                }
 
             },
             3000
         );
+
 }
 
 
-/* =====================================================
-   CLICK PLAYER
-===================================================== */
-
-player.addEventListener(
-    "click",
-    function(event) {
-
-        if (
-            event.target.closest(
-                ".control-btn"
-            )
-        ) {
-
-            return;
-        }
-
-
-        showControls();
-
-    }
-);
-
-
-/* =====================================================
+/* =========================================================
    FULLSCREEN
-===================================================== */
+========================================================= */
 
-async function enterFullscreen() {
-
-    showControls();
-
-
-    try {
-
-        if (
-            player.requestFullscreen
-        ) {
-
-            await player.requestFullscreen();
-
-        } else if (
-            player.webkitRequestFullscreen
-        ) {
-
-            player.webkitRequestFullscreen();
-
-        }
-
-    } catch (error) {
-
-        console.log(
-            "Fullscreen:",
-            error
-        );
-    }
-
+async function enterFullscreen(){
 
     /*
-     * Không bắt buộc khóa xoay.
-     * Điện thoại có thể quay ngang/dọc.
-     */
-
-    try {
-
-        if (
-            screen.orientation &&
-            screen.orientation.lock
-        ) {
-
-            await screen.orientation.lock(
-                "landscape"
-            );
-
-        }
-
-    } catch (error) {}
-
-
-    /*
-     * Giữ sáng màn hình
+     * QUAN TRỌNG:
+     * Xin Wake Lock trước khi fullscreen
      */
 
     await requestWakeLock();
 
 
-    updateFullscreenButtons();
+    /*
+     * Ưu tiên Fullscreen API
+     */
+
+    try{
+
+        if(
+            playerBox.requestFullscreen
+        ){
+
+            await playerBox.requestFullscreen();
+
+        }
+
+        else if(
+            playerBox.webkitRequestFullscreen
+        ){
+
+            playerBox.webkitRequestFullscreen();
+
+        }
+
+
+        playerBox.classList.add(
+            "is-fullscreen"
+        );
+
+
+        /*
+         * Khóa xoay ngang nếu trình duyệt hỗ trợ.
+         * Nếu không hỗ trợ thì không làm gì.
+         */
+
+        try{
+
+            if(
+                screen.orientation
+                &&
+                screen.orientation.lock
+            ){
+
+                await screen.orientation.lock(
+                    "landscape"
+                );
+
+            }
+
+        }
+        catch(error){
+
+            console.log(
+                "Orientation lock không hỗ trợ:",
+                error
+            );
+
+        }
+
+
+        /*
+         * Xin Wake Lock lại sau fullscreen
+         */
+
+        setTimeout(
+            () => {
+
+                requestWakeLock();
+
+            },
+            500
+        );
+
+    }
+    catch(error){
+
+        console.log(
+            "Fullscreen error:",
+            error
+        );
+
+
+        /*
+         * Fallback fullscreen CSS
+         */
+
+        playerBox.classList.add(
+            "is-fullscreen"
+        );
+
+
+        setTimeout(
+            () => {
+
+                requestWakeLock();
+
+            },
+            300
+        );
+
+    }
+
+
+    showControlsTemporarily();
+
 }
 
 
-async function exitFullscreen() {
+/* =========================================================
+   EXIT FULLSCREEN
+========================================================= */
 
-    try {
+async function exitFullscreen(){
 
-        if (
-            document.exitFullscreen
-        ) {
+    try{
+
+        if(
+            document.fullscreenElement
+        ){
 
             await document.exitFullscreen();
 
-        } else if (
-            document.webkitExitFullscreen
-        ) {
+        }
+
+        else if(
+            document.webkitFullscreenElement
+        ){
 
             document.webkitExitFullscreen();
 
         }
 
-    } catch (error) {}
+    }
+    catch(error){
+
+        console.log(error);
+
+    }
 
 
-    try {
+    playerBox.classList.remove(
+        "is-fullscreen"
+    );
 
-        if (
-            screen.orientation &&
+
+    try{
+
+        if(
+            screen.orientation
+            &&
             screen.orientation.unlock
-        ) {
+        ){
 
             screen.orientation.unlock();
 
         }
 
-    } catch (error) {}
+    }
+    catch(error){
 
-
-    if (!video.paused) {
-
-        await requestWakeLock();
+        console.log(error);
 
     }
 
 
-    updateFullscreenButtons();
+    /*
+     * Vẫn giữ sáng khi quay về bình thường
+     */
+
+    if(
+        currentChannel
+        &&
+        !video.paused
+    ){
+
+        setTimeout(
+            () => {
+
+                requestWakeLock();
+
+            },
+            300
+        );
+
+    }
+
+
+    showControlsTemporarily();
+
 }
 
 
-/* =====================================================
-   BUTTONS
-===================================================== */
+/* =========================================================
+   FULLSCREEN BUTTON
+========================================================= */
 
 fullscreenBtn.addEventListener(
     "click",
-    event => {
+    async (event) => {
 
         event.stopPropagation();
 
-        enterFullscreen();
+        await enterFullscreen();
 
     }
 );
 
 
-exitFullscreenBtn.addEventListener(
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
+
+closeBtn.addEventListener(
     "click",
-    event => {
+    async (event) => {
 
         event.stopPropagation();
 
-        exitFullscreen();
+        await exitFullscreen();
 
     }
 );
 
 
-/* =====================================================
-   FULLSCREEN STATE
-===================================================== */
+/* =========================================================
+   UPDATE FULLSCREEN UI
+========================================================= */
 
-function isFullscreen() {
+function updateFullscreenUI(){
 
-    return !!(
-        document.fullscreenElement ||
-        document.webkitFullscreenElement
-    );
-}
+    const fullscreen =
+        !!(
+            document.fullscreenElement
+            ||
+            document.webkitFullscreenElement
+        );
 
 
-function updateFullscreenButtons() {
+    if(fullscreen){
 
-    if (
-        isFullscreen()
-    ) {
+        playerBox.classList.add(
+            "is-fullscreen"
+        );
 
-        fullscreenBtn.style.display =
-            "none";
+    }
+    else{
 
-        exitFullscreenBtn.style.display =
-            "flex";
+        playerBox.classList.remove(
+            "is-fullscreen"
+        );
 
-    } else {
-
-        fullscreenBtn.style.display =
-            "flex";
-
-        exitFullscreenBtn.style.display =
-            "none";
     }
 
 
-    showControls();
+    /*
+     * LUÔN xin Wake Lock lại
+     */
+
+    if(
+        currentChannel
+        &&
+        !video.paused
+    ){
+
+        setTimeout(
+            () => {
+
+                requestWakeLock();
+
+            },
+            250
+        );
+
+    }
+
 }
 
 
+/* =========================================================
+   ESC KEY
+========================================================= */
+
 document.addEventListener(
-    "fullscreenchange",
-    updateFullscreenButtons
+    "keydown",
+    async event => {
+
+        if(
+            event.key === "Escape"
+        ){
+
+            if(
+                playerBox.classList.contains(
+                    "is-fullscreen"
+                )
+            ){
+
+                await exitFullscreen();
+
+            }
+
+        }
+
+    }
 );
 
 
-document.addEventListener(
-    "webkitfullscreenchange",
-    updateFullscreenButtons
-);
-
-
-/* =====================================================
+/* =========================================================
    SEARCH
-===================================================== */
+========================================================= */
 
 searchInput.addEventListener(
     "input",
@@ -2128,7 +2417,7 @@ searchInput.addEventListener(
 );
 
 
-function filterChannels() {
+function filterChannels(){
 
     const keyword =
         searchInput.value
@@ -2136,7 +2425,7 @@ function filterChannels() {
             .trim();
 
 
-    if (!keyword) {
+    if(!keyword){
 
         return channels;
 
@@ -2149,16 +2438,15 @@ function filterChannels() {
                 .toLowerCase()
                 .includes(keyword)
     );
+
 }
 
 
-/* =====================================================
+/* =========================================================
    ESCAPE HTML
-===================================================== */
+========================================================= */
 
-function escapeHtml(
-    value
-) {
+function escapeHtml(value){
 
     return String(value)
 
@@ -2186,12 +2474,46 @@ function escapeHtml(
             /'/g,
             "&#039;"
         );
+
 }
 
 
-/* =====================================================
+/* =========================================================
+   PREVENT DOUBLE TAP ZOOM
+========================================================= */
+
+let lastTouchEnd = 0;
+
+document.addEventListener(
+    "touchend",
+    event => {
+
+        const now =
+            Date.now();
+
+
+        if(
+            now - lastTouchEnd <= 300
+        ){
+
+            event.preventDefault();
+
+        }
+
+
+        lastTouchEnd =
+            now;
+
+    },
+    {
+        passive:false
+    }
+);
+
+
+/* =========================================================
    START
-===================================================== */
+========================================================= */
 
 loadPlaylist();
 
