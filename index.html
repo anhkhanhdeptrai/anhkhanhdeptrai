@@ -46,7 +46,9 @@ body{
         sans-serif;
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 
 header{
     position:relative;
@@ -119,7 +121,9 @@ header{
     box-shadow:0 0 0 3px rgba(109,93,252,.12);
 }
 
-/* APP */
+/* =========================
+   APP
+========================= */
 
 .app{
     width:100%;
@@ -128,7 +132,9 @@ header{
     overflow:hidden;
 }
 
-/* PLAYER */
+/* =========================
+   PLAYER
+========================= */
 
 .player-area{
     flex:1;
@@ -236,7 +242,9 @@ video{
     box-shadow:0 0 8px #ff5264;
 }
 
-/* CHANNEL PANEL */
+/* =========================
+   CHANNEL PANEL
+========================= */
 
 .channels-panel{
     width:360px;
@@ -265,7 +273,9 @@ video{
     font-size:11px;
 }
 
-/* CHANNEL LIST */
+/* =========================
+   CHANNEL LIST
+========================= */
 
 .channels{
     flex:1;
@@ -278,8 +288,6 @@ video{
     scrollbar-width:thin;
 }
 
-/* VTV SECTION */
-
 .vtv-section{
     grid-column:1/-1;
     padding:4px 2px 1px;
@@ -288,8 +296,6 @@ video{
     font-weight:800;
     letter-spacing:.5px;
 }
-
-/* CHANNEL */
 
 .channel{
     position:relative;
@@ -376,7 +382,9 @@ video{
     margin-bottom:8px;
 }
 
-/* MOBILE */
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:800px){
 
@@ -726,6 +734,187 @@ let currentChannel = null;
 
 
 /* =========================
+   WAKE LOCK
+   GIỮ MÀN HÌNH SÁNG
+========================= */
+
+let wakeLock = null;
+
+
+/*
+ * Xin quyền giữ màn hình sáng
+ */
+
+async function requestWakeLock(){
+
+    if(!("wakeLock" in navigator)){
+
+        console.log(
+            "Trình duyệt không hỗ trợ Wake Lock"
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        /*
+         * Đã có Wake Lock
+         */
+
+        if(
+            wakeLock &&
+            !wakeLock.released
+        ){
+
+            return;
+
+        }
+
+
+        wakeLock =
+            await navigator.wakeLock.request(
+                "screen"
+            );
+
+
+        console.log(
+            "🔆 Màn hình: GIỮ SÁNG"
+        );
+
+
+        wakeLock.addEventListener(
+            "release",
+            function(){
+
+                console.log(
+                    "Wake Lock đã được nhả"
+                );
+
+                wakeLock = null;
+
+            }
+        );
+
+    }
+
+    catch(error){
+
+        console.log(
+            "Wake Lock error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================
+   NHẢ WAKE LOCK
+========================= */
+
+async function releaseWakeLock(){
+
+    if(wakeLock){
+
+        try{
+
+            await wakeLock.release();
+
+        }
+
+        catch(error){
+
+            console.log(error);
+
+        }
+
+        wakeLock = null;
+
+    }
+
+}
+
+
+/* =========================
+   VIDEO PLAY
+========================= */
+
+video.addEventListener(
+    "play",
+    async function(){
+
+        await requestWakeLock();
+
+    }
+);
+
+
+/* =========================
+   VIDEO PAUSE
+========================= */
+
+video.addEventListener(
+    "pause",
+    async function(){
+
+        await releaseWakeLock();
+
+    }
+);
+
+
+/* =========================
+   VIDEO END
+========================= */
+
+video.addEventListener(
+    "ended",
+    async function(){
+
+        await releaseWakeLock();
+
+    }
+);
+
+
+/* =========================
+   QUAY LẠI TRÌNH DUYỆT
+========================= */
+
+document.addEventListener(
+    "visibilitychange",
+    async function(){
+
+        if(
+            document.visibilityState ===
+            "visible"
+        ){
+
+            /*
+             * Nếu video vẫn đang phát
+             * thì lấy lại Wake Lock
+             */
+
+            if(
+                !video.paused &&
+                !video.ended
+            ){
+
+                await requestWakeLock();
+
+            }
+
+        }
+
+    }
+);
+
+
+/* =========================
    LOAD PLAYLIST
 ========================= */
 
@@ -736,6 +925,7 @@ async function loadPlaylist(){
         const response =
             await fetch(PLAYLIST);
 
+
         if(!response.ok){
 
             throw new Error(
@@ -744,8 +934,10 @@ async function loadPlaylist(){
 
         }
 
+
         const text =
             await response.text();
+
 
         channels =
             parseM3U(text);
@@ -771,8 +963,10 @@ async function loadPlaylist(){
 
         console.error(error);
 
+
         statusText.innerText =
             "❌ Không thể tải playlist";
+
 
         channelsBox.innerHTML = `
 
@@ -794,8 +988,7 @@ async function loadPlaylist(){
 
 
 /* =========================
-   SORT CHANNELS
-   VTV LÊN ĐẦU
+   SẮP XẾP VTV LÊN ĐẦU
 ========================= */
 
 function sortChannels(list){
@@ -814,12 +1007,7 @@ function sortChannels(list){
 
 
         /*
-         * Nhận diện:
-         *
-         * VTV1
-         * VTV2
-         * ...
-         * VTV10
+         * VTV1 → VTV10
          */
 
         const match =
@@ -853,8 +1041,8 @@ function sortChannels(list){
 
 
         /*
-         * VTV5 Tây Nguyên / Tây Nam Bộ
-         * để sau VTV10
+         * VTV5 Tây Nam Bộ
+         * VTV5 Tây Nguyên
          */
 
         if(
@@ -881,7 +1069,10 @@ function sortChannels(list){
 
 
     /*
-     * Sắp xếp VTV1 → VTV10
+     * VTV1
+     * VTV2
+     * ...
+     * VTV10
      */
 
     vtv.sort(
@@ -908,7 +1099,9 @@ function parseM3U(text){
     const lines =
         text.split(/\r?\n/);
 
+
     const result = [];
+
 
     let info = null;
 
@@ -930,6 +1123,7 @@ function parseM3U(text){
             const nameMatch =
                 line.match(/,(.*)$/);
 
+
             const logoMatch =
                 line.match(
                     /tvg-logo="([^"]*)"/
@@ -944,6 +1138,7 @@ function parseM3U(text){
                     nameMatch[1].trim()
                     :
                     "Kênh không tên",
+
 
                 logo:
                     logoMatch
@@ -972,6 +1167,7 @@ function parseM3U(text){
 
             });
 
+
             info = null;
 
         }
@@ -985,7 +1181,7 @@ function parseM3U(text){
 
 
 /* =========================
-   RENDER
+   HIỂN THỊ KÊNH
 ========================= */
 
 function renderChannels(list){
@@ -1015,13 +1211,13 @@ function renderChannels(list){
 
 
     /*
-     * Nếu có VTV
-     * hiển thị tiêu đề VTV
+     * Có VTV thì hiện tiêu đề
      */
 
     const hasVTV =
         list.some(
-            c => c.vtvNumber !== undefined
+            c =>
+                c.vtvNumber !== undefined
         );
 
 
@@ -1030,13 +1226,18 @@ function renderChannels(list){
         const title =
             document.createElement("div");
 
+
         title.className =
             "vtv-section";
+
 
         title.innerText =
             "⭐ KÊNH VTV";
 
-        channelsBox.appendChild(title);
+
+        channelsBox.appendChild(
+            title
+        );
 
     }
 
@@ -1050,6 +1251,10 @@ function renderChannels(list){
         item.className =
             "channel";
 
+
+        /*
+         * Kênh đang xem
+         */
 
         if(
             currentChannel &&
@@ -1137,12 +1342,16 @@ function renderChannels(list){
         item.onclick =
             function(){
 
-                playChannel(channel);
+                playChannel(
+                    channel
+                );
 
             };
 
 
-        channelsBox.appendChild(item);
+        channelsBox.appendChild(
+            item
+        );
 
     });
 
@@ -1150,7 +1359,7 @@ function renderChannels(list){
 
 
 /* =========================
-   PLAY CHANNEL
+   PHÁT KÊNH
 ========================= */
 
 function playChannel(channel){
@@ -1168,12 +1377,16 @@ function playChannel(channel){
 
 
     /*
-     * Giữ vị trí scroll
+     * Lưu vị trí danh sách
      */
 
     const oldScroll =
         channelsBox.scrollTop;
 
+
+    /*
+     * Hủy HLS cũ
+     */
 
     if(hls){
 
@@ -1186,7 +1399,9 @@ function playChannel(channel){
 
     video.pause();
 
-    video.removeAttribute("src");
+    video.removeAttribute(
+        "src"
+    );
 
     video.load();
 
@@ -1195,9 +1410,9 @@ function playChannel(channel){
         channel.url;
 
 
-    /*
-     * HLS.JS
-     */
+    /* =========================
+       HLS.JS
+    ========================= */
 
     if(
         Hls.isSupported() &&
@@ -1219,9 +1434,14 @@ function playChannel(channel){
             });
 
 
-        hls.loadSource(url);
+        hls.loadSource(
+            url
+        );
 
-        hls.attachMedia(video);
+
+        hls.attachMedia(
+            video
+        );
 
 
         hls.on(
@@ -1250,7 +1470,9 @@ function playChannel(channel){
                 );
 
 
-                if(data.fatal){
+                if(
+                    data.fatal
+                ){
 
                     if(
                         data.type ===
@@ -1278,9 +1500,9 @@ function playChannel(channel){
     }
 
 
-    /*
-     * Safari / iPhone
-     */
+    /* =========================
+       SAFARI / IOS
+    ========================= */
 
     else if(
         video.canPlayType(
@@ -1291,6 +1513,25 @@ function playChannel(channel){
         video.src =
             url;
 
+
+        video.play()
+            .catch(
+                () => {}
+            );
+
+    }
+
+
+    /* =========================
+       STREAM KHÁC
+    ========================= */
+
+    else{
+
+        video.src =
+            url;
+
+
         video.play()
             .catch(
                 () => {}
@@ -1300,21 +1541,8 @@ function playChannel(channel){
 
 
     /*
-     * Stream khác
+     * Render lại kênh
      */
-
-    else{
-
-        video.src =
-            url;
-
-        video.play()
-            .catch(
-                () => {}
-            );
-
-    }
-
 
     renderChannels(
         filterChannels()
@@ -1322,8 +1550,7 @@ function playChannel(channel){
 
 
     /*
-     * Không để render
-     * kéo danh sách lên đầu
+     * GIỮ NGUYÊN VỊ TRÍ SCROLL
      */
 
     channelsBox.scrollTop =
@@ -1331,7 +1558,7 @@ function playChannel(channel){
 
 
     requestAnimationFrame(
-        () => {
+        function(){
 
             channelsBox.scrollTop =
                 oldScroll;
@@ -1343,7 +1570,7 @@ function playChannel(channel){
 
 
 /* =========================
-   SEARCH
+   TÌM KIẾM
 ========================= */
 
 searchInput.addEventListener(
