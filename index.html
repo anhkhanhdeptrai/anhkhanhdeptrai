@@ -5,7 +5,10 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no">
 
 <title>KHANH TV</title>
 
@@ -26,28 +29,24 @@ html,
 body {
     margin: 0;
     padding: 0;
+
     width: 100%;
     min-height: 100%;
 
     background:
         radial-gradient(
-            circle at 15% -10%,
-            rgba(112, 67, 255, .18),
+            circle at 20% 0%,
+            rgba(110,70,255,.12),
             transparent 35%
         ),
         radial-gradient(
-            circle at 95% 10%,
-            rgba(255, 40, 150, .13),
+            circle at 90% 20%,
+            rgba(255,50,160,.08),
             transparent 30%
         ),
-        linear-gradient(
-            180deg,
-            #050509 0%,
-            #080810 45%,
-            #050508 100%
-        );
+        #06070c;
 
-    color: white;
+    color: #fff;
 
     font-family:
         Inter,
@@ -57,8 +56,6 @@ body {
         "Segoe UI",
         Arial,
         sans-serif;
-
-    overflow-x: hidden;
 }
 
 
@@ -74,30 +71,27 @@ header {
 
     z-index: 1000;
 
-    width: 100%;
-
     padding:
-        9px
-        max(12px, env(safe-area-inset-right))
-        9px
-        max(12px, env(safe-area-inset-left));
+        9px 12px;
 
     background:
-        linear-gradient(
-            180deg,
-            rgba(5,5,11,.97),
-            rgba(7,7,14,.90)
-        );
+        rgba(6,7,12,.88);
 
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
+    backdrop-filter:
+        blur(22px);
+
+    -webkit-backdrop-filter:
+        blur(22px);
 
     border-bottom:
-        1px solid rgba(255,255,255,.07);
+        1px solid
+        rgba(255,255,255,.07);
 
     box-shadow:
-        0 8px 30px rgba(0,0,0,.25);
+        0 8px 30px
+        rgba(0,0,0,.20);
 }
+
 
 .header {
 
@@ -125,14 +119,13 @@ header {
 
     align-items: center;
 
-    gap: 8px;
+    gap: 9px;
+
+    flex: 0 0 auto;
 
     min-width: max-content;
-
-    flex-shrink: 0;
-
-    user-select: none;
 }
+
 
 .logo {
 
@@ -140,6 +133,8 @@ header {
 
     width: 42px;
     height: 42px;
+
+    flex: 0 0 42px;
 
     display: flex;
 
@@ -151,18 +146,18 @@ header {
     background:
         linear-gradient(
             135deg,
-            #5425ff 0%,
-            #8d32ff 42%,
-            #ff3183 100%
+            #693cff,
+            #b83cff 48%,
+            #ff3970
         );
 
     box-shadow:
-        0 0 0 1px rgba(255,255,255,.12) inset,
-        0 8px 30px rgba(116,49,255,.35),
-        0 0 30px rgba(255,43,137,.10);
+        0 0 25px
+        rgba(133,67,255,.35);
 
     overflow: hidden;
 }
+
 
 .logo::before {
 
@@ -177,10 +172,8 @@ header {
     border-radius: 5px;
 
     position: absolute;
-
-    box-shadow:
-        0 0 10px rgba(255,255,255,.35);
 }
+
 
 .logo::after {
 
@@ -191,18 +184,19 @@ header {
 
     background: white;
 
-    border-radius: 20px;
+    border-radius: 10px;
 
     position: absolute;
 
     bottom: 7px;
 }
 
+
 .brand-text {
 
     font-size: 19px;
 
-    font-weight: 950;
+    font-weight: 900;
 
     letter-spacing: .5px;
 
@@ -211,14 +205,13 @@ header {
     background:
         linear-gradient(
             90deg,
-            #ffffff 0%,
-            #b58aff 25%,
-            #ff5cb2 50%,
-            #9f75ff 75%,
-            #ffffff 100%
+            #fff,
+            #a978ff,
+            #ff5eb8,
+            #fff
         );
 
-    background-size: 300% auto;
+    background-size: 250% auto;
 
     -webkit-background-clip: text;
 
@@ -227,20 +220,21 @@ header {
     color: transparent;
 
     animation:
-        titleGradient 5s linear infinite;
-
-    text-shadow:
-        0 0 20px rgba(149,90,255,.15);
+        titleGradient 5s
+        linear infinite;
 }
+
 
 @keyframes titleGradient {
 
     0% {
-        background-position: 0% center;
+        background-position:
+            0% center;
     }
 
     100% {
-        background-position: 300% center;
+        background-position:
+            250% center;
     }
 }
 
@@ -251,12 +245,13 @@ header {
 
 .search-wrap {
 
+    position: relative;
+
     flex: 1;
 
     min-width: 0;
-
-    position: relative;
 }
+
 
 .search-icon {
 
@@ -269,16 +264,15 @@ header {
     transform:
         translateY(-50%);
 
-    color: #9698ad;
+    color: #9095aa;
 
-    font-size: 19px;
-
-    line-height: 1;
+    font-size: 18px;
 
     pointer-events: none;
 
     z-index: 2;
 }
+
 
 .search {
 
@@ -289,16 +283,13 @@ header {
     padding:
         0 15px 0 42px;
 
-    border:
-        1px solid rgba(255,255,255,.08);
-
-    border-radius: 14px;
-
     outline: none;
 
-    color: white;
+    border:
+        1px solid
+        rgba(255,255,255,.09);
 
-    font-size: 13px;
+    border-radius: 14px;
 
     background:
         linear-gradient(
@@ -307,32 +298,38 @@ header {
             rgba(255,255,255,.025)
         );
 
+    color: white;
+
+    font-size: 14px;
+
     box-shadow:
-        0 5px 20px rgba(0,0,0,.15);
+        inset 0 1px 0
+        rgba(255,255,255,.04);
 
     transition:
-        .25s ease;
+        .25s;
 }
 
+
 .search::placeholder {
-    color: #777a8e;
+    color: #777c90;
 }
+
 
 .search:focus {
 
     border-color:
-        rgba(145,91,255,.85);
+        rgba(145,91,255,.8);
 
     background:
-        linear-gradient(
-            135deg,
-            rgba(130,75,255,.10),
-            rgba(255,255,255,.04)
-        );
+        rgba(20,16,32,.85);
 
     box-shadow:
-        0 0 0 3px rgba(115,61,255,.10),
-        0 0 30px rgba(122,70,255,.16);
+        0 0 0 3px
+        rgba(126,67,255,.12),
+
+        0 0 30px
+        rgba(126,67,255,.13);
 }
 
 
@@ -349,46 +346,49 @@ header {
     margin: auto;
 
     padding:
-        15px
-        max(15px, env(safe-area-inset-right))
-        45px
-        max(15px, env(safe-area-inset-left));
+        14px;
 }
 
 
 /* =========================================================
-   PLAYER - STICKY
+   PLAYER STICKY
 ========================================================= */
+
+/*
+   QUAN TRỌNG:
+
+   Player được sticky.
+
+   Khi vuốt danh sách kênh,
+   player vẫn đứng yên phía trên.
+*/
 
 .player-box {
 
     position: sticky;
 
-    top: 68px;
+    top: 67px;
 
     z-index: 500;
 
     width: 100%;
 
-    margin-bottom: 15px;
+    background:
+        rgba(5,5,8,.96);
+
+    border-radius: 18px;
 
     overflow: hidden;
 
-    border-radius: 20px;
-
-    background:
-        rgba(2,2,7,.95);
-
     border:
-        1px solid rgba(255,255,255,.09);
+        1px solid
+        rgba(255,255,255,.09);
 
     box-shadow:
-        0 20px 55px rgba(0,0,0,.50),
-        0 0 40px rgba(93,45,255,.06);
+        0 18px 55px
+        rgba(0,0,0,.48);
 
-    backdrop-filter: blur(22px);
-
-    -webkit-backdrop-filter: blur(22px);
+    margin-bottom: 13px;
 }
 
 
@@ -402,17 +402,13 @@ header {
 
     width: 100%;
 
+    background: #000;
+
     aspect-ratio: 16 / 9;
 
     overflow: hidden;
-
-    background:
-        radial-gradient(
-            circle at center,
-            #171827,
-            #000 70%
-        );
 }
+
 
 video {
 
@@ -421,7 +417,6 @@ video {
     inset: 0;
 
     width: 100%;
-
     height: 100%;
 
     display: block;
@@ -430,6 +425,9 @@ video {
 
     object-fit: contain;
 }
+
+
+/* HIDE DEFAULT CONTROLS */
 
 video::-webkit-media-controls {
     display: none !important;
@@ -448,43 +446,50 @@ video::-webkit-media-controls-enclosure {
 
     position: absolute;
 
-    top: 0;
-
     left: 0;
-
     right: 0;
+    top: 0;
 
     padding: 14px;
 
     display: flex;
 
-    justify-content: space-between;
+    justify-content:
+        space-between;
 
-    align-items: flex-start;
+    align-items:
+        flex-start;
 
     pointer-events: none;
 
     background:
         linear-gradient(
-            180deg,
-            rgba(0,0,0,.78),
-            rgba(0,0,0,.25),
+            to bottom,
+            rgba(0,0,0,.75),
             transparent
         );
 
     opacity: 0;
 
     transition:
-        opacity .25s;
+        .25s;
 
     z-index: 5;
 }
 
-.video-area.controls-visible .player-info {
+
+.video-area.controls-visible
+.player-info {
+
     opacity: 1;
 }
 
+
 .live-title {
+
+    font-size: 14px;
+
+    font-weight: 800;
 
     max-width: 70%;
 
@@ -493,14 +498,8 @@ video::-webkit-media-controls-enclosure {
     text-overflow: ellipsis;
 
     white-space: nowrap;
-
-    font-size: 14px;
-
-    font-weight: 850;
-
-    text-shadow:
-        0 2px 12px #000;
 }
+
 
 .live-badge {
 
@@ -511,31 +510,28 @@ video::-webkit-media-controls-enclosure {
     gap: 6px;
 
     padding:
-        6px 10px;
+        5px 9px;
 
     border-radius: 20px;
 
     background:
-        rgba(255,40,80,.14);
+        rgba(255,35,80,.18);
 
     border:
-        1px solid rgba(255,70,110,.32);
+        1px solid
+        rgba(255,60,100,.35);
 
-    color: #ff7691;
+    color: #ff7190;
 
     font-size: 10px;
 
     font-weight: 900;
-
-    letter-spacing: .4px;
-
-    backdrop-filter: blur(10px);
 }
+
 
 .live-dot {
 
     width: 6px;
-
     height: 6px;
 
     border-radius: 50%;
@@ -543,24 +539,8 @@ video::-webkit-media-controls-enclosure {
     background: #ff315b;
 
     box-shadow:
-        0 0 12px #ff315b;
-
-    animation:
-        livePulse 1.4s infinite;
-}
-
-@keyframes livePulse {
-
-    0%,
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-
-    50% {
-        opacity: .4;
-        transform: scale(.75);
-    }
+        0 0 10px
+        #ff315b;
 }
 
 
@@ -573,91 +553,69 @@ video::-webkit-media-controls-enclosure {
 
     position: absolute;
 
-    width: 42px;
-
-    height: 42px;
+    width: 41px;
+    height: 41px;
 
     border: 0;
 
-    border-radius: 13px;
+    border-radius: 12px;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     color: white;
 
     background:
-        rgba(15,15,24,.78);
+        rgba(15,15,22,.75);
 
-    border:
-        1px solid rgba(255,255,255,.12);
+    backdrop-filter:
+        blur(12px);
 
-    backdrop-filter: blur(14px);
-
-    -webkit-backdrop-filter: blur(14px);
+    -webkit-backdrop-filter:
+        blur(12px);
 
     cursor: pointer;
 
-    font-size: 21px;
-
-    opacity: 0;
-
-    pointer-events: none;
-
     transition:
-        .2s ease;
+        .2s;
 
     z-index: 20;
 }
+
 
 .fullscreen-btn {
 
     right: 12px;
 
     bottom: 12px;
+
+    font-size: 21px;
+
+    opacity: 0;
+
+    pointer-events: none;
 }
 
-.close-fullscreen {
 
-    top: 14px;
+.video-area.controls-visible
+.fullscreen-btn {
 
-    right: 14px;
+    opacity: 1;
 
-    font-size: 27px;
+    pointer-events: auto;
 }
+
 
 .fullscreen-btn:hover,
 .close-fullscreen:hover {
 
     background:
-        linear-gradient(
-            135deg,
-            #6539ff,
-            #e73591
-        );
-
-    box-shadow:
-        0 8px 25px rgba(105,54,255,.30);
+        rgba(110,70,255,.8);
 
     transform:
         scale(1.05);
-}
-
-.fullscreen-btn:active,
-.close-fullscreen:active {
-
-    transform:
-        scale(.93);
-}
-
-.video-area.controls-visible .fullscreen-btn {
-
-    opacity: 1;
-
-    pointer-events: auto;
 }
 
 
@@ -667,10 +625,10 @@ video::-webkit-media-controls-enclosure {
 
 .now-playing {
 
-    min-height: 55px;
+    min-height: 52px;
 
     padding:
-        11px 15px;
+        11px 14px;
 
     display: flex;
 
@@ -681,19 +639,19 @@ video::-webkit-media-controls-enclosure {
     background:
         linear-gradient(
             90deg,
-            rgba(101,54,255,.16),
-            rgba(255,40,150,.07),
-            rgba(255,255,255,.015)
+            rgba(110,65,255,.16),
+            rgba(255,50,160,.07)
         );
 
     border-top:
-        1px solid rgba(255,255,255,.065);
+        1px solid
+        rgba(255,255,255,.06);
 }
+
 
 .now-dot {
 
     width: 8px;
-
     height: 8px;
 
     flex: 0 0 auto;
@@ -701,44 +659,27 @@ video::-webkit-media-controls-enclosure {
     border-radius: 50%;
 
     background:
-        #8a62ff;
+        #795aff;
 
     box-shadow:
-        0 0 13px #8a62ff;
-
-    animation:
-        nowPulse 1.8s infinite;
+        0 0 13px
+        #795aff;
 }
 
-@keyframes nowPulse {
-
-    0%,
-    100% {
-        box-shadow:
-            0 0 7px #8a62ff;
-    }
-
-    50% {
-        box-shadow:
-            0 0 20px #a984ff;
-    }
-}
 
 .now-text {
 
     min-width: 0;
+
+    font-size: 14px;
+
+    font-weight: 800;
 
     overflow: hidden;
 
     white-space: nowrap;
 
     text-overflow: ellipsis;
-
-    font-size: 13px;
-
-    font-weight: 850;
-
-    color: #f5f3ff;
 }
 
 
@@ -755,22 +696,18 @@ video::-webkit-media-controls-enclosure {
     gap: 8px;
 
     margin:
-        7px 2px 13px;
+        5px 2px 12px;
 
-    color: #9195a9;
+    color: #8e94a7;
 
-    font-size: 12px;
-
-    font-weight: 600;
+    font-size: 13px;
 }
+
 
 .status-dot {
 
     width: 7px;
-
     height: 7px;
-
-    flex: 0 0 auto;
 
     border-radius: 50%;
 
@@ -778,7 +715,8 @@ video::-webkit-media-controls-enclosure {
         #45e6a1;
 
     box-shadow:
-        0 0 11px rgba(69,230,161,.75);
+        0 0 10px
+        rgba(69,230,161,.7);
 }
 
 
@@ -791,156 +729,84 @@ video::-webkit-media-controls-enclosure {
     display: grid;
 
     grid-template-columns:
-        repeat(auto-fill, minmax(175px, 1fr));
+        repeat(
+            auto-fill,
+            minmax(175px,1fr)
+        );
 
     gap: 11px;
 
-    position: relative;
-
-    z-index: 1;
+    /*
+       Cho danh sách tiếp tục
+       cuộn bình thường.
+    */
 }
 
 
-/* =========================================================
-   CHANNEL
-========================================================= */
-
 .channel {
-
-    position: relative;
 
     min-width: 0;
 
     padding: 9px;
 
-    overflow: hidden;
-
-    cursor: pointer;
-
-    border-radius: 16px;
-
-    border:
-        1px solid rgba(255,255,255,.075);
-
     background:
         linear-gradient(
             145deg,
             rgba(255,255,255,.065),
-            rgba(255,255,255,.022)
+            rgba(255,255,255,.025)
         );
+
+    border:
+        1px solid
+        rgba(255,255,255,.075);
+
+    border-radius: 15px;
+
+    cursor: pointer;
+
+    transition:
+        transform .18s,
+        border-color .18s,
+        background .18s,
+        box-shadow .18s;
 
     box-shadow:
-        0 5px 18px rgba(0,0,0,.12);
-
-    transition:
-        transform .18s ease,
-        border-color .18s ease,
-        box-shadow .18s ease,
-        background .18s ease;
+        inset 0 1px 0
+        rgba(255,255,255,.025);
 }
 
-.channel::before {
-
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(120,70,255,.14),
-            transparent 45%,
-            rgba(255,40,150,.08)
-        );
-
-    opacity: 0;
-
-    transition:
-        opacity .2s;
-
-    pointer-events: none;
-}
 
 .channel:hover {
 
     transform:
-        translateY(-3px);
+        translateY(-2px);
 
     border-color:
-        rgba(139,91,255,.72);
+        rgba(130,85,255,.65);
 
     box-shadow:
-        0 14px 32px rgba(0,0,0,.30),
-        0 0 30px rgba(113,62,255,.10);
+        0 12px 30px
+        rgba(0,0,0,.28);
 }
 
-.channel:hover::before {
-    opacity: 1;
-}
-
-.channel:active {
-    transform:
-        scale(.975);
-}
 
 .channel.active {
 
     border-color:
-        #8b5cff;
+        #8155ff;
 
     background:
         linear-gradient(
             145deg,
-            rgba(115,65,255,.22),
-            rgba(255,45,145,.08)
+            rgba(125,75,255,.20),
+            rgba(255,60,160,.07)
         );
 
     box-shadow:
-        0 0 0 1px rgba(135,91,255,.15) inset,
-        0 0 30px rgba(117,67,255,.20);
+        0 0 22px
+        rgba(126,77,255,.17);
 }
 
-.channel.active::after {
-
-    content:
-        "● ĐANG XEM";
-
-    position: absolute;
-
-    top: 8px;
-
-    right: 8px;
-
-    padding:
-        4px 7px;
-
-    border-radius: 8px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #6940ff,
-            #a43cff
-        );
-
-    color: white;
-
-    font-size: 8px;
-
-    font-weight: 900;
-
-    letter-spacing: .2px;
-
-    box-shadow:
-        0 5px 15px rgba(0,0,0,.30);
-}
-
-
-/* =========================================================
-   CHANNEL LOGO
-========================================================= */
 
 .channel-logo {
 
@@ -948,43 +814,28 @@ video::-webkit-media-controls-enclosure {
 
     height: 78px;
 
-    display: block;
-
     object-fit: contain;
 
-    margin-bottom: 9px;
+    display: block;
 
-    border-radius: 11px;
+    border-radius: 10px;
 
     background:
         linear-gradient(
             145deg,
-            #10111a,
+            #0b0d14,
             #08090e
         );
 
-    border:
-        1px solid rgba(255,255,255,.045);
-
-    transition:
-        transform .2s,
-        filter .2s;
+    margin-bottom: 9px;
 }
 
-.channel:hover .channel-logo {
-
-    transform:
-        scale(1.025);
-
-    filter:
-        brightness(1.08);
-}
 
 .channel-name {
 
     font-size: 13px;
 
-    font-weight: 800;
+    font-weight: 750;
 
     line-height: 1.3;
 
@@ -993,49 +844,35 @@ video::-webkit-media-controls-enclosure {
     overflow: hidden;
 
     text-overflow: ellipsis;
-
-    color: #f3f2fa;
 }
+
 
 .channel-quality {
 
-    margin-top: 4px;
-
-    color: #777b8e;
+    color: #777c8d;
 
     font-size: 10px;
 
-    white-space: nowrap;
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
+    margin-top: 4px;
 }
 
 
 /* =========================================================
-   LOADING / EMPTY
+   LOADING
 ========================================================= */
 
 .loading,
 .empty {
 
-    grid-column: 1 / -1;
-
-    padding:
-        50px 20px;
+    grid-column:
+        1 / -1;
 
     text-align: center;
 
-    color: #85899d;
+    padding:
+        45px 20px;
 
-    border:
-        1px solid rgba(255,255,255,.055);
-
-    border-radius: 18px;
-
-    background:
-        rgba(255,255,255,.025);
+    color: #85899a;
 }
 
 
@@ -1053,20 +890,23 @@ video::-webkit-media-controls-enclosure {
 
     height: 100dvh;
 
-    display: none;
-
-    overflow: hidden;
-
     background: #000;
 
     z-index: 999999;
 
+    display: none;
+
+    overflow: hidden;
+
     touch-action: manipulation;
 }
 
+
 .fullscreen-viewer.active {
+
     display: block;
 }
+
 
 .fullscreen-video {
 
@@ -1075,13 +915,13 @@ video::-webkit-media-controls-enclosure {
     inset: 0;
 
     width: 100%;
-
     height: 100%;
 
     object-fit: contain;
 
     background: #000;
 }
+
 
 .fullscreen-video::-webkit-media-controls {
     display: none !important;
@@ -1091,14 +931,17 @@ video::-webkit-media-controls-enclosure {
     display: none !important;
 }
 
+
+/* =========================================================
+   FULLSCREEN TOP
+========================================================= */
+
 .fullscreen-top {
 
     position: absolute;
 
     left: 0;
-
     right: 0;
-
     top: 0;
 
     padding: 15px;
@@ -1107,14 +950,16 @@ video::-webkit-media-controls-enclosure {
 
     display: flex;
 
-    justify-content: space-between;
+    justify-content:
+        space-between;
 
-    align-items: flex-start;
+    align-items:
+        flex-start;
 
     background:
         linear-gradient(
-            180deg,
-            rgba(0,0,0,.72),
+            to bottom,
+            rgba(0,0,0,.65),
             transparent
         );
 
@@ -1126,25 +971,40 @@ video::-webkit-media-controls-enclosure {
     pointer-events: none;
 }
 
-.fullscreen-top .live-title {
+
+.fullscreen-top
+.live-title {
+
     pointer-events: none;
 }
 
+
 .close-fullscreen {
+
+    position: relative;
+
+    top: auto;
+    right: auto;
 
     pointer-events: auto;
 
     opacity: 1;
+
+    font-size: 26px;
 }
 
-.fullscreen-viewer.controls-hidden .fullscreen-top {
+
+.fullscreen-viewer.controls-hidden
+.fullscreen-top {
 
     opacity: 0;
 
     pointer-events: none;
 }
 
-.fullscreen-viewer.controls-hidden .close-fullscreen {
+
+.fullscreen-viewer.controls-hidden
+.close-fullscreen {
 
     pointer-events: none;
 }
@@ -1154,130 +1014,112 @@ video::-webkit-media-controls-enclosure {
    MOBILE
 ========================================================= */
 
-@media(max-width: 600px) {
+@media(max-width:600px) {
 
     header {
 
         padding:
-            7px
-            max(8px, env(safe-area-inset-right))
-            7px
-            max(8px, env(safe-area-inset-left));
+            8px 9px;
     }
 
+
     .header {
+
+        gap: 8px;
+    }
+
+
+    .brand {
+
+        min-width: max-content;
 
         gap: 7px;
     }
 
-    .brand {
-
-        gap: 6px;
-    }
 
     .logo {
 
         width: 36px;
-
         height: 36px;
+
+        flex-basis: 36px;
 
         border-radius: 11px;
     }
 
-    .brand-text {
 
-        display: block;
+    .brand-text {
 
         font-size: 15px;
 
-        letter-spacing: .25px;
+        letter-spacing: .2px;
     }
+
 
     .search {
 
         height: 39px;
 
-        padding-left: 37px;
-
-        font-size: 12px;
-
         border-radius: 12px;
+
+        padding-left: 39px;
+
+        font-size: 13px;
     }
+
 
     .search-icon {
 
-        left: 12px;
+        left: 13px;
 
-        font-size: 17px;
+        font-size: 16px;
     }
 
-
-    /* PLAYER */
 
     .container {
 
         padding:
-            9px
-            max(9px, env(safe-area-inset-right))
-            30px
-            max(9px, env(safe-area-inset-left));
+            9px;
     }
+
+
+    /*
+       PLAYER CỐ ĐỊNH TRÊN MOBILE
+    */
 
     .player-box {
 
-        top: 52px;
+        top: 53px;
 
-        border-radius: 15px;
+        border-radius: 14px;
 
-        margin-bottom: 11px;
-
-        box-shadow:
-            0 15px 40px rgba(0,0,0,.55);
+        margin-bottom: 12px;
     }
+
 
     .video-area {
 
-        aspect-ratio: 16 / 9;
+        aspect-ratio:
+            16 / 9;
     }
 
-    .now-playing {
-
-        min-height: 48px;
-
-        padding:
-            9px 11px;
-    }
-
-    .now-text {
-
-        font-size: 11.5px;
-    }
-
-    .status {
-
-        margin:
-            5px 2px 10px;
-
-        font-size: 10.5px;
-    }
-
-
-    /* CHANNEL */
 
     .channels {
 
         grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+            repeat(2,minmax(0,1fr));
 
         gap: 8px;
     }
+
 
     .channel {
 
         padding: 7px;
 
-        border-radius: 13px;
+        border-radius: 12px;
     }
+
 
     .channel-logo {
 
@@ -1288,143 +1130,65 @@ video::-webkit-media-controls-enclosure {
         margin-bottom: 7px;
     }
 
+
     .channel-name {
 
-        font-size: 11.5px;
+        font-size: 12px;
     }
+
 
     .channel-quality {
 
         font-size: 9px;
-
-        margin-top: 3px;
     }
 
-    .channel.active::after {
 
-        top: 6px;
+    .now-playing {
 
-        right: 6px;
+        min-height: 48px;
 
         padding:
-            3px 5px;
+            9px 11px;
+    }
 
-        font-size: 7px;
+
+    .now-text {
+
+        font-size: 12px;
+    }
+
+
+    .status {
+
+        font-size: 12px;
     }
 }
 
 
 /* =========================================================
-   SMALL MOBILE
+   VERY SMALL PHONE
 ========================================================= */
 
-@media(max-width: 380px) {
-
-    /*
-       KHÔNG ẨN KHANH TV
-    */
+@media(max-width:370px) {
 
     .brand-text {
 
-        display: block;
-
-        font-size: 13px;
-
-        letter-spacing: 0;
+        font-size: 14px;
     }
+
 
     .logo {
 
         width: 34px;
-
         height: 34px;
 
-        border-radius: 10px;
+        flex-basis: 34px;
     }
 
-    .brand {
-
-        gap: 5px;
-    }
-
-    .header {
-
-        gap: 6px;
-    }
 
     .search {
 
-        height: 37px;
-
-        padding-left: 35px;
-
-        font-size: 11px;
-    }
-
-    .search-icon {
-
-        left: 10px;
-
-        font-size: 16px;
-    }
-
-    .channels {
-
-        gap: 7px;
-    }
-
-    .channel-logo {
-
-        height: 58px;
-    }
-}
-
-
-/* =========================================================
-   VERY SMALL SCREEN
-========================================================= */
-
-@media(max-width: 330px) {
-
-    .brand-text {
-        font-size: 11px;
-    }
-
-    .logo {
-        width: 31px;
-        height: 31px;
-    }
-
-    .search {
-        font-size: 10px;
-    }
-}
-
-
-/* =========================================================
-   DESKTOP
-========================================================= */
-
-@media(min-width: 601px) {
-
-    .channels {
-
-        grid-template-columns:
-            repeat(auto-fill, minmax(190px, 1fr));
-    }
-}
-
-
-/* =========================================================
-   LARGE DESKTOP
-========================================================= */
-
-@media(min-width: 1100px) {
-
-    .channels {
-
-        grid-template-columns:
-            repeat(auto-fill, minmax(205px, 1fr));
+        font-size: 12px;
     }
 }
 
@@ -1433,7 +1197,7 @@ video::-webkit-media-controls-enclosure {
    FULLSCREEN PORTRAIT
 ========================================================= */
 
-@media(orientation: portrait) {
+@media(orientation:portrait) {
 
     .fullscreen-viewer {
 
@@ -1441,6 +1205,7 @@ video::-webkit-media-controls-enclosure {
 
         height: 100dvh;
     }
+
 
     .fullscreen-video {
 
@@ -1457,7 +1222,7 @@ video::-webkit-media-controls-enclosure {
    FULLSCREEN LANDSCAPE
 ========================================================= */
 
-@media(orientation: landscape) {
+@media(orientation:landscape) {
 
     .fullscreen-viewer {
 
@@ -1465,6 +1230,7 @@ video::-webkit-media-controls-enclosure {
 
         height: 100dvh;
     }
+
 
     .fullscreen-video {
 
@@ -1475,13 +1241,23 @@ video::-webkit-media-controls-enclosure {
         object-fit: contain;
     }
 
+
     .fullscreen-top {
 
         padding:
-            max(12px, env(safe-area-inset-top))
-            max(12px, env(safe-area-inset-right))
+            max(
+                12px,
+                env(safe-area-inset-top)
+            )
+            max(
+                12px,
+                env(safe-area-inset-right)
+            )
             12px
-            max(12px, env(safe-area-inset-left));
+            max(
+                12px,
+                env(safe-area-inset-left)
+            );
     }
 }
 
@@ -1490,7 +1266,9 @@ video::-webkit-media-controls-enclosure {
    SAFE AREA
 ========================================================= */
 
-@supports (padding: env(safe-area-inset-top)) {
+@supports(
+    padding:env(safe-area-inset-top)
+) {
 
     .fullscreen-viewer {
 
@@ -1504,6 +1282,7 @@ video::-webkit-media-controls-enclosure {
 
 </style>
 </head>
+
 
 <body>
 
@@ -1654,7 +1433,7 @@ video::-webkit-media-controls-enclosure {
 
 
 <!-- =========================================================
-     FULLSCREEN VIEWER
+     FULLSCREEN
 ========================================================= -->
 
 <div
@@ -1713,37 +1492,59 @@ const video =
     document.getElementById("video");
 
 const fullscreenVideo =
-    document.getElementById("fullscreenVideo");
+    document.getElementById(
+        "fullscreenVideo"
+    );
 
 const videoArea =
-    document.getElementById("videoArea");
+    document.getElementById(
+        "videoArea"
+    );
 
 const fullscreenViewer =
-    document.getElementById("fullscreenViewer");
+    document.getElementById(
+        "fullscreenViewer"
+    );
 
 const fullscreenBtn =
-    document.getElementById("fullscreenBtn");
+    document.getElementById(
+        "fullscreenBtn"
+    );
 
 const closeFullscreen =
-    document.getElementById("closeFullscreen");
+    document.getElementById(
+        "closeFullscreen"
+    );
 
 const channelsBox =
-    document.getElementById("channels");
+    document.getElementById(
+        "channels"
+    );
 
 const statusText =
-    document.getElementById("status");
+    document.getElementById(
+        "status"
+    );
 
 const nowPlaying =
-    document.getElementById("nowPlaying");
+    document.getElementById(
+        "nowPlaying"
+    );
 
 const playerTitle =
-    document.getElementById("playerTitle");
+    document.getElementById(
+        "playerTitle"
+    );
 
 const fullscreenTitle =
-    document.getElementById("fullscreenTitle");
+    document.getElementById(
+        "fullscreenTitle"
+    );
 
 const searchInput =
-    document.getElementById("search");
+    document.getElementById(
+        "search"
+    );
 
 
 /* =========================================================
@@ -1781,15 +1582,19 @@ async function loadPlaylist() {
                 }
             );
 
+
         if (!response.ok) {
 
             throw new Error(
-                "HTTP " + response.status
+                "HTTP " +
+                response.status
             );
         }
 
+
         const text =
             await response.text();
+
 
         channels =
             parseM3U(text);
@@ -1797,23 +1602,27 @@ async function loadPlaylist() {
 
         /* VTV LÊN ĐẦU */
 
-        channels.sort((a, b) => {
+        channels.sort(
+            (a,b) => {
 
-            const av =
-                /^VTV\d+/i.test(a.name);
+                const av =
+                    /^VTV\d+/i
+                    .test(a.name);
 
-            const bv =
-                /^VTV\d+/i.test(b.name);
+                const bv =
+                    /^VTV\d+/i
+                    .test(b.name);
 
-            if (av && !bv)
-                return -1;
 
-            if (!av && bv)
-                return 1;
+                if (av && !bv)
+                    return -1;
 
-            return 0;
+                if (!av && bv)
+                    return 1;
 
-        });
+                return 0;
+            }
+        );
 
 
         setStatus(
@@ -1829,9 +1638,10 @@ async function loadPlaylist() {
 
 
     }
-    catch (error) {
+    catch(error) {
 
         console.error(error);
+
 
         setStatus(
             "Không thể tải danh sách kênh"
@@ -1898,11 +1708,15 @@ function parseM3U(text) {
 
 
         if (
-            line.startsWith("#EXTINF")
+            line.startsWith(
+                "#EXTINF"
+            )
         ) {
 
             const nameMatch =
-                line.match(/,(.*)$/);
+                line.match(
+                    /,(.*)$/
+                );
 
 
             const logoMatch =
@@ -1944,16 +1758,17 @@ function parseM3U(text) {
                     idMatch
                     ? idMatch[1]
                     : ""
-
             };
 
         }
 
 
         else if (
+
             info &&
             line &&
             !line.startsWith("#")
+
         ) {
 
             result.push({
@@ -2010,93 +1825,109 @@ function renderChannels(list) {
     }
 
 
-    list.forEach(channel => {
+    list.forEach(
+        channel => {
 
-        const item =
-            document.createElement("div");
-
-
-        item.className =
-            "channel";
-
-
-        if (
-            currentChannel &&
-            currentChannel.url === channel.url
-        ) {
-
-            item.classList.add(
-                "active"
-            );
-        }
+            const item =
+                document.createElement(
+                    "div"
+                );
 
 
-        const logoHTML =
-            channel.logo
+            item.className =
+                "channel";
 
-            ?
 
-            `
+            if (
 
-            <img
-                class="channel-logo"
-                src="${escapeAttribute(channel.logo)}"
-                loading="lazy"
-                onerror="
-                    this.style.display='none'
-                "
-            >
+                currentChannel &&
 
-            `
+                currentChannel.url ===
+                channel.url
 
-            :
+            ) {
 
-            `
+                item.classList.add(
+                    "active"
+                );
+            }
 
-            <div
-                class="channel-logo"
-            ></div>
+
+            const logoHTML =
+                channel.logo
+
+                ?
+
+                `
+
+                <img
+                    class="channel-logo"
+                    src="${escapeAttribute(
+                        channel.logo
+                    )}"
+                    loading="lazy"
+                    onerror="
+                        this.style.display='none'
+                    "
+                >
+
+                `
+
+                :
+
+                `
+
+                <div
+                    class="channel-logo"
+                ></div>
+
+                `;
+
+
+            item.innerHTML = `
+
+                ${logoHTML}
+
+                <div
+                    class="channel-name"
+                >
+                    ${escapeHtml(
+                        channel.name
+                    )}
+                </div>
+
+                <div
+                    class="channel-quality"
+                >
+                    ${
+                        channel.group ||
+                        "IPTV"
+                    }
+                </div>
 
             `;
 
 
-        item.innerHTML = `
-
-            ${logoHTML}
-
-            <div class="channel-name">
-
-                ${escapeHtml(channel.name)}
-
-            </div>
-
-            <div class="channel-quality">
-
-                ${escapeHtml(
-                    channel.group || "IPTV"
-                )}
-
-            </div>
-
-        `;
+            item.addEventListener(
+                "click",
+                () =>
+                    playChannel(
+                        channel
+                    )
+            );
 
 
-        item.addEventListener(
-            "click",
-            () => playChannel(channel)
-        );
+            channelsBox.appendChild(
+                item
+            );
 
-
-        channelsBox.appendChild(
-            item
-        );
-
-    });
+        }
+    );
 }
 
 
 /* =========================================================
-   PLAY NORMAL VIDEO
+   PLAY CHANNEL
 ========================================================= */
 
 function playChannel(channel) {
@@ -2134,8 +1965,11 @@ function playChannel(channel) {
 
 
     if (
+
         isHLS(url) &&
+
         Hls.isSupported()
+
     ) {
 
         hls =
@@ -2167,7 +2001,9 @@ function playChannel(channel) {
 
 
         hls.on(
-            Hls.Events.MANIFEST_PARSED,
+            Hls.Events
+                .MANIFEST_PARSED,
+
             () => {
 
                 video
@@ -2182,7 +2018,8 @@ function playChannel(channel) {
 
         hls.on(
             Hls.Events.ERROR,
-            (event, data) => {
+
+            (event,data) => {
 
                 console.log(
                     "HLS:",
@@ -2196,16 +2033,17 @@ function playChannel(channel) {
 
 
     else if (
+
         video.canPlayType(
             "application/vnd.apple.mpegurl"
         )
+
     ) {
 
         video.src =
             url;
 
-        video
-            .play()
+        video.play()
             .catch(
                 () => {}
             );
@@ -2218,8 +2056,7 @@ function playChannel(channel) {
         video.src =
             url;
 
-        video
-            .play()
+        video.play()
             .catch(
                 () => {}
             );
@@ -2234,7 +2071,7 @@ function playChannel(channel) {
 
 
 /* =========================================================
-   HLS CHECK
+   HLS
 ========================================================= */
 
 function isHLS(url) {
@@ -2250,7 +2087,7 @@ function isHLS(url) {
 
 
 /* =========================================================
-   NORMAL HLS DESTROY
+   DESTROY NORMAL HLS
 ========================================================= */
 
 function destroyNormalHls() {
@@ -2282,10 +2119,8 @@ fullscreenBtn.addEventListener(
         e.stopPropagation();
 
 
-        if (!currentChannel) {
-
+        if (!currentChannel)
             return;
-        }
 
 
         await openFullscreen();
@@ -2300,10 +2135,8 @@ fullscreenBtn.addEventListener(
 
 async function openFullscreen() {
 
-    if (!currentChannel) {
-
+    if (!currentChannel)
         return;
-    }
 
 
     video.pause();
@@ -2333,8 +2166,11 @@ async function openFullscreen() {
 
 
     if (
+
         isHLS(url) &&
+
         Hls.isSupported()
+
     ) {
 
         fullscreenHls =
@@ -2355,18 +2191,20 @@ async function openFullscreen() {
             });
 
 
-        fullscreenHls.loadSource(
-            url
-        );
+        fullscreenHls
+            .loadSource(url);
 
 
-        fullscreenHls.attachMedia(
-            fullscreenVideo
-        );
+        fullscreenHls
+            .attachMedia(
+                fullscreenVideo
+            );
 
 
         fullscreenHls.on(
-            Hls.Events.MANIFEST_PARSED,
+            Hls.Events
+                .MANIFEST_PARSED,
+
             () => {
 
                 fullscreenVideo
@@ -2388,8 +2226,7 @@ async function openFullscreen() {
 
         fullscreenVideo.load();
 
-        fullscreenVideo
-            .play()
+        fullscreenVideo.play()
             .catch(
                 () => {}
             );
@@ -2402,13 +2239,17 @@ async function openFullscreen() {
     try {
 
         if (
+
             screen.orientation &&
+
             screen.orientation.lock
+
         ) {
 
-            await screen.orientation.lock(
-                "landscape"
-            );
+            await screen.orientation
+                .lock(
+                    "landscape"
+                );
         }
 
     }
@@ -2417,7 +2258,6 @@ async function openFullscreen() {
         console.log(
             "Orientation lock không được hỗ trợ"
         );
-
     }
 
 
@@ -2482,8 +2322,11 @@ async function closeFullscreenViewer() {
     try {
 
         if (
+
             screen.orientation &&
+
             screen.orientation.unlock
+
         ) {
 
             screen.orientation.unlock();
@@ -2496,8 +2339,7 @@ async function closeFullscreenViewer() {
 
     if (currentChannel) {
 
-        video
-            .play()
+        video.play()
             .catch(
                 () => {}
             );
@@ -2538,9 +2380,11 @@ async function requestWakeLock() {
         ) {
 
             wakeLock =
-                await navigator.wakeLock.request(
-                    "screen"
-                );
+                await navigator
+                    .wakeLock
+                    .request(
+                        "screen"
+                    );
 
 
             wakeLock.addEventListener(
@@ -2562,13 +2406,12 @@ async function requestWakeLock() {
             "Wake Lock:",
             error
         );
-
     }
 }
 
 
 /* =========================================================
-   VISIBILITY CHANGE
+   VISIBILITY
 ========================================================= */
 
 document.addEventListener(
@@ -2578,9 +2421,7 @@ document.addEventListener(
         if (
 
             document.visibilityState ===
-            "visible"
-
-            &&
+            "visible" &&
 
             fullscreenViewer
                 .classList
@@ -2589,7 +2430,6 @@ document.addEventListener(
         ) {
 
             await requestWakeLock();
-
         }
 
     }
@@ -2661,7 +2501,7 @@ function showFullscreenControls() {
 
 
 /* =========================================================
-   VIDEO CONTROLS
+   PLAYER CONTROLS
 ========================================================= */
 
 videoArea.addEventListener(
@@ -2725,6 +2565,7 @@ function filterChannels() {
     if (!keyword) {
 
         return channels;
+
     }
 
 
@@ -2763,7 +2604,7 @@ function filterChannels() {
 
 
 /* =========================================================
-   ESCAPE HTML
+   ESCAPE
 ========================================================= */
 
 function escapeHtml(value) {
@@ -2800,7 +2641,6 @@ function escapeHtml(value) {
 function escapeAttribute(value) {
 
     return escapeHtml(value);
-
 }
 
 
@@ -2814,9 +2654,7 @@ document.addEventListener(
 
         if (
 
-            e.key === "Escape"
-
-            &&
+            e.key === "Escape" &&
 
             fullscreenViewer
                 .classList
@@ -2849,11 +2687,13 @@ window.addEventListener(
         ) {
 
             fullscreenViewer.style.width =
-                window.innerWidth + "px";
+                window.innerWidth +
+                "px";
+
 
             fullscreenViewer.style.height =
-                window.innerHeight + "px";
-
+                window.innerHeight +
+                "px";
         }
 
     }
