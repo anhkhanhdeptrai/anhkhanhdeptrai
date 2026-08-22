@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+
 <meta charset="UTF-8">
 
 <meta name="viewport"
@@ -21,34 +22,32 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100%;
-    background: #06070b;
-    scroll-behavior: smooth;
-}
-
+html,
 body {
     margin: 0;
     padding: 0;
     width: 100%;
     min-height: 100%;
+
     background:
         radial-gradient(
-            circle at 15% 0%,
-            rgba(111,68,255,.10),
-            transparent 30%
+            circle at 15% -10%,
+            rgba(112, 67, 255, .18),
+            transparent 35%
         ),
         radial-gradient(
-            circle at 90% 15%,
-            rgba(255,45,145,.07),
-            transparent 28%
+            circle at 95% 10%,
+            rgba(255, 40, 150, .13),
+            transparent 30%
         ),
-        #06070b;
+        linear-gradient(
+            180deg,
+            #050509 0%,
+            #080810 45%,
+            #050508 100%
+        );
 
-    color: #fff;
+    color: white;
 
     font-family:
         Inter,
@@ -68,7 +67,9 @@ body {
 ========================================================= */
 
 header {
+
     position: sticky;
+
     top: 0;
 
     z-index: 1000;
@@ -76,84 +77,95 @@ header {
     width: 100%;
 
     padding:
-        10px
-        max(14px, env(safe-area-inset-right))
-        10px
-        max(14px, env(safe-area-inset-left));
+        9px
+        max(12px, env(safe-area-inset-right))
+        9px
+        max(12px, env(safe-area-inset-left));
 
     background:
         linear-gradient(
             180deg,
-            rgba(7,8,14,.97),
-            rgba(7,8,14,.88)
+            rgba(5,5,11,.97),
+            rgba(7,7,14,.90)
         );
 
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
 
     border-bottom:
-        1px solid rgba(255,255,255,.065);
+        1px solid rgba(255,255,255,.07);
 
     box-shadow:
-        0 8px 30px rgba(0,0,0,.18);
+        0 8px 30px rgba(0,0,0,.25);
 }
 
 .header {
+
     width: 100%;
+
     max-width: 1450px;
 
     margin: auto;
 
     display: flex;
+
     align-items: center;
 
-    gap: 14px;
+    gap: 12px;
 }
 
 
 /* =========================================================
-   LOGO
+   BRAND
 ========================================================= */
 
 .brand {
+
     display: flex;
+
     align-items: center;
 
-    gap: 10px;
+    gap: 8px;
 
     min-width: max-content;
+
+    flex-shrink: 0;
 
     user-select: none;
 }
 
 .logo {
+
     position: relative;
 
-    width: 43px;
-    height: 43px;
+    width: 42px;
+    height: 42px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
-    border-radius: 14px;
+    border-radius: 13px;
 
     background:
         linear-gradient(
             135deg,
-            #6636ff 0%,
-            #a13cff 45%,
-            #ff397c 100%
+            #5425ff 0%,
+            #8d32ff 42%,
+            #ff3183 100%
         );
 
     box-shadow:
-        0 0 0 1px rgba(255,255,255,.10) inset,
-        0 8px 25px rgba(117,52,255,.30);
+        0 0 0 1px rgba(255,255,255,.12) inset,
+        0 8px 30px rgba(116,49,255,.35),
+        0 0 30px rgba(255,43,137,.10);
 
     overflow: hidden;
 }
 
 .logo::before {
+
     content: "";
 
     width: 21px;
@@ -167,10 +179,11 @@ header {
     position: absolute;
 
     box-shadow:
-        0 0 12px rgba(255,255,255,.25);
+        0 0 10px rgba(255,255,255,.35);
 }
 
 .logo::after {
+
     content: "";
 
     width: 10px;
@@ -178,7 +191,7 @@ header {
 
     background: white;
 
-    border-radius: 10px;
+    border-radius: 20px;
 
     position: absolute;
 
@@ -186,30 +199,38 @@ header {
 }
 
 .brand-text {
-    font-size: 20px;
 
-    font-weight: 900;
+    font-size: 19px;
 
-    letter-spacing: .6px;
+    font-weight: 950;
+
+    letter-spacing: .5px;
+
+    white-space: nowrap;
 
     background:
         linear-gradient(
             90deg,
-            #fff,
-            #a978ff,
-            #ff5cb8,
-            #fff
+            #ffffff 0%,
+            #b58aff 25%,
+            #ff5cb2 50%,
+            #9f75ff 75%,
+            #ffffff 100%
         );
 
-    background-size: 250% auto;
+    background-size: 300% auto;
 
     -webkit-background-clip: text;
+
     background-clip: text;
 
     color: transparent;
 
     animation:
         titleGradient 5s linear infinite;
+
+    text-shadow:
+        0 0 20px rgba(149,90,255,.15);
 }
 
 @keyframes titleGradient {
@@ -219,7 +240,7 @@ header {
     }
 
     100% {
-        background-position: 250% center;
+        background-position: 300% center;
     }
 }
 
@@ -229,24 +250,30 @@ header {
 ========================================================= */
 
 .search-wrap {
+
     flex: 1;
 
-    position: relative;
-
     min-width: 0;
+
+    position: relative;
 }
 
 .search-icon {
+
     position: absolute;
 
-    left: 15px;
+    left: 14px;
+
     top: 50%;
 
-    transform: translateY(-50%);
+    transform:
+        translateY(-50%);
 
-    color: #8b8fa2;
+    color: #9698ad;
 
     font-size: 19px;
+
+    line-height: 1;
 
     pointer-events: none;
 
@@ -254,50 +281,58 @@ header {
 }
 
 .search {
+
     width: 100%;
-    height: 44px;
+
+    height: 43px;
 
     padding:
-        0 16px 0 44px;
+        0 15px 0 42px;
 
     border:
-        1px solid rgba(255,255,255,.075);
+        1px solid rgba(255,255,255,.08);
 
-    border-radius: 15px;
+    border-radius: 14px;
 
     outline: none;
+
+    color: white;
+
+    font-size: 13px;
 
     background:
         linear-gradient(
             135deg,
-            rgba(255,255,255,.065),
+            rgba(255,255,255,.075),
             rgba(255,255,255,.025)
         );
 
-    color: #fff;
-
-    font-size: 14px;
+    box-shadow:
+        0 5px 20px rgba(0,0,0,.15);
 
     transition:
-        border-color .2s,
-        box-shadow .2s,
-        background .2s;
+        .25s ease;
 }
 
 .search::placeholder {
-    color: #707587;
+    color: #777a8e;
 }
 
 .search:focus {
+
     border-color:
-        rgba(143,91,255,.75);
+        rgba(145,91,255,.85);
 
     background:
-        rgba(255,255,255,.065);
+        linear-gradient(
+            135deg,
+            rgba(130,75,255,.10),
+            rgba(255,255,255,.04)
+        );
 
     box-shadow:
-        0 0 0 3px rgba(126,67,255,.10),
-        0 0 28px rgba(126,67,255,.12);
+        0 0 0 3px rgba(115,61,255,.10),
+        0 0 30px rgba(122,70,255,.16);
 }
 
 
@@ -306,59 +341,54 @@ header {
 ========================================================= */
 
 .container {
+
     width: 100%;
+
     max-width: 1450px;
 
     margin: auto;
 
     padding:
-        16px
-        max(16px, env(safe-area-inset-right))
-        40px
-        max(16px, env(safe-area-inset-left));
+        15px
+        max(15px, env(safe-area-inset-right))
+        45px
+        max(15px, env(safe-area-inset-left));
 }
 
 
 /* =========================================================
-   PLAYER FIXED WHILE SCROLLING
+   PLAYER - STICKY
 ========================================================= */
 
-/*
-   QUAN TRỌNG:
-
-   Player sẽ đứng yên khi người dùng vuốt danh sách kênh.
-
-   Header cao khoảng 63px.
-   Player sẽ sticky ngay bên dưới header.
-*/
-
 .player-box {
+
     position: sticky;
 
-    top: 70px;
+    top: 68px;
 
     z-index: 500;
 
     width: 100%;
 
-    background:
-        rgba(3,4,7,.94);
-
-    border:
-        1px solid rgba(255,255,255,.085);
-
-    border-radius: 20px;
+    margin-bottom: 15px;
 
     overflow: hidden;
 
+    border-radius: 20px;
+
+    background:
+        rgba(2,2,7,.95);
+
+    border:
+        1px solid rgba(255,255,255,.09);
+
     box-shadow:
-        0 18px 50px rgba(0,0,0,.40),
-        0 0 0 1px rgba(255,255,255,.015);
+        0 20px 55px rgba(0,0,0,.50),
+        0 0 40px rgba(93,45,255,.06);
 
-    margin-bottom: 16px;
+    backdrop-filter: blur(22px);
 
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(22px);
 }
 
 
@@ -367,28 +397,31 @@ header {
 ========================================================= */
 
 .video-area {
+
     position: relative;
 
     width: 100%;
 
-    background:
-        radial-gradient(
-            circle,
-            #151722 0%,
-            #000 65%
-        );
-
     aspect-ratio: 16 / 9;
 
     overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #171827,
+            #000 70%
+        );
 }
 
 video {
+
     position: absolute;
 
     inset: 0;
 
     width: 100%;
+
     height: 100%;
 
     display: block;
@@ -412,32 +445,37 @@ video::-webkit-media-controls-enclosure {
 ========================================================= */
 
 .player-info {
+
     position: absolute;
 
-    left: 0;
-    right: 0;
     top: 0;
 
-    padding: 15px;
+    left: 0;
+
+    right: 0;
+
+    padding: 14px;
 
     display: flex;
 
     justify-content: space-between;
+
     align-items: flex-start;
 
     pointer-events: none;
 
     background:
         linear-gradient(
-            to bottom,
+            180deg,
             rgba(0,0,0,.78),
-            rgba(0,0,0,.20),
+            rgba(0,0,0,.25),
             transparent
         );
 
     opacity: 0;
 
-    transition: opacity .25s;
+    transition:
+        opacity .25s;
 
     z-index: 5;
 }
@@ -447,9 +485,6 @@ video::-webkit-media-controls-enclosure {
 }
 
 .live-title {
-    font-size: 14px;
-
-    font-weight: 800;
 
     max-width: 70%;
 
@@ -459,11 +494,16 @@ video::-webkit-media-controls-enclosure {
 
     white-space: nowrap;
 
+    font-size: 14px;
+
+    font-weight: 850;
+
     text-shadow:
-        0 2px 10px rgba(0,0,0,.7);
+        0 2px 12px #000;
 }
 
 .live-badge {
+
     display: flex;
 
     align-items: center;
@@ -476,12 +516,12 @@ video::-webkit-media-controls-enclosure {
     border-radius: 20px;
 
     background:
-        rgba(255,35,80,.16);
+        rgba(255,40,80,.14);
 
     border:
-        1px solid rgba(255,60,100,.30);
+        1px solid rgba(255,70,110,.32);
 
-    color: #ff7590;
+    color: #ff7691;
 
     font-size: 10px;
 
@@ -493,7 +533,9 @@ video::-webkit-media-controls-enclosure {
 }
 
 .live-dot {
+
     width: 6px;
+
     height: 6px;
 
     border-radius: 50%;
@@ -501,10 +543,10 @@ video::-webkit-media-controls-enclosure {
     background: #ff315b;
 
     box-shadow:
-        0 0 10px #ff315b;
+        0 0 12px #ff315b;
 
     animation:
-        livePulse 1.5s infinite;
+        livePulse 1.4s infinite;
 }
 
 @keyframes livePulse {
@@ -516,7 +558,7 @@ video::-webkit-media-controls-enclosure {
     }
 
     50% {
-        opacity: .45;
+        opacity: .4;
         transform: scale(.75);
     }
 }
@@ -528,9 +570,11 @@ video::-webkit-media-controls-enclosure {
 
 .fullscreen-btn,
 .close-fullscreen {
+
     position: absolute;
 
     width: 42px;
+
     height: 42px;
 
     border: 0;
@@ -540,17 +584,19 @@ video::-webkit-media-controls-enclosure {
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     color: white;
 
     background:
-        rgba(15,15,22,.76);
+        rgba(15,15,24,.78);
 
     border:
-        1px solid rgba(255,255,255,.10);
+        1px solid rgba(255,255,255,.12);
 
     backdrop-filter: blur(14px);
+
     -webkit-backdrop-filter: blur(14px);
 
     cursor: pointer;
@@ -562,20 +608,22 @@ video::-webkit-media-controls-enclosure {
     pointer-events: none;
 
     transition:
-        opacity .25s,
-        transform .2s,
-        background .2s;
+        .2s ease;
 
     z-index: 20;
 }
 
 .fullscreen-btn {
-    right: 13px;
-    bottom: 13px;
+
+    right: 12px;
+
+    bottom: 12px;
 }
 
 .close-fullscreen {
+
     top: 14px;
+
     right: 14px;
 
     font-size: 27px;
@@ -583,22 +631,30 @@ video::-webkit-media-controls-enclosure {
 
 .fullscreen-btn:hover,
 .close-fullscreen:hover {
+
     background:
         linear-gradient(
             135deg,
-            rgba(104,61,255,.90),
-            rgba(229,48,133,.80)
+            #6539ff,
+            #e73591
         );
 
-    transform: scale(1.05);
+    box-shadow:
+        0 8px 25px rgba(105,54,255,.30);
+
+    transform:
+        scale(1.05);
 }
 
 .fullscreen-btn:active,
 .close-fullscreen:active {
-    transform: scale(.94);
+
+    transform:
+        scale(.93);
 }
 
 .video-area.controls-visible .fullscreen-btn {
+
     opacity: 1;
 
     pointer-events: auto;
@@ -610,10 +666,11 @@ video::-webkit-media-controls-enclosure {
 ========================================================= */
 
 .now-playing {
-    min-height: 56px;
+
+    min-height: 55px;
 
     padding:
-        12px 16px;
+        11px 15px;
 
     display: flex;
 
@@ -624,9 +681,9 @@ video::-webkit-media-controls-enclosure {
     background:
         linear-gradient(
             90deg,
-            rgba(115,65,255,.14),
-            rgba(255,50,150,.06),
-            rgba(0,0,0,.05)
+            rgba(101,54,255,.16),
+            rgba(255,40,150,.07),
+            rgba(255,255,255,.015)
         );
 
     border-top:
@@ -634,17 +691,20 @@ video::-webkit-media-controls-enclosure {
 }
 
 .now-dot {
+
     width: 8px;
+
     height: 8px;
 
     flex: 0 0 auto;
 
     border-radius: 50%;
 
-    background: #7958ff;
+    background:
+        #8a62ff;
 
     box-shadow:
-        0 0 12px #7958ff;
+        0 0 13px #8a62ff;
 
     animation:
         nowPulse 1.8s infinite;
@@ -655,21 +715,18 @@ video::-webkit-media-controls-enclosure {
     0%,
     100% {
         box-shadow:
-            0 0 8px #7958ff;
+            0 0 7px #8a62ff;
     }
 
     50% {
         box-shadow:
-            0 0 18px #a27fff;
+            0 0 20px #a984ff;
     }
 }
 
 .now-text {
+
     min-width: 0;
-
-    font-size: 14px;
-
-    font-weight: 800;
 
     overflow: hidden;
 
@@ -677,7 +734,11 @@ video::-webkit-media-controls-enclosure {
 
     text-overflow: ellipsis;
 
-    color: #f2f2f7;
+    font-size: 13px;
+
+    font-weight: 850;
+
+    color: #f5f3ff;
 }
 
 
@@ -686,6 +747,7 @@ video::-webkit-media-controls-enclosure {
 ========================================================= */
 
 .status {
+
     display: flex;
 
     align-items: center;
@@ -693,27 +755,30 @@ video::-webkit-media-controls-enclosure {
     gap: 8px;
 
     margin:
-        8px 2px 14px;
+        7px 2px 13px;
 
-    color: #8f94a6;
+    color: #9195a9;
 
-    font-size: 13px;
+    font-size: 12px;
 
     font-weight: 600;
 }
 
 .status-dot {
+
     width: 7px;
+
     height: 7px;
 
     flex: 0 0 auto;
 
     border-radius: 50%;
 
-    background: #45e6a1;
+    background:
+        #45e6a1;
 
     box-shadow:
-        0 0 10px rgba(69,230,161,.7);
+        0 0 11px rgba(69,230,161,.75);
 }
 
 
@@ -722,12 +787,13 @@ video::-webkit-media-controls-enclosure {
 ========================================================= */
 
 .channels {
+
     display: grid;
 
     grid-template-columns:
         repeat(auto-fill, minmax(175px, 1fr));
 
-    gap: 12px;
+    gap: 11px;
 
     position: relative;
 
@@ -736,40 +802,45 @@ video::-webkit-media-controls-enclosure {
 
 
 /* =========================================================
-   CHANNEL CARD
+   CHANNEL
 ========================================================= */
 
 .channel {
+
+    position: relative;
+
     min-width: 0;
 
     padding: 9px;
 
-    position: relative;
+    overflow: hidden;
+
+    cursor: pointer;
+
+    border-radius: 16px;
+
+    border:
+        1px solid rgba(255,255,255,.075);
 
     background:
         linear-gradient(
             145deg,
             rgba(255,255,255,.065),
-            rgba(255,255,255,.025)
+            rgba(255,255,255,.022)
         );
 
-    border:
-        1px solid rgba(255,255,255,.075);
-
-    border-radius: 16px;
-
-    cursor: pointer;
-
-    overflow: hidden;
+    box-shadow:
+        0 5px 18px rgba(0,0,0,.12);
 
     transition:
         transform .18s ease,
         border-color .18s ease,
-        background .18s ease,
-        box-shadow .18s ease;
+        box-shadow .18s ease,
+        background .18s ease;
 }
 
 .channel::before {
+
     content: "";
 
     position: absolute;
@@ -779,28 +850,30 @@ video::-webkit-media-controls-enclosure {
     background:
         linear-gradient(
             135deg,
-            rgba(133,83,255,.08),
+            rgba(120,70,255,.14),
             transparent 45%,
-            rgba(255,54,153,.05)
+            rgba(255,40,150,.08)
         );
 
     opacity: 0;
 
-    transition: opacity .2s;
+    transition:
+        opacity .2s;
 
     pointer-events: none;
 }
 
 .channel:hover {
+
     transform:
         translateY(-3px);
 
     border-color:
-        rgba(130,85,255,.65);
+        rgba(139,91,255,.72);
 
     box-shadow:
-        0 12px 28px rgba(0,0,0,.30),
-        0 0 25px rgba(126,77,255,.08);
+        0 14px 32px rgba(0,0,0,.30),
+        0 0 30px rgba(113,62,255,.10);
 }
 
 .channel:hover::before {
@@ -809,31 +882,35 @@ video::-webkit-media-controls-enclosure {
 
 .channel:active {
     transform:
-        scale(.98);
+        scale(.975);
 }
 
 .channel.active {
+
     border-color:
-        rgba(137,91,255,.95);
+        #8b5cff;
 
     background:
         linear-gradient(
             145deg,
-            rgba(125,75,255,.18),
-            rgba(255,60,160,.07)
+            rgba(115,65,255,.22),
+            rgba(255,45,145,.08)
         );
 
     box-shadow:
-        0 0 0 1px rgba(129,85,255,.12) inset,
-        0 0 25px rgba(126,77,255,.16);
+        0 0 0 1px rgba(135,91,255,.15) inset,
+        0 0 30px rgba(117,67,255,.20);
 }
 
 .channel.active::after {
-    content: "● ĐANG XEM";
+
+    content:
+        "● ĐANG XEM";
 
     position: absolute;
 
     top: 8px;
+
     right: 8px;
 
     padding:
@@ -842,7 +919,11 @@ video::-webkit-media-controls-enclosure {
     border-radius: 8px;
 
     background:
-        rgba(105,65,255,.90);
+        linear-gradient(
+            135deg,
+            #6940ff,
+            #a43cff
+        );
 
     color: white;
 
@@ -850,10 +931,10 @@ video::-webkit-media-controls-enclosure {
 
     font-weight: 900;
 
-    letter-spacing: .3px;
+    letter-spacing: .2px;
 
     box-shadow:
-        0 5px 15px rgba(0,0,0,.25);
+        0 5px 15px rgba(0,0,0,.30);
 }
 
 
@@ -862,27 +943,28 @@ video::-webkit-media-controls-enclosure {
 ========================================================= */
 
 .channel-logo {
+
     width: 100%;
 
     height: 78px;
 
+    display: block;
+
     object-fit: contain;
 
-    display: block;
+    margin-bottom: 9px;
 
     border-radius: 11px;
 
     background:
         linear-gradient(
             145deg,
-            #0d0f15,
-            #08090d
+            #10111a,
+            #08090e
         );
 
-    margin-bottom: 9px;
-
     border:
-        1px solid rgba(255,255,255,.035);
+        1px solid rgba(255,255,255,.045);
 
     transition:
         transform .2s,
@@ -890,13 +972,16 @@ video::-webkit-media-controls-enclosure {
 }
 
 .channel:hover .channel-logo {
-    transform: scale(1.025);
+
+    transform:
+        scale(1.025);
 
     filter:
         brightness(1.08);
 }
 
 .channel-name {
+
     font-size: 13px;
 
     font-weight: 800;
@@ -909,15 +994,16 @@ video::-webkit-media-controls-enclosure {
 
     text-overflow: ellipsis;
 
-    color: #f4f4f8;
+    color: #f3f2fa;
 }
 
 .channel-quality {
-    color: #777c8d;
+
+    margin-top: 4px;
+
+    color: #777b8e;
 
     font-size: 10px;
-
-    margin-top: 5px;
 
     white-space: nowrap;
 
@@ -933,21 +1019,23 @@ video::-webkit-media-controls-enclosure {
 
 .loading,
 .empty {
+
     grid-column: 1 / -1;
+
+    padding:
+        50px 20px;
 
     text-align: center;
 
-    padding: 55px 20px;
+    color: #85899d;
 
-    color: #85899a;
+    border:
+        1px solid rgba(255,255,255,.055);
+
+    border-radius: 18px;
 
     background:
         rgba(255,255,255,.025);
-
-    border:
-        1px solid rgba(255,255,255,.05);
-
-    border-radius: 18px;
 }
 
 
@@ -956,20 +1044,22 @@ video::-webkit-media-controls-enclosure {
 ========================================================= */
 
 .fullscreen-viewer {
+
     position: fixed;
 
     inset: 0;
 
     width: 100vw;
+
     height: 100dvh;
-
-    background: #000;
-
-    z-index: 999999;
 
     display: none;
 
     overflow: hidden;
+
+    background: #000;
+
+    z-index: 999999;
 
     touch-action: manipulation;
 }
@@ -979,11 +1069,13 @@ video::-webkit-media-controls-enclosure {
 }
 
 .fullscreen-video {
+
     position: absolute;
 
     inset: 0;
 
     width: 100%;
+
     height: 100%;
 
     object-fit: contain;
@@ -1000,10 +1092,13 @@ video::-webkit-media-controls-enclosure {
 }
 
 .fullscreen-top {
+
     position: absolute;
 
     left: 0;
+
     right: 0;
+
     top: 0;
 
     padding: 15px;
@@ -1018,14 +1113,15 @@ video::-webkit-media-controls-enclosure {
 
     background:
         linear-gradient(
-            to bottom,
-            rgba(0,0,0,.70),
+            180deg,
+            rgba(0,0,0,.72),
             transparent
         );
 
     opacity: 1;
 
-    transition: opacity .3s;
+    transition:
+        opacity .3s;
 
     pointer-events: none;
 }
@@ -1035,18 +1131,21 @@ video::-webkit-media-controls-enclosure {
 }
 
 .close-fullscreen {
+
     pointer-events: auto;
 
     opacity: 1;
 }
 
 .fullscreen-viewer.controls-hidden .fullscreen-top {
+
     opacity: 0;
 
     pointer-events: none;
 }
 
 .fullscreen-viewer.controls-hidden .close-fullscreen {
+
     pointer-events: none;
 }
 
@@ -1058,88 +1157,115 @@ video::-webkit-media-controls-enclosure {
 @media(max-width: 600px) {
 
     header {
+
         padding:
-            8px
-            max(10px, env(safe-area-inset-right))
-            8px
-            max(10px, env(safe-area-inset-left));
+            7px
+            max(8px, env(safe-area-inset-right))
+            7px
+            max(8px, env(safe-area-inset-left));
     }
 
     .header {
-        gap: 8px;
+
+        gap: 7px;
+    }
+
+    .brand {
+
+        gap: 6px;
     }
 
     .logo {
-        width: 38px;
-        height: 38px;
 
-        border-radius: 12px;
+        width: 36px;
+
+        height: 36px;
+
+        border-radius: 11px;
     }
 
     .brand-text {
-        font-size: 17px;
+
+        display: block;
+
+        font-size: 15px;
+
+        letter-spacing: .25px;
     }
 
     .search {
-        height: 40px;
+
+        height: 39px;
+
+        padding-left: 37px;
+
+        font-size: 12px;
 
         border-radius: 12px;
-
-        padding-left: 40px;
-
-        font-size: 13px;
     }
+
+    .search-icon {
+
+        left: 12px;
+
+        font-size: 17px;
+    }
+
+
+    /* PLAYER */
 
     .container {
+
         padding:
-            10px
-            max(10px, env(safe-area-inset-right))
+            9px
+            max(9px, env(safe-area-inset-right))
             30px
-            max(10px, env(safe-area-inset-left));
+            max(9px, env(safe-area-inset-left));
     }
 
-
-    /*
-       PLAYER CỐ ĐỊNH KHI VUỐT TRÊN ĐIỆN THOẠI
-    */
-
     .player-box {
-        top: 58px;
+
+        top: 52px;
 
         border-radius: 15px;
 
-        margin-bottom: 12px;
+        margin-bottom: 11px;
 
         box-shadow:
-            0 15px 40px rgba(0,0,0,.50);
+            0 15px 40px rgba(0,0,0,.55);
     }
 
     .video-area {
+
         aspect-ratio: 16 / 9;
     }
 
     .now-playing {
+
         min-height: 48px;
 
         padding:
-            9px 12px;
+            9px 11px;
     }
 
     .now-text {
-        font-size: 12px;
+
+        font-size: 11.5px;
     }
 
     .status {
-        margin:
-            6px 2px 11px;
 
-        font-size: 11px;
+        margin:
+            5px 2px 10px;
+
+        font-size: 10.5px;
     }
 
 
-    /* CHANNELS */
+    /* CHANNEL */
 
     .channels {
+
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
 
@@ -1147,12 +1273,14 @@ video::-webkit-media-controls-enclosure {
     }
 
     .channel {
+
         padding: 7px;
 
         border-radius: 13px;
     }
 
     .channel-logo {
+
         height: 62px;
 
         border-radius: 9px;
@@ -1161,17 +1289,21 @@ video::-webkit-media-controls-enclosure {
     }
 
     .channel-name {
+
         font-size: 11.5px;
     }
 
     .channel-quality {
+
         font-size: 9px;
 
         margin-top: 3px;
     }
 
     .channel.active::after {
+
         top: 6px;
+
         right: 6px;
 
         padding:
@@ -1188,35 +1320,95 @@ video::-webkit-media-controls-enclosure {
 
 @media(max-width: 380px) {
 
+    /*
+       KHÔNG ẨN KHANH TV
+    */
+
     .brand-text {
-        display: none;
+
+        display: block;
+
+        font-size: 13px;
+
+        letter-spacing: 0;
+    }
+
+    .logo {
+
+        width: 34px;
+
+        height: 34px;
+
+        border-radius: 10px;
+    }
+
+    .brand {
+
+        gap: 5px;
     }
 
     .header {
-        gap: 8px;
+
+        gap: 6px;
+    }
+
+    .search {
+
+        height: 37px;
+
+        padding-left: 35px;
+
+        font-size: 11px;
+    }
+
+    .search-icon {
+
+        left: 10px;
+
+        font-size: 16px;
     }
 
     .channels {
+
         gap: 7px;
     }
 
     .channel-logo {
+
         height: 58px;
     }
 }
 
 
 /* =========================================================
-   TABLET / DESKTOP
+   VERY SMALL SCREEN
+========================================================= */
+
+@media(max-width: 330px) {
+
+    .brand-text {
+        font-size: 11px;
+    }
+
+    .logo {
+        width: 31px;
+        height: 31px;
+    }
+
+    .search {
+        font-size: 10px;
+    }
+}
+
+
+/* =========================================================
+   DESKTOP
 ========================================================= */
 
 @media(min-width: 601px) {
 
-    .player-box {
-        max-width: 100%;
-    }
-
     .channels {
+
         grid-template-columns:
             repeat(auto-fill, minmax(190px, 1fr));
     }
@@ -1229,15 +1421,8 @@ video::-webkit-media-controls-enclosure {
 
 @media(min-width: 1100px) {
 
-    .container {
-        padding-top: 20px;
-    }
-
-    .player-box {
-        border-radius: 21px;
-    }
-
     .channels {
+
         grid-template-columns:
             repeat(auto-fill, minmax(205px, 1fr));
     }
@@ -1248,15 +1433,19 @@ video::-webkit-media-controls-enclosure {
    FULLSCREEN PORTRAIT
 ========================================================= */
 
-@media (orientation: portrait) {
+@media(orientation: portrait) {
 
     .fullscreen-viewer {
+
         width: 100vw;
+
         height: 100dvh;
     }
 
     .fullscreen-video {
+
         width: 100vw;
+
         height: 100dvh;
 
         object-fit: contain;
@@ -1268,21 +1457,26 @@ video::-webkit-media-controls-enclosure {
    FULLSCREEN LANDSCAPE
 ========================================================= */
 
-@media (orientation: landscape) {
+@media(orientation: landscape) {
 
     .fullscreen-viewer {
+
         width: 100vw;
+
         height: 100dvh;
     }
 
     .fullscreen-video {
+
         width: 100vw;
+
         height: 100dvh;
 
         object-fit: contain;
     }
 
     .fullscreen-top {
+
         padding:
             max(12px, env(safe-area-inset-top))
             max(12px, env(safe-area-inset-right))
@@ -1299,6 +1493,7 @@ video::-webkit-media-controls-enclosure {
 @supports (padding: env(safe-area-inset-top)) {
 
     .fullscreen-viewer {
+
         padding:
             env(safe-area-inset-top)
             env(safe-area-inset-right)
@@ -1334,7 +1529,9 @@ video::-webkit-media-controls-enclosure {
 
         <div class="search-wrap">
 
-            <span class="search-icon">⌕</span>
+            <span class="search-icon">
+                ⌕
+            </span>
 
             <input
                 id="search"
@@ -1358,9 +1555,7 @@ video::-webkit-media-controls-enclosure {
 <main class="container">
 
 
-    <!-- =====================================================
-         PLAYER
-    ===================================================== -->
+    <!-- PLAYER -->
 
     <div class="player-box">
 
@@ -1426,9 +1621,7 @@ video::-webkit-media-controls-enclosure {
     </div>
 
 
-    <!-- =====================================================
-         STATUS
-    ===================================================== -->
+    <!-- STATUS -->
 
     <div
         id="status"
@@ -1444,9 +1637,7 @@ video::-webkit-media-controls-enclosure {
     </div>
 
 
-    <!-- =====================================================
-         CHANNELS
-    ===================================================== -->
+    <!-- CHANNELS -->
 
     <div
         id="channels"
@@ -1583,16 +1774,18 @@ async function loadPlaylist() {
     try {
 
         const response =
-            await fetch(PLAYLIST, {
-                cache: "no-store"
-            });
+            await fetch(
+                PLAYLIST,
+                {
+                    cache: "no-store"
+                }
+            );
 
         if (!response.ok) {
 
             throw new Error(
                 "HTTP " + response.status
             );
-
         }
 
         const text =
@@ -1602,9 +1795,7 @@ async function loadPlaylist() {
             parseM3U(text);
 
 
-        /*
-         * ĐƯA VTV LÊN ĐẦU
-         */
+        /* VTV LÊN ĐẦU */
 
         channels.sort((a, b) => {
 
@@ -1614,9 +1805,11 @@ async function loadPlaylist() {
             const bv =
                 /^VTV\d+/i.test(b.name);
 
-            if (av && !bv) return -1;
+            if (av && !bv)
+                return -1;
 
-            if (!av && bv) return 1;
+            if (!av && bv)
+                return 1;
 
             return 0;
 
@@ -1629,10 +1822,14 @@ async function loadPlaylist() {
             " kênh"
         );
 
-        renderChannels(channels);
+
+        renderChannels(
+            channels
+        );
 
 
-    } catch (error) {
+    }
+    catch (error) {
 
         console.error(error);
 
@@ -1640,7 +1837,9 @@ async function loadPlaylist() {
             "Không thể tải danh sách kênh"
         );
 
+
         channelsBox.innerHTML = `
+
             <div class="empty">
 
                 ❌ Không tải được playlist IPTV.
@@ -1650,6 +1849,7 @@ async function loadPlaylist() {
                 Hãy kiểm tra kết nối mạng.
 
             </div>
+
         `;
     }
 }
@@ -1662,11 +1862,13 @@ async function loadPlaylist() {
 function setStatus(text) {
 
     statusText.innerHTML = `
+
         <span class="status-dot"></span>
 
         <span>
             ${escapeHtml(text)}
         </span>
+
     `;
 }
 
@@ -1683,6 +1885,7 @@ function parseM3U(text) {
     const result = [];
 
     let info = null;
+
 
     for (
         let i = 0;
@@ -1701,15 +1904,18 @@ function parseM3U(text) {
             const nameMatch =
                 line.match(/,(.*)$/);
 
+
             const logoMatch =
                 line.match(
                     /tvg-logo="([^"]*)"/
                 );
 
+
             const groupMatch =
                 line.match(
                     /group-title="([^"]*)"/
                 );
+
 
             const idMatch =
                 line.match(
@@ -1743,6 +1949,7 @@ function parseM3U(text) {
 
         }
 
+
         else if (
             info &&
             line &&
@@ -1751,21 +1958,28 @@ function parseM3U(text) {
 
             result.push({
 
-                name: info.name,
+                name:
+                    info.name,
 
-                logo: info.logo,
+                logo:
+                    info.logo,
 
-                group: info.group,
+                group:
+                    info.group,
 
-                id: info.id,
+                id:
+                    info.id,
 
-                url: line
+                url:
+                    line
 
             });
+
 
             info = null;
         }
     }
+
 
     return result;
 }
@@ -1783,9 +1997,13 @@ function renderChannels(list) {
     if (!list.length) {
 
         channelsBox.innerHTML = `
+
             <div class="empty">
+
                 Không tìm thấy kênh.
+
             </div>
+
         `;
 
         return;
@@ -1796,6 +2014,7 @@ function renderChannels(list) {
 
         const item =
             document.createElement("div");
+
 
         item.className =
             "channel";
@@ -1809,7 +2028,6 @@ function renderChannels(list) {
             item.classList.add(
                 "active"
             );
-
         }
 
 
@@ -1819,6 +2037,7 @@ function renderChannels(list) {
             ?
 
             `
+
             <img
                 class="channel-logo"
                 src="${escapeAttribute(channel.logo)}"
@@ -1827,14 +2046,17 @@ function renderChannels(list) {
                     this.style.display='none'
                 "
             >
+
             `
 
             :
 
             `
+
             <div
                 class="channel-logo"
             ></div>
+
             `;
 
 
@@ -1850,7 +2072,9 @@ function renderChannels(list) {
 
             <div class="channel-quality">
 
-                ${channel.group || "IPTV"}
+                ${escapeHtml(
+                    channel.group || "IPTV"
+                )}
 
             </div>
 
@@ -1863,7 +2087,9 @@ function renderChannels(list) {
         );
 
 
-        channelsBox.appendChild(item);
+        channelsBox.appendChild(
+            item
+        );
 
     });
 }
@@ -1896,7 +2122,9 @@ function playChannel(channel) {
 
     video.pause();
 
-    video.removeAttribute("src");
+    video.removeAttribute(
+        "src"
+    );
 
     video.load();
 
@@ -1913,28 +2141,40 @@ function playChannel(channel) {
         hls =
             new Hls({
 
-                enableWorker: true,
+                enableWorker:
+                    true,
 
-                lowLatencyMode: false,
+                lowLatencyMode:
+                    false,
 
-                backBufferLength: 30,
+                backBufferLength:
+                    30,
 
-                maxBufferLength: 20
+                maxBufferLength:
+                    20
 
             });
 
 
-        hls.loadSource(url);
+        hls.loadSource(
+            url
+        );
 
-        hls.attachMedia(video);
+
+        hls.attachMedia(
+            video
+        );
 
 
         hls.on(
             Hls.Events.MANIFEST_PARSED,
             () => {
 
-                video.play()
-                    .catch(() => {});
+                video
+                    .play()
+                    .catch(
+                        () => {}
+                    );
 
             }
         );
@@ -1954,6 +2194,7 @@ function playChannel(channel) {
 
     }
 
+
     else if (
         video.canPlayType(
             "application/vnd.apple.mpegurl"
@@ -1963,18 +2204,25 @@ function playChannel(channel) {
         video.src =
             url;
 
-        video.play()
-            .catch(() => {});
+        video
+            .play()
+            .catch(
+                () => {}
+            );
 
     }
+
 
     else {
 
         video.src =
             url;
 
-        video.play()
-            .catch(() => {});
+        video
+            .play()
+            .catch(
+                () => {}
+            );
 
     }
 
@@ -1992,8 +2240,11 @@ function playChannel(channel) {
 function isHLS(url) {
 
     return (
+
         url.includes(".m3u8") ||
+
         url.includes("m3u8?")
+
     );
 }
 
@@ -2007,7 +2258,9 @@ function destroyNormalHls() {
     if (hls) {
 
         try {
+
             hls.destroy();
+
         }
         catch(e) {}
 
@@ -2017,7 +2270,7 @@ function destroyNormalHls() {
 
 
 /* =========================================================
-   FULLSCREEN
+   FULLSCREEN BUTTON
 ========================================================= */
 
 fullscreenBtn.addEventListener(
@@ -2028,9 +2281,12 @@ fullscreenBtn.addEventListener(
 
         e.stopPropagation();
 
+
         if (!currentChannel) {
+
             return;
         }
+
 
         await openFullscreen();
 
@@ -2045,13 +2301,10 @@ fullscreenBtn.addEventListener(
 async function openFullscreen() {
 
     if (!currentChannel) {
+
         return;
     }
 
-
-    /*
-     * Dừng video chính.
-     */
 
     video.pause();
 
@@ -2066,7 +2319,9 @@ async function openFullscreen() {
 
     fullscreenViewer
         .classList
-        .remove("controls-hidden");
+        .remove(
+            "controls-hidden"
+        );
 
 
     fullscreenTitle.innerText =
@@ -2077,10 +2332,6 @@ async function openFullscreen() {
         currentChannel.url;
 
 
-    /*
-     * PLAY STREAM TRÊN VIEWER
-     */
-
     if (
         isHLS(url) &&
         Hls.isSupported()
@@ -2089,13 +2340,17 @@ async function openFullscreen() {
         fullscreenHls =
             new Hls({
 
-                enableWorker: true,
+                enableWorker:
+                    true,
 
-                lowLatencyMode: false,
+                lowLatencyMode:
+                    false,
 
-                backBufferLength: 30,
+                backBufferLength:
+                    30,
 
-                maxBufferLength: 20
+                maxBufferLength:
+                    20
 
             });
 
@@ -2103,6 +2358,7 @@ async function openFullscreen() {
         fullscreenHls.loadSource(
             url
         );
+
 
         fullscreenHls.attachMedia(
             fullscreenVideo
@@ -2115,12 +2371,15 @@ async function openFullscreen() {
 
                 fullscreenVideo
                     .play()
-                    .catch(() => {});
+                    .catch(
+                        () => {}
+                    );
 
             }
         );
 
     }
+
 
     else {
 
@@ -2131,21 +2390,14 @@ async function openFullscreen() {
 
         fullscreenVideo
             .play()
-            .catch(() => {});
-
+            .catch(
+                () => {}
+            );
     }
 
 
-    /*
-     * GIỮ MÀN HÌNH SÁNG
-     */
-
     await requestWakeLock();
 
-
-    /*
-     * CỐ XOAY NGANG
-     */
 
     try {
 
@@ -2157,7 +2409,6 @@ async function openFullscreen() {
             await screen.orientation.lock(
                 "landscape"
             );
-
         }
 
     }
@@ -2171,7 +2422,6 @@ async function openFullscreen() {
 
 
     showFullscreenControls();
-
 }
 
 
@@ -2206,7 +2456,9 @@ async function closeFullscreenViewer() {
 
     fullscreenViewer
         .classList
-        .remove("controls-hidden");
+        .remove(
+            "controls-hidden"
+        );
 
 
     fullscreenVideo.pause();
@@ -2215,9 +2467,11 @@ async function closeFullscreenViewer() {
     destroyFullscreenHls();
 
 
-    fullscreenVideo.removeAttribute(
-        "src"
-    );
+    fullscreenVideo
+        .removeAttribute(
+            "src"
+        );
+
 
     fullscreenVideo.load();
 
@@ -2240,15 +2494,13 @@ async function closeFullscreenViewer() {
     catch(e) {}
 
 
-    /*
-     * Chạy lại video chính.
-     */
-
     if (currentChannel) {
 
-        video.play()
-            .catch(() => {});
-
+        video
+            .play()
+            .catch(
+                () => {}
+            );
     }
 }
 
@@ -2262,7 +2514,9 @@ function destroyFullscreenHls() {
     if (fullscreenHls) {
 
         try {
+
             fullscreenHls.destroy();
+
         }
         catch(e) {}
 
@@ -2299,7 +2553,6 @@ async function requestWakeLock() {
 
                 }
             );
-
         }
 
     }
@@ -2315,7 +2568,7 @@ async function requestWakeLock() {
 
 
 /* =========================================================
-   RE-REQUEST WAKE LOCK
+   VISIBILITY CHANGE
 ========================================================= */
 
 document.addEventListener(
@@ -2323,12 +2576,16 @@ document.addEventListener(
     async () => {
 
         if (
+
             document.visibilityState ===
-            "visible" &&
+            "visible"
+
+            &&
 
             fullscreenViewer
                 .classList
                 .contains("active")
+
         ) {
 
             await requestWakeLock();
@@ -2348,7 +2605,9 @@ function releaseWakeLock() {
     if (wakeLock) {
 
         try {
+
             wakeLock.release();
+
         }
         catch(e) {}
 
@@ -2375,7 +2634,9 @@ function showFullscreenControls() {
 
     fullscreenViewer
         .classList
-        .remove("controls-hidden");
+        .remove(
+            "controls-hidden"
+        );
 
 
     clearTimeout(
@@ -2400,7 +2661,7 @@ function showFullscreenControls() {
 
 
 /* =========================================================
-   VIDEO AREA CONTROLS
+   VIDEO CONTROLS
 ========================================================= */
 
 videoArea.addEventListener(
@@ -2409,7 +2670,9 @@ videoArea.addEventListener(
 
         videoArea
             .classList
-            .add("controls-visible");
+            .add(
+                "controls-visible"
+            );
 
 
         clearTimeout(
@@ -2462,7 +2725,6 @@ function filterChannels() {
     if (!keyword) {
 
         return channels;
-
     }
 
 
@@ -2473,19 +2735,25 @@ function filterChannels() {
 
                 channel.name
                     .toLowerCase()
-                    .includes(keyword)
+                    .includes(
+                        keyword
+                    )
 
                 ||
 
                 channel.group
                     .toLowerCase()
-                    .includes(keyword)
+                    .includes(
+                        keyword
+                    )
 
                 ||
 
                 channel.id
                     .toLowerCase()
-                    .includes(keyword)
+                    .includes(
+                        keyword
+                    )
 
             );
 
@@ -2495,7 +2763,7 @@ function filterChannels() {
 
 
 /* =========================================================
-   ESCAPE
+   ESCAPE HTML
 ========================================================= */
 
 function escapeHtml(value) {
@@ -2537,7 +2805,7 @@ function escapeAttribute(value) {
 
 
 /* =========================================================
-   BACK BUTTON AND ESC KEY
+   ESC KEY
 ========================================================= */
 
 document.addEventListener(
@@ -2545,11 +2813,15 @@ document.addEventListener(
     function(e) {
 
         if (
-            e.key === "Escape" &&
+
+            e.key === "Escape"
+
+            &&
 
             fullscreenViewer
                 .classList
                 .contains("active")
+
         ) {
 
             closeFullscreenViewer();
@@ -2569,9 +2841,11 @@ window.addEventListener(
     function() {
 
         if (
+
             fullscreenViewer
                 .classList
                 .contains("active")
+
         ) {
 
             fullscreenViewer.style.width =
