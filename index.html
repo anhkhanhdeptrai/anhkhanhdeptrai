@@ -582,7 +582,7 @@ video{
 }
 
 /* =========================================================
-   FULLSCREEN VIEWER - NÂNG CẤP
+   FULLSCREEN VIEWER
 ========================================================= */
 
 .fullscreen-viewer{
@@ -612,7 +612,6 @@ video{
     background:#000;
 }
 
-/* Lớp gradient cực nhẹ, không che hình */
 .fullscreen-viewer:after{
     content:"";
     position:absolute;
@@ -658,7 +657,6 @@ video{
     pointer-events:none;
 }
 
-/* Khi ẩn: chữ + X biến mất hoàn toàn */
 .fullscreen-viewer.controls-hidden .fullscreen-top{
     opacity:0;
     transform:translateY(-18px);
@@ -706,7 +704,6 @@ video{
     transform:scale(.9);
 }
 
-/* Khi controls ẩn thì X cũng KHÔNG thể bấm */
 .fullscreen-viewer.controls-hidden .close-fullscreen{
     pointer-events:none;
 }
@@ -880,6 +877,7 @@ video{
 
 <header>
     <div class="header">
+
         <div class="brand">
             <div class="logo"></div>
             <div class="brand-text">KHANH TV</div>
@@ -887,6 +885,7 @@ video{
 
         <div class="search-wrap">
             <span class="search-icon">⌕</span>
+
             <input
                 id="search"
                 class="search"
@@ -895,6 +894,7 @@ video{
                 placeholder="Tìm kiếm kênh..."
             >
         </div>
+
     </div>
 </header>
 
@@ -914,7 +914,11 @@ video{
                 ></video>
 
                 <div class="player-info-overlay">
-                    <div id="playerTitle" class="live-title">
+
+                    <div
+                        id="playerTitle"
+                        class="live-title"
+                    >
                         KHANH TV
                     </div>
 
@@ -922,9 +926,13 @@ video{
                         <span class="live-dot"></span>
                         LIVE
                     </div>
+
                 </div>
 
-                <div id="loadingPlayer" class="loading-player hidden">
+                <div
+                    id="loadingPlayer"
+                    class="loading-player hidden"
+                >
                     <div class="loader"></div>
                     <span>Đang kết nối nguồn...</span>
                 </div>
@@ -939,18 +947,26 @@ video{
             </div>
 
             <div class="now-playing">
+
                 <span class="now-dot"></span>
 
-                <span id="nowPlaying" class="now-text">
+                <span
+                    id="nowPlaying"
+                    class="now-text"
+                >
                     Chưa chọn kênh
                 </span>
+
             </div>
 
         </div>
 
         <div class="info-box">
 
-            <div id="status" class="status">
+            <div
+                id="status"
+                class="status"
+            >
                 <span class="status-dot"></span>
                 <span>Sẵn sàng</span>
             </div>
@@ -975,7 +991,10 @@ video{
 
             </div>
 
-            <div id="sourceBox" class="source-box">
+            <div
+                id="sourceBox"
+                class="source-box"
+            >
                 <select id="sourceSelect"></select>
             </div>
 
@@ -983,11 +1002,17 @@ video{
 
     </div>
 
-    <div id="count" class="channel-count">
+    <div
+        id="count"
+        class="channel-count"
+    >
         Đang tải danh sách...
     </div>
 
-    <div id="channels" class="channels">
+    <div
+        id="channels"
+        class="channels"
+    >
         <div class="loading">
             📡 Đang tải danh sách kênh...
         </div>
@@ -999,7 +1024,10 @@ video{
      FULLSCREEN
 ======================================================= -->
 
-<div id="fullscreenViewer" class="fullscreen-viewer">
+<div
+    id="fullscreenViewer"
+    class="fullscreen-viewer"
+>
 
     <video
         id="fullscreenVideo"
@@ -1009,14 +1037,20 @@ video{
         preload="auto"
     ></video>
 
-    <div id="fullscreenLoading" class="fullscreen-loading">
+    <div
+        id="fullscreenLoading"
+        class="fullscreen-loading"
+    >
         <div class="loader"></div>
         <span>Đang mở kênh...</span>
     </div>
 
     <div class="fullscreen-top">
 
-        <div id="fullscreenTitle" class="fullscreen-title">
+        <div
+            id="fullscreenTitle"
+            class="fullscreen-title"
+        >
             KHANH TV
         </div>
 
@@ -1045,6 +1079,14 @@ const LOGO_BASE =
 
 const DEFAULT_LOGO =
 "https://dummyimage.com/300x150/111/fff&text=TV";
+
+/*
+ * Thời gian video được phép đứng trước khi đổi nguồn.
+ *
+ * 8000 = 8 giây
+ */
+const WATCHDOG_TIMEOUT = 8000;
+
 
 /* =========================================================
    ELEMENTS
@@ -1107,21 +1149,63 @@ document.getElementById("closeFullscreen");
 const nextSourceBtn =
 document.getElementById("nextSourceBtn");
 
+
 /* =========================================================
    VARIABLES
 ========================================================= */
 
 let channels = [];
+
 let currentChannel = null;
+
 let currentSourceIndex = 0;
+
 let hls = null;
+
 let fullscreenHls = null;
+
 let loadTimer = null;
+
 let errorCount = 0;
+
 let switching = false;
+
 let controlsTimer = null;
+
 let fullscreenTimer = null;
+
 let wakeLock = null;
+
+
+/* =========================================================
+   WATCHDOG VARIABLES
+========================================================= */
+
+/*
+ * Player thường
+ */
+let watchdogTimer = null;
+
+let lastVideoTime = 0;
+
+let lastProgressTime = 0;
+
+
+/*
+ * Chống nhiều lỗi gọi chuyển nguồn cùng lúc
+ */
+let sourceSwitchLock = false;
+
+
+/*
+ * Fullscreen
+ */
+let fullscreenWatchdogTimer = null;
+
+let lastFullscreenTime = 0;
+
+let lastFullscreenProgressTime = 0;
+
 
 /* =========================================================
    LOGO
@@ -1143,6 +1227,7 @@ function getLogo(tvgId){
         ".png";
 }
 
+
 /* =========================================================
    LOAD M3U
 ========================================================= */
@@ -1151,18 +1236,25 @@ async function loadM3U(){
 
     try{
 
-        setStatus("📡 Đang tải danh sách kênh...");
+        setStatus(
+            "📡 Đang tải danh sách kênh..."
+        );
 
         const response =
             await fetch(
-                M3U_URL + "?t=" + Date.now(),
+                M3U_URL +
+                "?t=" +
+                Date.now(),
                 {
                     cache:"no-store"
                 }
             );
 
         if(!response.ok)
-            throw new Error("HTTP " + response.status);
+            throw new Error(
+                "HTTP " +
+                response.status
+            );
 
         const text =
             await response.text();
@@ -1171,7 +1263,10 @@ async function loadM3U(){
             !text.includes("#EXTM3U") &&
             !text.includes("#EXTINF")
         ){
-            throw new Error("Dữ liệu M3U không hợp lệ");
+
+            throw new Error(
+                "Dữ liệu M3U không hợp lệ"
+            );
         }
 
         parseM3U(text);
@@ -1193,6 +1288,7 @@ async function loadM3U(){
     }
 }
 
+
 /* =========================================================
    PARSE M3U
 ========================================================= */
@@ -1200,22 +1296,34 @@ async function loadM3U(){
 function parseM3U(text){
 
     const lines =
-        text.replace(/\r/g,"").split("\n");
+        text
+        .replace(/\r/g,"")
+        .split("\n");
 
-    const map = new Map();
+    const map =
+        new Map();
 
     let info = null;
 
-    for(let i=0;i<lines.length;i++){
+    for(
+        let i = 0;
+        i < lines.length;
+        i++
+    ){
 
-        const line = lines[i].trim();
+        const line =
+            lines[i].trim();
 
         if(!line)
             continue;
 
-        if(line.startsWith("#EXTINF:")){
+        if(
+            line.startsWith("#EXTINF:")
+        ){
 
-            info = parseExtinf(line);
+            info =
+                parseExtinf(line);
+
             continue;
         }
 
@@ -1233,28 +1341,37 @@ function parseM3U(text){
 
             if(!map.has(id)){
 
-                map.set(id,{
-                    id:id,
-                    tvgId:info.tvgId,
-                    name:cleanName(info.name),
-                    logo:getLogo(info.tvgId),
-                    sources:[]
-                });
+                map.set(
+                    id,
+                    {
+                        id:id,
+                        tvgId:info.tvgId,
+                        name:cleanName(info.name),
+                        logo:getLogo(info.tvgId),
+                        sources:[]
+                    }
+                );
             }
 
-            const channel = map.get(id);
+            const channel =
+                map.get(id);
 
             if(
                 !channel.sources.some(
-                    source => source.url === line
+                    source =>
+                        source.url === line
                 )
             ){
 
-                channel.sources.push({
-                    url:line,
-                    name:info.name,
-                    quality:getQuality(info.name)
-                });
+                channel.sources.push(
+                    {
+                        url:line,
+                        name:info.name,
+                        quality:getQuality(
+                            info.name
+                        )
+                    }
+                );
             }
 
             info = null;
@@ -1262,14 +1379,21 @@ function parseM3U(text){
     }
 
     channels =
-        Array.from(map.values());
+        Array.from(
+            map.values()
+        );
 
-    channels.sort(compareChannels);
+    channels.sort(
+        compareChannels
+    );
 
     countEl.textContent =
-        channels.length + " kênh";
+        channels.length +
+        " kênh";
 
-    renderChannels(channels);
+    renderChannels(
+        channels
+    );
 
     setStatus(
         "🟢 Đã tải " +
@@ -1278,6 +1402,7 @@ function parseM3U(text){
     );
 }
 
+
 /* =========================================================
    SORT
 ========================================================= */
@@ -1285,20 +1410,30 @@ function parseM3U(text){
 function getVTVNumber(name){
 
     const match =
-        cleanName(name).match(/^VTV\s*(\d+)/i);
+        cleanName(name)
+        .match(/^VTV\s*(\d+)/i);
 
     if(!match)
         return null;
 
-    return Number(match[1]);
+    return Number(
+        match[1]
+    );
 }
+
 
 function compareChannels(a,b){
 
-    const av = getVTVNumber(a.name);
-    const bv = getVTVNumber(b.name);
+    const av =
+        getVTVNumber(a.name);
 
-    if(av !== null && bv !== null)
+    const bv =
+        getVTVNumber(b.name);
+
+    if(
+        av !== null &&
+        bv !== null
+    )
         return av - bv;
 
     if(av !== null)
@@ -1317,6 +1452,7 @@ function compareChannels(a,b){
     );
 }
 
+
 /* =========================================================
    EXTINF
 ========================================================= */
@@ -1324,17 +1460,25 @@ function compareChannels(a,b){
 function parseExtinf(line){
 
     const tvgMatch =
-        line.match(/tvg-id="([^"]*)"/i);
+        line.match(
+            /tvg-id="([^"]*)"/i
+        );
 
     const tvgId =
-        tvgMatch ? tvgMatch[1] : "";
+        tvgMatch
+        ? tvgMatch[1]
+        : "";
 
     const comma =
         line.indexOf(",");
 
     const name =
         comma >= 0
-        ? line.substring(comma + 1).trim()
+        ? line
+            .substring(
+                comma + 1
+            )
+            .trim()
         : line;
 
     return {
@@ -1343,6 +1487,7 @@ function parseExtinf(line){
     };
 }
 
+
 /* =========================================================
    CLEAN
 ========================================================= */
@@ -1350,26 +1495,43 @@ function parseExtinf(line){
 function cleanName(name){
 
     return String(name)
-        .replace(/\s*\[Geo-blocked\]/gi,"")
-        .replace(/\s*\[Not 24\/7\]/gi,"")
+        .replace(
+            /\s*\[Geo-blocked\]/gi,
+            ""
+        )
+        .replace(
+            /\s*\[Not 24\/7\]/gi,
+            ""
+        )
         .trim();
 }
+
 
 function normalizeName(name){
 
     return cleanName(name)
         .toLowerCase()
-        .replace(/\([^)]*\)/g,"")
+        .replace(
+            /\([^)]*\)/g,
+            ""
+        )
         .trim();
 }
+
 
 function getQuality(name){
 
     const m =
-        String(name).match(/\((\d+p)\)/i);
+        String(name)
+        .match(
+            /\((\d+p)\)/i
+        );
 
-    return m ? m[1] : "";
+    return m
+        ? m[1]
+        : "";
 }
+
 
 /* =========================================================
    RENDER
@@ -1390,50 +1552,64 @@ function renderChannels(list){
         return;
     }
 
-    list.forEach(channel => {
+    list.forEach(
+        channel => {
 
-        const item =
-            document.createElement("div");
+            const item =
+                document.createElement(
+                    "div"
+                );
 
-        item.className = "channel";
+            item.className =
+                "channel";
 
-        item.dataset.id = channel.id;
+            item.dataset.id =
+                channel.id;
 
-        if(
-            currentChannel &&
-            currentChannel.id === channel.id
-        ){
-            item.classList.add("active");
+            if(
+                currentChannel &&
+                currentChannel.id ===
+                channel.id
+            ){
+
+                item.classList.add(
+                    "active"
+                );
+            }
+
+            item.innerHTML = `
+                <img
+                    class="channel-logo"
+                    src="${escapeAttr(channel.logo)}"
+                    loading="lazy"
+                    onerror="
+                        this.onerror=null;
+                        this.src='${DEFAULT_LOGO}';
+                    "
+                >
+
+                <div class="channel-name">
+                    ${escapeHtml(channel.name)}
+                </div>
+
+                <div class="channel-quality">
+                    ${channel.sources.length} nguồn
+                </div>
+            `;
+
+            item.addEventListener(
+                "click",
+                () =>
+                    playChannel(channel)
+            );
+
+            channelsEl.appendChild(
+                item
+            );
         }
-
-        item.innerHTML = `
-            <img
-                class="channel-logo"
-                src="${escapeAttr(channel.logo)}"
-                loading="lazy"
-                onerror="
-                    this.onerror=null;
-                    this.src='${DEFAULT_LOGO}';
-                "
-            >
-
-            <div class="channel-name">
-                ${escapeHtml(channel.name)}
-            </div>
-
-            <div class="channel-quality">
-                ${channel.sources.length} nguồn
-            </div>
-        `;
-
-        item.addEventListener(
-            "click",
-            () => playChannel(channel)
-        );
-
-        channelsEl.appendChild(item);
-    });
+    );
 }
+
 
 /* =========================================================
    PLAY CHANNEL
@@ -1441,28 +1617,52 @@ function renderChannels(list){
 
 function playChannel(channel){
 
-    currentChannel = channel;
-    currentSourceIndex = 0;
-    errorCount = 0;
-    switching = false;
+    currentChannel =
+        channel;
+
+    currentSourceIndex =
+        0;
+
+    errorCount =
+        0;
+
+    switching =
+        false;
+
+    sourceSwitchLock =
+        false;
+
+    stopWatchdog();
+
+    stopFullscreenWatchdog();
 
     document
         .querySelectorAll(".channel")
-        .forEach(el => {
+        .forEach(
+            el => {
 
-            el.classList.toggle(
-                "active",
-                el.dataset.id === channel.id
-            );
-        });
+                el.classList.toggle(
+                    "active",
+                    el.dataset.id ===
+                    channel.id
+                );
+            }
+        );
 
-    nowPlaying.textContent = channel.name;
-    playerTitle.textContent = channel.name;
-    fullscreenTitle.textContent = channel.name;
+    nowPlaying.textContent =
+        channel.name;
+
+    playerTitle.textContent =
+        channel.name;
+
+    fullscreenTitle.textContent =
+        channel.name;
 
     updateSourceSelect();
+
     playCurrentSource();
 }
+
 
 /* =========================================================
    PLAY CURRENT SOURCE
@@ -1473,13 +1673,22 @@ function playCurrentSource(){
     if(!currentChannel)
         return;
 
+    stopWatchdog();
+
+    sourceSwitchLock =
+        false;
+
     if(
         currentSourceIndex >=
         currentChannel.sources.length
     ){
 
-        currentSourceIndex = 0;
-        switching = false;
+        currentSourceIndex =
+            0;
+
+        switching =
+            false;
+
         hideLoading();
 
         setStatus(
@@ -1490,10 +1699,15 @@ function playCurrentSource(){
     }
 
     const source =
-        currentChannel.sources[currentSourceIndex];
+        currentChannel.sources[
+            currentSourceIndex
+        ];
 
-    switching = true;
-    errorCount = 0;
+    switching =
+        true;
+
+    errorCount =
+        0;
 
     showLoading();
 
@@ -1506,11 +1720,22 @@ function playCurrentSource(){
 
     destroyHls();
 
-    clearTimeout(loadTimer);
+    clearTimeout(
+        loadTimer
+    );
 
     video.pause();
-    video.removeAttribute("src");
+
+    video.removeAttribute(
+        "src"
+    );
+
     video.load();
+
+
+    /* =====================================================
+       NATIVE HLS
+    ===================================================== */
 
     if(
         video.canPlayType(
@@ -1518,51 +1743,102 @@ function playCurrentSource(){
         )
     ){
 
-        video.src = source.url;
+        video.src =
+            source.url;
 
-        video.onloadedmetadata = function(){
+        video.onloadedmetadata =
+            function(){
 
-            if(!currentChannel)
-                return;
+                if(!currentChannel)
+                    return;
 
-            switching = false;
+                switching =
+                    false;
 
-            clearTimeout(loadTimer);
-            hideLoading();
+                clearTimeout(
+                    loadTimer
+                );
 
-            setStatus(
-                "🟢 Đang phát nguồn " +
-                (currentSourceIndex + 1) +
-                "/" +
-                currentChannel.sources.length
-            );
+                hideLoading();
 
-            video.play().catch(error => {
-                console.warn("Autoplay:",error);
-            });
-        };
+                setStatus(
+                    "🟢 Đang phát nguồn " +
+                    (currentSourceIndex + 1) +
+                    "/" +
+                    currentChannel.sources.length
+                );
 
-        video.onerror = function(){
+                video.play()
+                    .then(
+                        function(){
 
-            if(switching)
-                switchToNextSource();
-        };
+                            startWatchdog();
+
+                        }
+                    )
+                    .catch(
+                        error => {
+
+                            console.warn(
+                                "Autoplay:",
+                                error
+                            );
+
+                            /*
+                             * Nếu không autoplay
+                             * được thì vẫn theo dõi
+                             * khi video bắt đầu chạy.
+                             */
+                        }
+                    );
+            };
+
+
+        video.onerror =
+            function(){
+
+                if(
+                    switching
+                ){
+
+                    switchToNextSource(
+                        "Video không phát được"
+                    );
+                }
+            };
+
 
         loadTimer =
-            setTimeout(function(){
+            setTimeout(
+                function(){
 
-                if(switching)
-                    switchToNextSource();
+                    if(
+                        switching
+                    ){
 
-            },10000);
+                        switchToNextSource(
+                            "Nguồn không phản hồi"
+                        );
+                    }
+
+                },
+                10000
+            );
 
         return;
     }
 
+
+    /* =====================================================
+       HLS.JS
+    ===================================================== */
+
     if(!Hls.isSupported()){
 
         hideLoading();
-        switching = false;
+
+        switching =
+            false;
 
         setStatus(
             "❌ Trình duyệt không hỗ trợ HLS"
@@ -1571,20 +1847,38 @@ function playCurrentSource(){
         return;
     }
 
-    hls = new Hls({
-        enableWorker:true,
-        lowLatencyMode:false,
-        backBufferLength:30,
-        maxBufferLength:20,
-        maxMaxBufferLength:30,
-        manifestLoadingMaxRetry:1,
-        levelLoadingMaxRetry:1,
-        fragLoadingMaxRetry:1,
-        startLevel:-1
-    });
 
-    hls.loadSource(source.url);
-    hls.attachMedia(video);
+    hls =
+        new Hls({
+
+            enableWorker:true,
+
+            lowLatencyMode:false,
+
+            backBufferLength:30,
+
+            maxBufferLength:20,
+
+            maxMaxBufferLength:30,
+
+            manifestLoadingMaxRetry:1,
+
+            levelLoadingMaxRetry:1,
+
+            fragLoadingMaxRetry:1,
+
+            startLevel:-1
+        });
+
+
+    hls.loadSource(
+        source.url
+    );
+
+    hls.attachMedia(
+        video
+    );
+
 
     hls.on(
         Hls.Events.MANIFEST_PARSED,
@@ -1593,9 +1887,13 @@ function playCurrentSource(){
             if(!hls)
                 return;
 
-            switching = false;
+            switching =
+                false;
 
-            clearTimeout(loadTimer);
+            clearTimeout(
+                loadTimer
+            );
+
             hideLoading();
 
             setStatus(
@@ -1605,23 +1903,55 @@ function playCurrentSource(){
                 currentChannel.sources.length
             );
 
-            video.play().catch(error => {
-                console.warn("Play:",error);
-            });
+            video.play()
+                .then(
+                    function(){
+
+                        startWatchdog();
+
+                    }
+                )
+                .catch(
+                    error => {
+
+                        console.warn(
+                            "Play:",
+                            error
+                        );
+                    }
+                );
         }
     );
+
 
     hls.on(
         Hls.Events.ERROR,
         function(event,data){
 
-            console.warn("HLS:",data);
+            console.warn(
+                "HLS:",
+                data
+            );
 
+
+            /*
+             * Lỗi nghiêm trọng
+             */
             if(data.fatal){
-                switchToNextSource();
+
+                stopWatchdog();
+
+                switchToNextSource(
+                    "HLS báo lỗi nghiêm trọng"
+                );
+
                 return;
             }
 
+
+            /*
+             * Lỗi mạng
+             */
             if(
                 data.type ===
                 Hls.ErrorTypes.NETWORK_ERROR
@@ -1629,10 +1959,26 @@ function playCurrentSource(){
 
                 errorCount++;
 
-                if(errorCount >= 2)
-                    switchToNextSource();
+                /*
+                 * Cho HLS thử khôi phục
+                 * trước.
+                 */
+                if(
+                    errorCount >= 3
+                ){
+
+                    stopWatchdog();
+
+                    switchToNextSource(
+                        "Lỗi mạng"
+                    );
+                }
             }
 
+
+            /*
+             * Lỗi media
+             */
             if(
                 data.type ===
                 Hls.ErrorTypes.MEDIA_ERROR
@@ -1640,70 +1986,246 @@ function playCurrentSource(){
 
                 errorCount++;
 
-                if(errorCount >= 2)
-                    switchToNextSource();
+                if(
+                    errorCount >= 3
+                ){
+
+                    stopWatchdog();
+
+                    switchToNextSource(
+                        "Lỗi media"
+                    );
+                }
             }
         }
     );
 
-    video.onerror = function(){
 
-        if(switching)
-            switchToNextSource();
-    };
+    video.onerror =
+        function(){
+
+            if(
+                switching
+            ){
+
+                switchToNextSource(
+                    "Video không phát được"
+                );
+            }
+        };
+
 
     loadTimer =
-        setTimeout(function(){
+        setTimeout(
+            function(){
 
-            if(switching)
-                switchToNextSource();
+                if(
+                    switching
+                ){
 
-        },12000);
+                    switchToNextSource(
+                        "Nguồn không phản hồi"
+                    );
+                }
+
+            },
+            12000
+        );
 }
+
+
+/* =========================================================
+   VIDEO WATCHDOG
+   PHÁT HIỆN VIDEO BỊ ĐỨNG
+========================================================= */
+
+function startWatchdog(){
+
+    stopWatchdog();
+
+    lastVideoTime =
+        video.currentTime || 0;
+
+    lastProgressTime =
+        Date.now();
+
+
+    watchdogTimer =
+        setInterval(
+            function(){
+
+                if(!currentChannel)
+                    return;
+
+                if(switching)
+                    return;
+
+                /*
+                 * Video đang pause do người dùng
+                 */
+                if(video.paused)
+                    return;
+
+                const currentTime =
+                    video.currentTime || 0;
+
+
+                /*
+                 * Video vẫn đang tiến
+                 */
+                if(
+                    currentTime !==
+                    lastVideoTime
+                ){
+
+                    lastVideoTime =
+                        currentTime;
+
+                    lastProgressTime =
+                        Date.now();
+
+                    return;
+                }
+
+
+                /*
+                 * currentTime không tăng
+                 */
+                const stoppedFor =
+                    Date.now() -
+                    lastProgressTime;
+
+
+                /*
+                 * Đứng quá thời gian cho phép
+                 */
+                if(
+                    stoppedFor >=
+                    WATCHDOG_TIMEOUT
+                ){
+
+                    console.warn(
+                        "WATCHDOG:",
+                        "Video bị đứng",
+                        stoppedFor
+                    );
+
+                    stopWatchdog();
+
+                    switchToNextSource(
+                        "Video bị đứng"
+                    );
+                }
+
+            },
+            2000
+        );
+}
+
+
+function stopWatchdog(){
+
+    if(watchdogTimer){
+
+        clearInterval(
+            watchdogTimer
+        );
+
+        watchdogTimer =
+            null;
+    }
+}
+
 
 /* =========================================================
    NEXT SOURCE
 ========================================================= */
 
-function switchToNextSource(){
+function switchToNextSource(
+    reason = "Nguồn phát lỗi"
+){
 
     if(!currentChannel)
         return;
 
-    if(!switching)
-        switching = true;
 
-    clearTimeout(loadTimer);
+    /*
+     * Chống nhiều event lỗi
+     * cùng chuyển nguồn
+     */
+    if(sourceSwitchLock)
+        return;
+
+
+    sourceSwitchLock =
+        true;
+
+    clearTimeout(
+        loadTimer
+    );
+
+    stopWatchdog();
+
+
+    console.warn(
+        "🔄 Tự động chuyển nguồn:",
+        reason
+    );
+
+
+    setStatus(
+        "⚠️ " +
+        reason +
+        " → đang chuyển nguồn..."
+    );
+
 
     currentSourceIndex++;
 
+
+    /*
+     * Còn nguồn khác
+     */
     if(
         currentSourceIndex <
         currentChannel.sources.length
     ){
 
-        setStatus(
-            "⚠️ Nguồn lỗi → chuyển sang nguồn " +
-            (currentSourceIndex + 1)
+        setTimeout(
+            function(){
+
+                sourceSwitchLock =
+                    false;
+
+                switching =
+                    false;
+
+                playCurrentSource();
+
+            },
+            500
         );
-
-        setTimeout(function(){
-
-            switching = false;
-            playCurrentSource();
-
-        },450);
 
         return;
     }
 
-    switching = false;
+
+    /*
+     * Hết nguồn
+     */
+    sourceSwitchLock =
+        false;
+
+    switching =
+        false;
+
     hideLoading();
 
     setStatus(
         "❌ Tất cả nguồn của kênh đều không phát được"
     );
 }
+
 
 /* =========================================================
    MANUAL SOURCE
@@ -1714,18 +2236,28 @@ function nextSource(){
     if(!currentChannel)
         return;
 
+    stopWatchdog();
+
     currentSourceIndex++;
 
     if(
         currentSourceIndex >=
         currentChannel.sources.length
     ){
-        currentSourceIndex = 0;
+
+        currentSourceIndex =
+            0;
     }
 
-    switching = false;
+    switching =
+        false;
+
+    sourceSwitchLock =
+        false;
+
     playCurrentSource();
 }
+
 
 /* =========================================================
    SOURCE SELECT
@@ -1738,46 +2270,67 @@ function updateSourceSelect(){
         currentChannel.sources.length <= 1
     ){
 
-        sourceBox.style.display = "none";
+        sourceBox.style.display =
+            "none";
+
         return;
     }
 
-    sourceBox.style.display = "block";
-    sourceSelect.innerHTML = "";
+    sourceBox.style.display =
+        "block";
+
+    sourceSelect.innerHTML =
+        "";
 
     currentChannel.sources.forEach(
         (source,index) => {
 
             const option =
-                document.createElement("option");
+                document.createElement(
+                    "option"
+                );
 
-            option.value = index;
+            option.value =
+                index;
 
             option.textContent =
                 "Nguồn " +
                 (index + 1) +
                 (
                     source.quality
-                    ? " • " + source.quality
+                    ? " • " +
+                      source.quality
                     : ""
                 );
 
-            sourceSelect.appendChild(option);
+            sourceSelect.appendChild(
+                option
+            );
         }
     );
 
     sourceSelect.value =
         currentSourceIndex;
 
-    sourceSelect.onchange = function(){
 
-        currentSourceIndex =
-            Number(this.value);
+    sourceSelect.onchange =
+        function(){
 
-        switching = false;
-        playCurrentSource();
-    };
+            currentSourceIndex =
+                Number(
+                    this.value
+                );
+
+            switching =
+                false;
+
+            sourceSwitchLock =
+                false;
+
+            playCurrentSource();
+        };
 }
+
 
 /* =========================================================
    DESTROY HLS
@@ -1791,9 +2344,11 @@ function destroyHls(){
             hls.destroy();
         }catch(e){}
 
-        hls = null;
+        hls =
+            null;
     }
 }
+
 
 /* =========================================================
    FULLSCREEN BUTTON
@@ -1810,22 +2365,26 @@ fullscreenBtn.addEventListener(
     }
 );
 
+
 fullscreenInfoBtn.addEventListener(
     "click",
     function(){
+
         openFullscreen();
     }
 );
 
+
 /* =========================================================
    FULLSCREEN CONTROLS
-   2 GIÂY → TỰ ẨN
 ========================================================= */
 
 function hideFullscreenControls(){
 
     if(
-        !fullscreenViewer.classList.contains("active")
+        !fullscreenViewer.classList.contains(
+            "active"
+        )
     )
         return;
 
@@ -1834,10 +2393,13 @@ function hideFullscreenControls(){
     );
 }
 
+
 function showFullscreenControls(){
 
     if(
-        !fullscreenViewer.classList.contains("active")
+        !fullscreenViewer.classList.contains(
+            "active"
+        )
     )
         return;
 
@@ -1845,7 +2407,9 @@ function showFullscreenControls(){
         "controls-hidden"
     );
 
-    clearTimeout(fullscreenTimer);
+    clearTimeout(
+        fullscreenTimer
+    );
 
     fullscreenTimer =
         setTimeout(
@@ -1854,9 +2418,12 @@ function showFullscreenControls(){
         );
 }
 
+
 function resetFullscreenControls(){
 
-    clearTimeout(fullscreenTimer);
+    clearTimeout(
+        fullscreenTimer
+    );
 
     fullscreenViewer.classList.remove(
         "controls-hidden"
@@ -1868,6 +2435,359 @@ function resetFullscreenControls(){
             2000
         );
 }
+
+
+/* =========================================================
+   FULLSCREEN WATCHDOG
+========================================================= */
+
+function startFullscreenWatchdog(){
+
+    stopFullscreenWatchdog();
+
+    lastFullscreenTime =
+        fullscreenVideo.currentTime || 0;
+
+    lastFullscreenProgressTime =
+        Date.now();
+
+
+    fullscreenWatchdogTimer =
+        setInterval(
+            function(){
+
+                if(
+                    !fullscreenViewer.classList.contains(
+                        "active"
+                    )
+                ){
+
+                    stopFullscreenWatchdog();
+
+                    return;
+                }
+
+
+                if(
+                    fullscreenVideo.paused
+                )
+                    return;
+
+
+                const currentTime =
+                    fullscreenVideo.currentTime || 0;
+
+
+                /*
+                 * Video đang tiến
+                 */
+                if(
+                    currentTime !==
+                    lastFullscreenTime
+                ){
+
+                    lastFullscreenTime =
+                        currentTime;
+
+                    lastFullscreenProgressTime =
+                        Date.now();
+
+                    return;
+                }
+
+
+                const stoppedFor =
+                    Date.now() -
+                    lastFullscreenProgressTime;
+
+
+                if(
+                    stoppedFor >=
+                    WATCHDOG_TIMEOUT
+                ){
+
+                    console.warn(
+                        "FULLSCREEN WATCHDOG:",
+                        "Video bị đứng"
+                    );
+
+                    stopFullscreenWatchdog();
+
+                    switchFullscreenSource();
+                }
+
+            },
+            2000
+        );
+}
+
+
+function stopFullscreenWatchdog(){
+
+    if(
+        fullscreenWatchdogTimer
+    ){
+
+        clearInterval(
+            fullscreenWatchdogTimer
+        );
+
+        fullscreenWatchdogTimer =
+            null;
+    }
+}
+
+
+/* =========================================================
+   FULLSCREEN SWITCH SOURCE
+========================================================= */
+
+function switchFullscreenSource(){
+
+    if(!currentChannel)
+        return;
+
+
+    /*
+     * Sang nguồn kế tiếp
+     */
+    currentSourceIndex++;
+
+
+    /*
+     * Hết nguồn
+     */
+    if(
+        currentSourceIndex >=
+        currentChannel.sources.length
+    ){
+
+        currentSourceIndex =
+            0;
+
+        fullscreenLoading.classList.remove(
+            "active"
+        );
+
+        setStatus(
+            "❌ Tất cả nguồn fullscreen đều lỗi"
+        );
+
+        return;
+    }
+
+
+    const source =
+        currentChannel.sources[
+            currentSourceIndex
+        ];
+
+
+    setStatus(
+        "⚠️ Fullscreen lỗi → chuyển nguồn " +
+        (
+            currentSourceIndex + 1
+        )
+    );
+
+
+    fullscreenLoading.classList.add(
+        "active"
+    );
+
+
+    destroyFullscreenHls();
+
+    fullscreenVideo.pause();
+
+    fullscreenVideo.removeAttribute(
+        "src"
+    );
+
+    fullscreenVideo.load();
+
+
+    /*
+     * Native HLS
+     */
+    if(
+        fullscreenVideo.canPlayType(
+            "application/vnd.apple.mpegurl"
+        )
+    ){
+
+        fullscreenVideo.src =
+            source.url;
+
+
+        fullscreenVideo.onloadedmetadata =
+            function(){
+
+                fullscreenLoading.classList.remove(
+                    "active"
+                );
+
+                fullscreenVideo.play()
+                    .then(
+                        function(){
+
+                            startFullscreenWatchdog();
+
+                        }
+                    )
+                    .catch(
+                        function(error){
+
+                            console.warn(
+                                "Fullscreen:",
+                                error
+                            );
+                        }
+                    );
+            };
+
+
+        fullscreenVideo.onerror =
+            function(){
+
+                switchFullscreenSource();
+
+            };
+
+
+        fullscreenVideo.load();
+
+        return;
+    }
+
+
+    /*
+     * HLS.js
+     */
+    if(Hls.isSupported()){
+
+        fullscreenHls =
+            new Hls({
+
+                enableWorker:true,
+
+                lowLatencyMode:false,
+
+                backBufferLength:30,
+
+                maxBufferLength:20,
+
+                maxMaxBufferLength:30,
+
+                manifestLoadingMaxRetry:1,
+
+                levelLoadingMaxRetry:1,
+
+                fragLoadingMaxRetry:1
+            });
+
+
+        fullscreenHls.attachMedia(
+            fullscreenVideo
+        );
+
+
+        fullscreenHls.loadSource(
+            source.url
+        );
+
+
+        fullscreenHls.on(
+            Hls.Events.MANIFEST_PARSED,
+            function(){
+
+                fullscreenLoading.classList.remove(
+                    "active"
+                );
+
+                fullscreenVideo.play()
+                    .then(
+                        function(){
+
+                            startFullscreenWatchdog();
+
+                        }
+                    )
+                    .catch(
+                        function(error){
+
+                            console.warn(
+                                "Fullscreen play:",
+                                error
+                            );
+                        }
+                    );
+            }
+        );
+
+
+        fullscreenHls.on(
+            Hls.Events.ERROR,
+            function(event,data){
+
+                console.warn(
+                    "Fullscreen HLS:",
+                    data
+                );
+
+                if(
+                    data.fatal
+                ){
+
+                    switchFullscreenSource();
+                }
+            }
+        );
+
+
+        return;
+    }
+
+
+    /*
+     * Fallback
+     */
+    fullscreenVideo.src =
+        source.url;
+
+
+    fullscreenVideo.onloadedmetadata =
+        function(){
+
+            fullscreenLoading.classList.remove(
+                "active"
+            );
+
+            fullscreenVideo.play()
+                .then(
+                    function(){
+
+                        startFullscreenWatchdog();
+
+                    }
+                )
+                .catch(
+                    function(){}
+                );
+        };
+
+
+    fullscreenVideo.onerror =
+        function(){
+
+            switchFullscreenSource();
+
+        };
+
+
+    fullscreenVideo.load();
+}
+
 
 /* =========================================================
    OPEN FULLSCREEN
@@ -1878,34 +2798,72 @@ async function openFullscreen(){
     if(!currentChannel)
         return;
 
+
+    /*
+     * Dừng player thường
+     */
     video.pause();
+
+    stopWatchdog();
 
     destroyHls();
 
-    clearTimeout(loadTimer);
+    clearTimeout(
+        loadTimer
+    );
 
-    fullscreenViewer.classList.add("active");
+
+    fullscreenViewer.classList.add(
+        "active"
+    );
 
     fullscreenViewer.classList.remove(
         "controls-hidden"
     );
 
+
     fullscreenTitle.textContent =
         currentChannel.name;
 
-    fullscreenLoading.classList.add("active");
+
+    fullscreenLoading.classList.add(
+        "active"
+    );
+
 
     const source =
-        currentChannel.sources[currentSourceIndex];
+        currentChannel.sources[
+            currentSourceIndex
+        ];
+
 
     if(!source){
 
-        fullscreenLoading.classList.remove("active");
+        fullscreenLoading.classList.remove(
+            "active"
+        );
+
         return;
     }
 
-    /* Bắt đầu bộ đếm 2 giây */
+
     resetFullscreenControls();
+
+
+    /*
+     * Hủy HLS fullscreen cũ
+     */
+    destroyFullscreenHls();
+
+
+    fullscreenVideo.pause();
+
+    fullscreenVideo.removeAttribute(
+        "src"
+    );
+
+    fullscreenVideo.load();
+
 
     /* =====================================================
        NATIVE HLS
@@ -1917,7 +2875,9 @@ async function openFullscreen(){
         )
     ){
 
-        fullscreenVideo.src = source.url;
+        fullscreenVideo.src =
+            source.url;
+
 
         fullscreenVideo.onloadedmetadata =
             function(){
@@ -1926,49 +2886,77 @@ async function openFullscreen(){
                     "active"
                 );
 
-                fullscreenVideo.play().catch(
-                    error => {
-                        console.warn(
-                            "Fullscreen play:",
-                            error
-                        );
-                    }
-                );
+
+                fullscreenVideo.play()
+                    .then(
+                        function(){
+
+                            startFullscreenWatchdog();
+
+                        }
+                    )
+                    .catch(
+                        function(error){
+
+                            console.warn(
+                                "Fullscreen play:",
+                                error
+                            );
+                        }
+                    );
             };
+
 
         fullscreenVideo.onerror =
             function(){
 
-                fullscreenLoading.classList.remove(
-                    "active"
-                );
+                switchFullscreenSource();
+
             };
+
 
         fullscreenVideo.load();
     }
+
 
     /* =====================================================
        HLS.JS
     ===================================================== */
 
-    else if(Hls.isSupported()){
+    else if(
+        Hls.isSupported()
+    ){
 
         fullscreenHls =
             new Hls({
+
                 enableWorker:true,
+
                 lowLatencyMode:false,
+
                 backBufferLength:30,
+
                 maxBufferLength:20,
-                maxMaxBufferLength:30
+
+                maxMaxBufferLength:30,
+
+                manifestLoadingMaxRetry:1,
+
+                levelLoadingMaxRetry:1,
+
+                fragLoadingMaxRetry:1
             });
+
 
         fullscreenHls.attachMedia(
             fullscreenVideo
         );
 
+
         fullscreenHls.loadSource(
             source.url
         );
+
 
         fullscreenHls.on(
             Hls.Events.MANIFEST_PARSED,
@@ -1978,16 +2966,27 @@ async function openFullscreen(){
                     "active"
                 );
 
-                fullscreenVideo.play().catch(
-                    error => {
-                        console.warn(
-                            "Fullscreen play:",
-                            error
-                        );
-                    }
-                );
+
+                fullscreenVideo.play()
+                    .then(
+                        function(){
+
+                            startFullscreenWatchdog();
+
+                        }
+                    )
+                    .catch(
+                        function(error){
+
+                            console.warn(
+                                "Fullscreen play:",
+                                error
+                            );
+                        }
+                    );
             }
         );
+
 
         fullscreenHls.on(
             Hls.Events.ERROR,
@@ -1998,33 +2997,54 @@ async function openFullscreen(){
                     data
                 );
 
-                if(data.fatal){
 
-                    fullscreenLoading.classList.remove(
-                        "active"
-                    );
+                if(
+                    data.fatal
+                ){
+
+                    switchFullscreenSource();
                 }
             }
         );
     }
 
+
+    /* =====================================================
+       FALLBACK
+    ===================================================== */
+
     else{
 
-        fullscreenVideo.src = source.url;
+        fullscreenVideo.src =
+            source.url;
+
         fullscreenVideo.load();
 
-        fullscreenVideo.play().catch(
-            error => {
-                console.warn(error);
-            }
-        );
+        fullscreenVideo.play()
+            .then(
+                function(){
+
+                    startFullscreenWatchdog();
+
+                }
+            )
+            .catch(
+                function(error){
+
+                    console.warn(
+                        error
+                    );
+                }
+            );
 
         fullscreenLoading.classList.remove(
             "active"
         );
     }
 
+
     await requestWakeLock();
+
 
     try{
 
@@ -2046,6 +3066,7 @@ async function openFullscreen(){
     }
 }
 
+
 /* =========================================================
    CLOSE FULLSCREEN
 ========================================================= */
@@ -2061,9 +3082,15 @@ closeFullscreen.addEventListener(
     }
 );
 
+
 async function closeFullscreenViewer(){
 
-    clearTimeout(fullscreenTimer);
+    clearTimeout(
+        fullscreenTimer
+    );
+
+    stopFullscreenWatchdog();
+
 
     fullscreenViewer.classList.remove(
         "controls-hidden"
@@ -2073,21 +3100,34 @@ async function closeFullscreenViewer(){
         "active"
     );
 
+
     fullscreenVideo.pause();
+
 
     destroyFullscreenHls();
 
-    fullscreenVideo.removeAttribute("src");
+
+    fullscreenVideo.removeAttribute(
+        "src"
+    );
+
     fullscreenVideo.load();
 
-    fullscreenVideo.onloadedmetadata = null;
-    fullscreenVideo.onerror = null;
+
+    fullscreenVideo.onloadedmetadata =
+        null;
+
+    fullscreenVideo.onerror =
+        null;
+
 
     fullscreenLoading.classList.remove(
         "active"
     );
 
+
     releaseWakeLock();
+
 
     try{
 
@@ -2095,18 +3135,28 @@ async function closeFullscreenViewer(){
             screen.orientation &&
             screen.orientation.unlock
         ){
+
             screen.orientation.unlock();
         }
 
     }catch(e){}
 
+
+    /*
+     * Quay lại player thường
+     */
     if(currentChannel){
 
-        switching = false;
+        switching =
+            false;
+
+        sourceSwitchLock =
+            false;
 
         playCurrentSource();
     }
 }
+
 
 /* =========================================================
    DESTROY FULLSCREEN HLS
@@ -2120,9 +3170,11 @@ function destroyFullscreenHls(){
             fullscreenHls.destroy();
         }catch(e){}
 
-        fullscreenHls = null;
+        fullscreenHls =
+            null;
     }
 }
+
 
 /* =========================================================
    WAKE LOCK
@@ -2132,16 +3184,22 @@ async function requestWakeLock(){
 
     try{
 
-        if("wakeLock" in navigator){
+        if(
+            "wakeLock" in navigator
+        ){
 
             if(wakeLock){
 
                 try{
+
                     await wakeLock.release();
+
                 }catch(e){}
 
-                wakeLock = null;
+                wakeLock =
+                    null;
             }
+
 
             wakeLock =
                 await navigator.wakeLock.request(
@@ -2158,6 +3216,7 @@ async function requestWakeLock(){
     }
 }
 
+
 /* =========================================================
    RELEASE WAKE LOCK
 ========================================================= */
@@ -2167,12 +3226,16 @@ function releaseWakeLock(){
     if(wakeLock){
 
         try{
+
             wakeLock.release();
+
         }catch(e){}
 
-        wakeLock = null;
+        wakeLock =
+            null;
     }
 }
+
 
 /* =========================================================
    VISIBILITY
@@ -2183,14 +3246,30 @@ document.addEventListener(
     async function(){
 
         if(
-            document.visibilityState === "visible" &&
-            fullscreenViewer.classList.contains("active")
+            document.visibilityState ===
+            "visible" &&
+            fullscreenViewer.classList.contains(
+                "active"
+            )
         ){
 
             await requestWakeLock();
+
+            /*
+             * Nếu quay lại fullscreen
+             * và video đang chạy thì khởi động
+             * lại watchdog.
+             */
+            if(
+                !fullscreenVideo.paused
+            ){
+
+                startFullscreenWatchdog();
+            }
         }
     }
 );
+
 
 /* =========================================================
    NORMAL PLAYER CONTROLS
@@ -2204,7 +3283,9 @@ videoArea.addEventListener(
             "controls-visible"
         );
 
-        clearTimeout(controlsTimer);
+        clearTimeout(
+            controlsTimer
+        );
 
         controlsTimer =
             setTimeout(
@@ -2220,6 +3301,7 @@ videoArea.addEventListener(
     }
 );
 
+
 /* =========================================================
    FULLSCREEN TAP
 ========================================================= */
@@ -2228,46 +3310,45 @@ fullscreenViewer.addEventListener(
     "click",
     function(e){
 
-        /*
-         * Nếu bấm đúng nút X thì không
-         * chạy show controls.
-         */
         if(
             e.target === closeFullscreen ||
-            closeFullscreen.contains(e.target)
+            closeFullscreen.contains(
+                e.target
+            )
         ){
+
             return;
         }
 
-        /*
-         * Chạm màn hình:
-         * hiện chữ + X
-         * rồi 2 giây sau tự ẩn.
-         */
+
         resetFullscreenControls();
     }
 );
 
-/*
- * Chạm vào video cũng reset timer.
- * Dùng pointerdown để phản hồi ngay cả
- * trên điện thoại.
- */
+
 fullscreenViewer.addEventListener(
     "pointerdown",
     function(e){
 
         if(
             e.target === closeFullscreen ||
-            closeFullscreen.contains(e.target)
+            closeFullscreen.contains(
+                e.target
+            )
         ){
+
             return;
         }
 
+
         resetFullscreenControls();
+
     },
-    {passive:true}
+    {
+        passive:true
+    }
 );
+
 
 /* =========================================================
    SEARCH
@@ -2282,15 +3363,20 @@ searchEl.addEventListener(
             .toLowerCase()
             .trim();
 
+
         if(!keyword){
 
             countEl.textContent =
-                channels.length + " kênh";
+                channels.length +
+                " kênh";
 
-            renderChannels(channels);
+            renderChannels(
+                channels
+            );
 
             return;
         }
+
 
         const filtered =
             channels.filter(
@@ -2307,12 +3393,18 @@ searchEl.addEventListener(
                     .includes(keyword)
             );
 
-        countEl.textContent =
-            filtered.length + " kênh";
 
-        renderChannels(filtered);
+        countEl.textContent =
+            filtered.length +
+            " kênh";
+
+
+        renderChannels(
+            filtered
+        );
     }
 );
+
 
 /* =========================================================
    STATUS
@@ -2322,9 +3414,12 @@ function setStatus(text){
 
     statusEl.innerHTML = `
         <span class="status-dot"></span>
-        <span>${escapeHtml(text)}</span>
+        <span>
+            ${escapeHtml(text)}
+        </span>
     `;
 }
+
 
 /* =========================================================
    LOADING
@@ -2337,12 +3432,14 @@ function showLoading(){
     );
 }
 
+
 function hideLoading(){
 
     loadingPlayer.classList.add(
         "hidden"
     );
 }
+
 
 /* =========================================================
    ESCAPE
@@ -2351,17 +3448,50 @@ function hideLoading(){
 function escapeHtml(str){
 
     return String(str)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 }
+
 
 function escapeAttr(str){
 
     return escapeHtml(str);
 }
+
+
+/* =========================================================
+   MANUAL CHANGE SOURCE
+========================================================= */
+
+nextSourceBtn.addEventListener(
+    "click",
+    function(){
+
+        if(!currentChannel)
+            return;
+
+        nextSource();
+    }
+);
+
 
 /* =========================================================
    ESC KEY
@@ -2373,7 +3503,9 @@ document.addEventListener(
 
         if(
             e.key === "Escape" &&
-            fullscreenViewer.classList.contains("active")
+            fullscreenViewer.classList.contains(
+                "active"
+            )
         ){
 
             closeFullscreenViewer();
@@ -2381,8 +3513,9 @@ document.addEventListener(
     }
 );
 
+
 /* =========================================================
-   BACK / RESIZE
+   RESIZE
 ========================================================= */
 
 window.addEventListener(
@@ -2390,23 +3523,98 @@ window.addEventListener(
     function(){
 
         if(
-            fullscreenViewer.classList.contains("active")
+            fullscreenViewer.classList.contains(
+                "active"
+            )
         ){
 
             fullscreenViewer.style.width =
-                window.innerWidth + "px";
+                window.innerWidth +
+                "px";
 
             fullscreenViewer.style.height =
-                window.innerHeight + "px";
+                window.innerHeight +
+                "px";
 
-            /*
-             * Không cần ẩn lại ngay khi resize,
-             * nhưng reset timer để UX dễ dùng.
-             */
+
             resetFullscreenControls();
         }
     }
 );
+
+
+/* =========================================================
+   VIDEO EVENTS
+   Khi trình duyệt báo video đang thực sự chạy
+   thì watchdog được kích hoạt.
+========================================================= */
+
+video.addEventListener(
+    "playing",
+    function(){
+
+        if(
+            currentChannel &&
+            !switching
+        ){
+
+            startWatchdog();
+        }
+    }
+);
+
+
+video.addEventListener(
+    "timeupdate",
+    function(){
+
+        if(
+            !video.paused
+        ){
+
+            lastVideoTime =
+                video.currentTime;
+
+            lastProgressTime =
+                Date.now();
+        }
+    }
+);
+
+
+fullscreenVideo.addEventListener(
+    "playing",
+    function(){
+
+        if(
+            fullscreenViewer.classList.contains(
+                "active"
+            )
+        ){
+
+            startFullscreenWatchdog();
+        }
+    }
+);
+
+
+fullscreenVideo.addEventListener(
+    "timeupdate",
+    function(){
+
+        if(
+            !fullscreenVideo.paused
+        ){
+
+            lastFullscreenTime =
+                fullscreenVideo.currentTime;
+
+            lastFullscreenProgressTime =
+                Date.now();
+        }
+    }
+);
+
 
 /* =========================================================
    START
